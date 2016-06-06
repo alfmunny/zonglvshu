@@ -1,0 +1,91 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:swf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:local="clr-namespace:Norne_Beta"
+        xmlns:UIElements="clr-namespace:Norne_Beta.UIElements" x:Class="Norne_Beta.MainWindow"
+        mc:Ignorable="d"
+        Title="Norne" Height="938.463" Width="1562.33">
+    <Window.InputBindings>
+        <KeyBinding Key="F10"></KeyBinding>
+    </Window.InputBindings>
+    <Grid>
+        <Grid x:Name="MenuGrid" Height="25" VerticalAlignment="Top">
+            <Menu x:Name="menu" Height="25" VerticalAlignment="Top" UseLayoutRounding="False" HorizontalContentAlignment="Stretch">
+                <MenuItem Header="File" HorizontalAlignment="Center">
+                    <MenuItem x:Name="FileNewItem" Header="New">
+                        <MenuItem x:Name="NewPorjectItem" Header="New Project" Click="NewProjectItem_Click"/>
+                    </MenuItem>
+                    <MenuItem x:Name="FileOpenItem" Header="Open" Click="FileOpen_Click"/>
+                </MenuItem>
+                <MenuItem Header="Build">
+                    <MenuItem Header="Add Template To..." Click="MenuItemBuildTemplate_Click" InputGestureText="F10"/>
+                    <MenuItem Header="Save Template As" Click="MenuItemSaveTemplateAs_Click"/>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Button x:Name="buttonAddButton" HorizontalAlignment="Left" Margin="10,204,0,0" VerticalAlignment="Top" Width="75" Height="22" Content="Button" AllowDrop="True" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown">
+            <Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete"/>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+        <Button x:Name="buttonAddTextFiled" Content="TextPanel" HorizontalAlignment="Left" Margin="10,123,0,0" VerticalAlignment="Top" Width="75" AllowDrop="True" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown"/>
+        <Button x:Name="buttonAddTable" Content="Table" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Width="75" AllowDrop="True" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown"/>
+        <Button x:Name="buttonDockPanel" Content="DockPanel" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="75" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown"/>
+        <Button x:Name="buttonTextBox" Content="TextBox" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top" Width="75" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown" Click="buttonTextBox_Click"/>
+        <Button x:Name="buttonAddVertical" Content="VerticalTemplate" HorizontalAlignment="Left" Margin="93,876,0,0" VerticalAlignment="Top" Width="94" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown"/>
+        <Button x:Name="buttonAddHorizontal" Content="Template" HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top" Width="75" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown" Height="22"/>
+        <Grid Margin="0,24,4,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <TabControl x:Name="tabControl" Margin="230,0,0,2" SelectedIndex="1">
+                <TabItem Header="Project">
+                    <Grid Background="#FFE5E5E5" d:IsHidden="True">
+                        <Grid x:Name="ProjectViewGrid" ShowGridLines="True" UseLayoutRounding="False" OpacityMask="#FF8F8383" Background="#FFC5C5C5" AllowDrop="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition AllowDrop="True"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Template">
+                    <Grid Background="#FFE5E5E5" x:Name="TemplateViewGrid" d:IsHidden="True">
+                        <DockPanel x:Name="BaseTemplateDockPanel" LastChildFill="False" Background="#FFC1BCBC" Drop="BaseTemplateDockPanel_Drop" AllowDrop="True"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="button" Content="Connect VIZ" HorizontalAlignment="Left" Margin="0,852,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" d:IsHidden="True" Height="22"/>
+            <Label x:Name="label" Content="Properties" Margin="627,20,-197,0" VerticalAlignment="Top" Height="30" RenderTransformOrigin="1.297,0.5" d:IsHidden="True" Grid.Column="2"/>
+            <Button x:Name="button1" Content="ComboBox" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" Width="75" d:IsHidden="True" Height="22"/>
+            <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="413" Margin="10,281,0,0" VerticalAlignment="Top" Width="202">
+                <TreeViewItem Header="Common Controls" IsExpanded="True">
+                    <TreeViewItem Header="TextPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="ComboBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="Table" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="Button" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                </TreeViewItem>
+            </TreeView>
+
+            <xctk:PropertyGrid x:Name="_propertyGrid" Margin="5,2,0,0" AutoGenerateProperties="False" Grid.Column="2" Background="#FF6B6E74" PropertyValueChanged="_propertyGrid_PropertyValueChanged"/>
+            <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Grid.Column="1" Width="5" />
+            <ListView x:Name="TemplatesListView" HorizontalAlignment="Left" Height="267" Margin="91,3,0,0" VerticalAlignment="Top" Width="129">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

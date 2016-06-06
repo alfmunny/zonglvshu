@@ -1,0 +1,16 @@
+E:\Projects\microsoft\Norne Beta\bin\Release\Norne Beta.exe.config
+E:\Projects\microsoft\Norne Beta\bin\Release\Norne Beta.exe
+E:\Projects\microsoft\Norne Beta\bin\Release\Norne Beta.pdb
+E:\Projects\microsoft\Norne Beta\obj\Release\MainWindow.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Release\UIElements\NorneUIElements.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Release\App.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne Beta_MarkupCompile.cache
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne Beta_MarkupCompile.lref
+E:\Projects\microsoft\Norne Beta\obj\Release\MainWindow.baml
+E:\Projects\microsoft\Norne Beta\obj\Release\UIElements\NorneUIElements.baml
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne Beta.g.resources
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne_Beta.Component1.resources
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne_Beta.Properties.Resources.resources
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne Beta.csproj.GenerateResource.Cache
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne Beta.exe
+E:\Projects\microsoft\Norne Beta\obj\Release\Norne Beta.pdb

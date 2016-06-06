@@ -1,0 +1,79 @@
+E:\Projects\microsoft\Norne Beta\Norne Beta\bin\Debug\Norne Beta.exe.config
+E:\Projects\microsoft\Norne Beta\Norne Beta\bin\Debug\Norne Beta.exe
+E:\Projects\microsoft\Norne Beta\Norne Beta\bin\Debug\Norne Beta.pdb
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\MainWindow.g.cs
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\App.g.cs
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta_MarkupCompile.cache
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta_MarkupCompile.lref
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\MainWindow.baml
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta.g.resources
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne_Beta.Properties.Resources.resources
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta.csproj.GenerateResource.Cache
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta.exe
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta.pdb
+E:\Projects\microsoft\Norne Beta\Norne Beta\obj\Debug\Norne Beta.csprojResolveAssemblyReference.cache
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\bin\Debug\Norne Beta.exe.config
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta.exe
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta.pdb
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\bin\Debug\Norne Beta.exe
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\bin\Debug\Norne Beta.pdb
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta.csprojResolveAssemblyReference.cache
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\MainWindow.g.cs
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\App.g.cs
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta_MarkupCompile.cache
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta_MarkupCompile.lref
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\MainWindow.baml
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta.g.resources
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne_Beta.Properties.Resources.resources
+C:\Users\Wei Zhang\Desktop\Norne Beta\Norne Beta\obj\Debug\Norne Beta.csproj.GenerateResource.Cache
+E:\Projects\microsoft\Norne Beta\bin\Debug\Norne Beta.exe.config
+E:\Projects\microsoft\Norne Beta\bin\Debug\Norne Beta.exe
+E:\Projects\microsoft\Norne Beta\bin\Debug\Norne Beta.pdb
+E:\Projects\microsoft\Norne Beta\obj\Debug\MainWindow.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\App.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta_MarkupCompile.cache
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta_MarkupCompile.lref
+E:\Projects\microsoft\Norne Beta\obj\Debug\MainWindow.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta.g.resources
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne_Beta.Properties.Resources.resources
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta.csproj.GenerateResource.Cache
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta.exe
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta.pdb
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\TextPanel.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\TextPanel.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseButton.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseButton.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\Norne Beta.csprojResolveAssemblyReference.cache
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\HorizontalTemplate.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\HorizontalTemplate.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\VerticalTemplate.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\VerticalTemplate.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseDockPanel.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseDockPanel.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\ProjectWindow.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\ProjectWindow.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\TemplatePropertyWindow.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\TemplatePropertyWindow.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\TablePanel.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\TablePanel.baml
+E:\Projects\microsoft\Norne Beta\obj\Debug\ElementPropertyWindow.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\ElementPropertyWindow.baml
+E:\Projects\microsoft\Norne Beta\bin\Debug\Xceed.Wpf.Toolkit.dll
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseComboBox.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseComboBox.baml
+E:\Projects\microsoft\Norne Beta\bin\Debug\Xceed.Wpf.AvalonDock.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\Xceed.Wpf.DataGrid.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
