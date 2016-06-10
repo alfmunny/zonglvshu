@@ -18,12 +18,14 @@ using System.Windows.Markup;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
+using System.Threading;
 using System.Net.Sockets;
 using System.Windows.Forms.PropertyGridInternal;
 using System.Diagnostics;
 using Norne_Beta.UIElements;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 using PythonLib;
+using Newtonsoft.Json;
 
 namespace Norne_Beta
 {
@@ -33,6 +35,8 @@ namespace Norne_Beta
 
     public partial class MainWindow : Window
     {
+
+        private PyParser openedParser;
 
         public MainWindow()
         {
@@ -213,45 +217,117 @@ namespace Norne_Beta
                 addHorizontalTemplateDockPanel(this, dp);
         }
 
-        private void MenuItemBuildTemplate_Click(object sender, RoutedEventArgs e)
-        {
-            BuidlTemplate();
-        }
 
-        private void BuidlTemplate()
+        private void MenuItemAddTemplateTo_Click(object sender, RoutedEventArgs e)
         {
             if (BaseTemplateDockPanel.Children.Count != 0)
             {
-                Type t = BaseTemplateDockPanel.Children[0].GetType();
-                //MessageBox.Show(x.GetType().ToString());
 
-                HorizontalTemplate ht = BaseTemplateDockPanel.Children[0] as HorizontalTemplate;
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                Nullable<bool>result =  dlg.ShowDialog();
 
-                if (ht.FilePath == "")
+                if (result == true)
                 {
-                    MessageBox.Show("No target file path specified!");
-
-                    Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                    Nullable<bool>result =  dlg.ShowDialog();
-                    if (result == true)
-                    {
-                        ht.FilePath = dlg.FileName;
-                        this.ChangeTitle(ht.FilePath);
-                    }
+                    HorizontalTemplate t = BaseTemplateDockPanel.Children[0] as HorizontalTemplate;
+                    t.FilePath = dlg.FileName;
+                    this.ChangeTitle(t.FilePath);
+                    RefreshTemplatesListView(t.FilePath);
                 }
-
-                else
-                {
-                    TemplateGenerator<HorizontalTemplate> tg = new TemplateGenerator<HorizontalTemplate>(ht);
-                    tg.WriteTemplate();
-                }
-
             }
+
             else
             {
                 MessageBox.Show("No template found!");
             }
+        }
 
+        private void MenuItemSaveTemplateAs_Click(object sender, RoutedEventArgs e)
+        {
+            if(BaseTemplateDockPanel.Children.Count != 0)
+            {
+                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+
+                dlg.DefaultExt = ".py";
+
+                dlg.Filter = "Python Files (*.py)|*.py";
+                Nullable<bool> result = dlg.ShowDialog();
+                HorizontalTemplate t = BaseTemplateDockPanel.Children[0] as HorizontalTemplate;
+                if (result == true)
+                {
+                    string filename = dlg.FileName;
+                    t.FilePath = filename;
+                    this.ChangeTitle(filename);
+                    TemplateGenerator<HorizontalTemplate> tg = new TemplateGenerator<HorizontalTemplate>(t);
+                    tg.WriteImports();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No templates found!");
+            }
+        }
+
+
+        private void MenuItemBuildTemplate_Click(object sender, RoutedEventArgs e)
+        {
+            TemplateControl t = BuidlTemplate();
+            RefreshTemplatesListView(t.FilePath);
+        }
+
+        private void RefreshTemplatesListView(string filePath)
+        {
+            if (filePath == "")
+                return;
+
+            openedParser = new PyParser(filePath);
+            TemplatesListView.ItemsSource = openedParser.GetTemplates();
+        }
+
+
+
+        private TemplateControl BuidlTemplate()
+        {
+            if (BaseTemplateDockPanel.Children.Count != 0)
+            {
+                HorizontalTemplate t = BaseTemplateDockPanel.Children[0] as HorizontalTemplate;
+
+                if (t.FilePath == "")
+                {
+                    MessageBox.Show("No target file path specified!");
+                }
+
+                else
+                {
+                    TemplateGenerator<HorizontalTemplate> tg = new TemplateGenerator<HorizontalTemplate>(t);
+                    if (tg.isTemplateExists())
+                    {
+                        MessageBoxResult res =  MessageBox.Show(String.Format("{0} already exists, do you want to overwrite it?", t.TemplateName), "Duplicate Templates", MessageBoxButton.YesNoCancel, MessageBoxImage.Error);
+
+                        if (res == MessageBoxResult.Yes)
+                        {
+                            tg.UpdateTempalte();
+                            RefreshTemplatesListView(t.FilePath);
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                    else
+                    {
+                        tg.WriteTemplate();
+                        MessageBox.Show(String.Format("{0} has been added to {1} ", t.TemplateName, t.FilePath));
+                    }
+
+                }
+                return t;
+            }
+            else
+            {
+                MessageBox.Show("No template found!");
+                return null;
+            }
         }
 
         private async void button_Click(object sender, RoutedEventArgs e)
@@ -326,33 +402,61 @@ namespace Norne_Beta
             ec.SetProperty();
         }
 
-        private void MenuItemSaveTemplateAs_Click(object sender, RoutedEventArgs e)
-        {
-            if(BaseTemplateDockPanel.Children.Count != 0)
-            {
-                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-
-                dlg.DefaultExt = ".py";
-
-                dlg.Filter = "Python Files (*.py)|*.py";
-                Nullable<bool> result = dlg.ShowDialog();
-                HorizontalTemplate t = BaseTemplateDockPanel.Children[0] as HorizontalTemplate;
-                if (result == true)
-                {
-                    string filename = dlg.FileName;
-                    t.FilePath = filename;
-                    this.ChangeTitle(filename);
-                }
-            }
-            else
-            {
-                MessageBox.Show("No templates found!");
-            }
-        }
-
         private void ChangeTitle(string filepath)
         {
             this.Title = "Norne: " + filepath;
         }
+
+        private void MenuItemLoadTemplate_Click(object sender, RoutedEventArgs e)
+        {
+            FileSystemWatcher watcher = new FileSystemWatcher();
+            watcher.Path = "E:/Projects/microsoft/Norne Beta/Libs/Scripts/";
+            watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
+            watcher.Filter = "*.json";
+            watcher.Created += new FileSystemEventHandler(Watcher_Created);
+            watcher.Changed += new FileSystemEventHandler(Watcher_Created);
+            watcher.EnableRaisingEvents = true;
+
+            if(TemplatesListView.SelectedItem != null && BaseTemplateDockPanel.Children.Count != 0)
+            {
+                string className = TemplatesListView.SelectedItem.ToString();
+                openedParser.ParseTemplate(className);
+            }
+        }
+
+        private const int NumberOfRetries = 3;
+        private const int DelayOnRetry = 1000;
+
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            var watcher = sender as FileSystemWatcher;
+            watcher.EnableRaisingEvents = false;
+            for(int i=1; i <= NumberOfRetries; i++)
+            {
+                try
+                {
+                    using (StreamReader r = new StreamReader(e.FullPath))
+                    {
+                        string json = r.ReadToEnd();
+                        dynamic TemplateJson = JsonConvert.DeserializeObject(json);
+                        this.Dispatcher.Invoke((Action)(() =>
+                            {
+                                TemplateLoader tLoader = new TemplateLoader(TemplateJson, this, BaseTemplateDockPanel.Children[0] as HorizontalTemplate);
+                                tLoader.LoadTemplate();
+                            }));
+                    }
+                    break;
+                }
+                catch (IOException)
+                {
+                    if (i == NumberOfRetries)
+                        throw;
+                    Thread.Sleep(DelayOnRetry);
+                }
+
+            }
+
+        }
+
     }
 }

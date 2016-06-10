@@ -28,11 +28,12 @@ namespace PythonLib
             f.WriteLine("from norne.template.base import tool");
             f.WriteLine("from norne.template.sky2016.util import BaseTable");
             f.WriteLine("from norne.template.sky2016.baseinsert import SimpleBaseUI, SimpleBaseCtrl, MultiBaseCtrl, SimpleBaseGfx, MultiBaseGfx, OneShotBaseCtrl, ToggleBaseCtrl");
+            f.WriteLine("");
         }
         
         public void InitUI()
         {
-            string className = string.Format("class {0}UI({1}):", t.TemplateName, t.ParentClass);
+            string className = string.Format("class {0}({1}):", t.UIClassName, t.ParentClass);
             f.WriteLine(className);
             f.WriteLine("   name = \"{0}\"", t.TemplateName);
             f.WriteLine("   label = \"{0}\"", t.TemplateLabel);
@@ -57,20 +58,25 @@ namespace PythonLib
         {
             f.WriteLine("   def create_ui(self):");
             AddTempalte(t);
+            f.WriteLine("");
         }
 
-        public void AddTempalte(HorizontalTemplate t)
+        private void AddTempalte(HorizontalTemplate t)
         {
-            foreach (ElementControl ele in t.Elements)
+            if (t.Elements.Count() == 0)
             {
-                AddElements(ele);
+                f.WriteLine("       pass");
+                return;
+            }
+            else
+            {
+                foreach (ElementControl ele in t.Elements)
+                {
+                    f.WriteLine("       self.ctrl_obj.add_element({0})", ele.GetUICode());
+                }
             }
         }
 
-        public void AddElements(ElementControl ele)
-        {
-            f.WriteLine("       self.ctrl_obj.add_element({0})", ele.GetUICode());
-        }
 
         public void WriteController()
         {
@@ -79,11 +85,12 @@ namespace PythonLib
 
         public void WriteStateMachine()
         {
-            string className = string.Format("class {0}Gfx({1}):", t.TemplateName, t.ParentGfx);
+            string className = string.Format("class {0}({1}):", t.GfxClassName, t.ParentGfx);
             f.WriteLine(className);
             f.WriteLine("   def evaluate_content(self):");
             f.WriteLine("       self.scene_name = \"{0}\"", t.SceneName);
             WriteSetContent();
+            f.WriteLine("");
         }
 
         public void WriteSetContent()
@@ -116,6 +123,8 @@ namespace PythonLib
                 }
             }
         }
+
+        
     }
 
     class VizController

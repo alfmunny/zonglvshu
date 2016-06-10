@@ -20,6 +20,8 @@ namespace Norne_Beta.UIElements
     public partial class TemplateControl : UserControl
     {
         public string TemplateName { get; set; }
+        public string UIClassName{ get; set; }
+        public string GfxClassName{ get; set; }
         public string TemplateLabel { get; set; }
         public string ParentClass { get; set; }
         public string ParentControl { get; set; }
@@ -34,6 +36,8 @@ namespace Norne_Beta.UIElements
         public TemplateControl()
         {
             this.TemplateName = "TemplateName";
+            this.UIClassName = this.TemplateName + "UI";
+            this.GfxClassName = this.TemplateName + "Gfx";
             this.TemplateLabel = "Label";
             this.ParentClass = "SimpleBaseUI";
             this.ParentControl = "SimpleBaseCtrl";
@@ -72,10 +76,10 @@ namespace Norne_Beta.UIElements
             this.Elements.Remove(ele);
         }
 
-        public void AddElementsToDockPanel(MainWindow win, TemplateControl parentTemplate, string elementName, DockPanel dp)
+        public void AddElementsToDockPanel(MainWindow win, TemplateControl parentTemplate, string elementType, DockPanel dp)
         {
             Type t = this.GetType();
-            string methodName = GetMethodName(Action.Add, elementName, Target.ToDockPanel);
+            string methodName = GetMethodName(Action.Add, elementType, Target.ToDockPanel);
             if (methodName != null)
             {
                 MethodInfo method = t.GetMethod(methodName);
@@ -85,7 +89,7 @@ namespace Norne_Beta.UIElements
             }
             else
             {
-                Console.WriteLine("{0} can't be added to the template", elementName);
+                Console.WriteLine("{0} can't be added to the template", elementType);
             }
         }
 
@@ -138,6 +142,21 @@ namespace Norne_Beta.UIElements
             dp.Children.Add(bdp);
             DockPanel.SetDock(bdp, Dock.Top);
             return bdp;
+        }
+
+        public virtual void LoadElements()
+        {
+            Console.WriteLine("Please implement the method of LoadTemplate");
+        }
+
+        public virtual void ClearElements()
+        {
+            this.Elements.Clear();
+        }
+
+        public virtual void AddElement(ElementControl element)
+        {
+            Console.WriteLine("Please implement the method of AddElement");
         }
 
     }

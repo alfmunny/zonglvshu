@@ -87,7 +87,6 @@ namespace Norne_Beta.UIElements
     }
     
 
-
     public abstract class Property
     {
         public dynamic Value;

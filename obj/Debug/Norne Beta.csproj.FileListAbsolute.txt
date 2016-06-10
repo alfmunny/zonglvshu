@@ -77,3 +77,5 @@ E:\Projects\microsoft\Norne Beta\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
 E:\Projects\microsoft\Norne Beta\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
 E:\Projects\microsoft\Norne Beta\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 E:\Projects\microsoft\Norne Beta\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\Newtonsoft.Json.dll
+E:\Projects\microsoft\Norne Beta\bin\Debug\Newtonsoft.Json.xml

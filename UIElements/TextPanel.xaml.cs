@@ -28,15 +28,28 @@ namespace Norne_Beta.UIElements
             LabelID = label;
             Init();
         }
+
         public string Text { get; set; }
+        public TemplateName NorneType;
 
         private void Init()
         {
             Type = Elements.TextPanel;
+            NorneType = TemplateName.TextFieldPanel;
             this.Label.Content = LabelID;
             LabelName = this.Label.Content.ToString();
             Text = this.TextBox.Text;
             Container = "";
+        }
+
+        public void SetLabel(string label)
+        {
+            this.Label.Content = label;
+        }
+
+        public void SetText(string text)
+        {
+            this.TextBox.Text = text;
         }
 
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
@@ -58,7 +71,7 @@ namespace Norne_Beta.UIElements
 
         public override string GetUICode()
         {
-            String code = String.Format("\"{0}\", \"{1},{2}\", [[\"{3}\"],[\"{4}\"]]", LabelID, "Label", "Text", this.Label.Content.ToString(), this.TextBox.Text.ToString());
+            String code = String.Format("\"{0}\", \"{1}\", [\"{2}\",\"{3}\"]", LabelID, NorneType, this.Label.Content.ToString(), this.TextBox.Text.ToString());
             return code;
         }
 

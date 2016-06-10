@@ -38,6 +38,8 @@ namespace Norne_Beta
         private void button_Click(object sender, RoutedEventArgs e)
         {
             temp.TemplateName = TemplateName.Text;
+            temp.UIClassName = TemplateName.Text + "UI";
+            temp.GfxClassName = TemplateName.Text + "Gfx";
             temp.ParentClass = ParentClass.Text;
             temp.ParentControl = ParentControl.Text;
             temp.ParentGfx = ParentGfx.Text;

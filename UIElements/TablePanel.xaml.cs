@@ -118,13 +118,6 @@ namespace Norne_Beta.UIElements
             MakeDataTable(number);
         }
 
-        enum MyEnum
-        {
-            Montag,
-            Dienstag,
-            Freitag
-        } 
-
         private void MakeDataTable(int number)
         {
             DataColumn column;

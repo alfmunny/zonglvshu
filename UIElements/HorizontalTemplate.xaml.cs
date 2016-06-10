@@ -50,5 +50,18 @@ namespace Norne_Beta.UIElements
             tpw.Show();
         }
 
+        public override void AddElement(ElementControl element)
+        {
+            MainPanel.Children.Add(element);
+            this.Elements.Add(element);
+            DockPanel.SetDock(element, Dock.Top);
+        }
+
+        public override void ClearElements()
+        {
+            base.ClearElements();
+            MainPanel.Children.Clear();
+        }
+
     }
 }
