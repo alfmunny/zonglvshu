@@ -14,15 +14,13 @@ class TemplateNameUI(SimpleBaseUI):
    def setup_statemachine(self):
        self.statemachine = TemplateNameGfx(self.project)
    def create_ui(self):
-       pass
+       self.ctrl_obj.add_element("line3", "BaseTable", [self.project, [[wx.TextCtrl, None], [LogoAssetChoice, None], [wx.TextCtrl, BaseTable.TEAM]], ["Column 1" , "Logo" , "Team"], 3])
 
 class TemplateNameGfx(SimpleBaseGfx):
    def evaluate_content(self):
-       self.scene_name = ""
+       self.scene_name = "Right"
    def set_content(self):
        pass
-
-
 
 class ThatTemplateNameUI(SimpleBaseUI):
    name = "ThatTemplateNameUI"

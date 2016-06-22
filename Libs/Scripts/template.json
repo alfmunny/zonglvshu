@@ -1,93 +1,35 @@
 {
     "control": "",
-    "name": "",
-    "statemachine": "",
-    "label": "",
+    "gfx_class_name": "TemplateNameGfx",
+    "template_name": "TemplateName",
+    "scene_name": "",
+    "ui_class_name": "TemplateNameUI",
+    "template_label": "Label",
+    "preframe_default": "",
+    "parent_gfx": "SimpleBaseGfx",
+    "parent_control": "SimpleBaseCtrl",
     "content": [],
+    "parent_class": "SimpleBaseUI",
     "ui": [
         {
             "label_id": "line1",
             "elements": [
-                "TextFieldPanel"
+                "1|TextPanel",
+                "2|TextPanel"
             ],
             "parameters": [
                 [
-                    "ASDASD",
-                    "ASDSA"
-                ]
-            ]
-        },
-        {
-            "label_id": "line2",
-            "elements": [
-                "TextFieldPanel"
-            ],
-            "parameters": [
-                [
-                    "line2",
-                    ""
-                ]
-            ]
-        },
-        {
-            "label_id": "line3",
-            "elements": [
-                "TextFieldPanel"
-            ],
-            "parameters": [
-                [
-                    "line3",
-                    ""
-                ]
-            ]
-        },
-        {
-            "label_id": "line4",
-            "elements": [
-                "TextFieldPanel"
-            ],
-            "parameters": [
-                [
-                    "line4",
-                    ""
-                ]
-            ]
-        },
-        {
-            "label_id": "line5",
-            "elements": [
-                "TextFieldPanel"
-            ],
-            "parameters": [
-                [
-                    "line5",
-                    ""
-                ]
-            ]
-        },
-        {
-            "label_id": "line6",
-            "elements": [
-                "TextFieldPanel"
-            ],
-            "parameters": [
-                [
-                    "line6",
-                    ""
-                ]
-            ]
-        },
-        {
-            "label_id": "line7",
-            "elements": [
-                "TextFieldPanel"
-            ],
-            "parameters": [
-                [
-                    "line7",
-                    "ADASD"
+                    [
+                        "line1_1",
+                        ""
+                    ],
+                    [
+                        "line1_2",
+                        ""
+                    ]
                 ]
             ]
         }
-    ]
+    ],
+    "continues_left": ""
 }
