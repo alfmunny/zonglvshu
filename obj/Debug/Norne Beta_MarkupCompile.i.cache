@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 E:\Projects\microsoft\Norne Beta\App.xaml
-11431323959
+12516347291
 
-29-1098283528
+31-2107536021
 23-1670350722
-ElementPropertyWindow.xaml;MainWindow.xaml;TemplatePropertyWindow.xaml;UIElements\BaseButton.xaml;UIElements\BaseComboBox.xaml;UIElements\BaseDockPanel.xaml;UIElements\ProjectWindow.xaml;UIElements\TablePanel.xaml;UIElements\TextPanel.xaml;UIElements\HorizontalTemplate.xaml;UIElements\VerticalTemplate.xaml;
+ElementPropertyWindow.xaml;MainWindow.xaml;TemplatePropertyWindow.xaml;UIElements\BaseButton.xaml;UIElements\BaseChoice.xaml;UIElements\BaseComboBox.xaml;UIElements\BaseDockPanel.xaml;UIElements\ProjectWindow.xaml;UIElements\TablePanel.xaml;UIElements\TextPanel.xaml;UIElements\HorizontalTemplate.xaml;UIElements\VerticalTemplate.xaml;
 
 False
 

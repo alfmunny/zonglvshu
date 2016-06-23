@@ -79,3 +79,5 @@ E:\Projects\microsoft\Norne Beta\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 E:\Projects\microsoft\Norne Beta\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 E:\Projects\microsoft\Norne Beta\bin\Debug\Newtonsoft.Json.dll
 E:\Projects\microsoft\Norne Beta\bin\Debug\Newtonsoft.Json.xml
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseChoice.g.cs
+E:\Projects\microsoft\Norne Beta\obj\Debug\UIElements\BaseChoice.baml
