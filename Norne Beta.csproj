@@ -100,6 +100,9 @@
     <Compile Include="UIElements\BaseButton.xaml.cs">
       <DependentUpon>BaseButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIElements\BaseChoice.xaml.cs">
+      <DependentUpon>BaseChoice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIElements\BaseComboBox.xaml.cs">
       <DependentUpon>BaseComboBox.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,7 @@
     <Compile Include="UIElements\VerticalTemplate.xaml.cs">
       <DependentUpon>VerticalTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VizLib\VizSession.cs" />
     <Page Include="ElementPropertyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UIElements\BaseButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UIElements\BaseChoice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

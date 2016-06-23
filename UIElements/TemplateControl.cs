@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Norne_Beta.UIElements
 {
@@ -29,6 +31,8 @@ namespace Norne_Beta.UIElements
         public string SceneName { get; set; }
         public string ProjectName { get; set; }
         public string FilePath { get; set; }
+        public DockPanel _dockPanel;
+        public ElementControl _elementToInsert;
 
         public List<ElementControl> Elements;
         private string label = "line";
@@ -76,20 +80,25 @@ namespace Norne_Beta.UIElements
             this.Elements.Remove(ele);
         }
 
-        public void AddElementsToDockPanel(MainWindow win, TemplateControl parentTemplate, string elementType, DockPanel dp)
+        public ElementControl AddElementToDockPanel(MainWindow win, string elementType)
         {
+            ElementControl ele;
             Type t = this.GetType();
             string methodName = GetMethodName(Action.Add, elementType, Target.ToDockPanel);
-            if (methodName != null)
+            MethodInfo method = t.GetMethod(methodName);
+            if (method != null)
             {
-                MethodInfo method = t.GetMethod(methodName);
-                object[] parameters = new object[] { win, parentTemplate, dp };
-                object ele = method.Invoke(this, parameters);
-                this.Elements.Add(ele as ElementControl);
+                object[] parameters = new object[] { win, this };
+                ele = (ElementControl)method.Invoke(this, parameters);
+                this.Elements.Add(ele);
+                _dockPanel.Children.Add(ele);
+                DockPanel.SetDock(ele, Dock.Top);
+                return ele;
             }
             else
             {
                 Console.WriteLine("{0} can't be added to the template", elementType);
+                return null;
             }
         }
 
@@ -99,12 +108,10 @@ namespace Norne_Beta.UIElements
             return methodName;
         }
 
-        public ElementControl AddButtonToDockPanel(MainWindow win, TemplateControl parentTemplate, DockPanel dp)
+        public ElementControl AddButtonToDockPanel(MainWindow win, TemplateControl parentTemplate)
         {
             string label = GetLabelID();
             BaseButton btn = new BaseButton(win, parentTemplate, label);
-            dp.Children.Add(btn);
-            DockPanel.SetDock(btn, Dock.Top);
             return btn;
         }
 
@@ -116,31 +123,37 @@ namespace Norne_Beta.UIElements
         }
         */
 
-        public ElementControl AddTextPanelToDockPanel(MainWindow win, TemplateControl parentTemplate, DockPanel dp)
+        public ElementControl AddComboBoxToDockPanel(MainWindow win, TemplateControl parentTemplate)
+        {
+            string label = GetLabelID();
+            BaseComboBox cb = new BaseComboBox(win, parentTemplate, label);
+            return cb;
+        }
+
+        public ElementControl AddTextPanelToDockPanel(MainWindow win, TemplateControl parentTemplate)
         {
             string label = GetLabelID();
             TextPanel tp = new TextPanel(win, parentTemplate, label);
-            dp.Children.Add(tp);
-            DockPanel.SetDock(tp, Dock.Top);
             return tp;
         }
 
-        public ElementControl AddTableToDockPanel(MainWindow win, TemplateControl parentTemplate, DockPanel dp)
+        public ElementControl AddTableToDockPanel(MainWindow win, TemplateControl parentTemplate)
         {
             string label = GetLabelID();
             TablePanel tp = new TablePanel(win, parentTemplate, label);
-            dp.Children.Add(tp);
-            DockPanel.SetDock(tp, Dock.Top);
             return tp;
         }
 
-        public ElementControl AddDockPanelToDockPanel(MainWindow win, TemplateControl parentTemplate, DockPanel dp)
+        public ElementControl AddBaseTableToDockPanel(MainWindow win, TemplateControl parentTemplate)
+        {
+            return AddTableToDockPanel(win, parentTemplate);
+        }
+
+        public ElementControl AddDockPanelToDockPanel(MainWindow win, TemplateControl parentTemplate)
         {
 
             string label = GetLabelID();
             BaseDockPanel bdp = new BaseDockPanel(win, parentTemplate, label);
-            dp.Children.Add(bdp);
-            DockPanel.SetDock(bdp, Dock.Top);
             return bdp;
         }
 
@@ -154,11 +167,22 @@ namespace Norne_Beta.UIElements
             this.Elements.Clear();
         }
 
-        public virtual void AddElement(ElementControl element)
+        public virtual ElementControl AddElement(string elementType)
         {
             Console.WriteLine("Please implement the method of AddElement");
+            return null;
         }
 
+        public virtual void LoadContent(JObject parameters)
+        {
+            this.UIClassName = (string)parameters["ui_class_name"];
+            this.GfxClassName = (string)parameters["gfx_class_name"];
+            this.ParentClass = (string)parameters["parent_class"];
+            this.ParentControl = (string)parameters["parent_control"];
+            this.TemplateName = (string)parameters["template_name"];
+            this.TemplateLabel = (string)parameters["template_label"];
+            this.SceneName = (string)parameters["scene_name"];
+        }
     }
 }
 

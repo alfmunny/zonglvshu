@@ -26,7 +26,7 @@ namespace PythonLib
             f.WriteLine("import wx;");
             f.WriteLine("from norne.device import viz");
             f.WriteLine("from norne.template.base import tool");
-            f.WriteLine("from norne.template.sky2016.util import BaseTable");
+            f.WriteLine("from norne.template.sky2016.util import *");
             f.WriteLine("from norne.template.sky2016.baseinsert import SimpleBaseUI, SimpleBaseCtrl, MultiBaseCtrl, SimpleBaseGfx, MultiBaseGfx, OneShotBaseCtrl, ToggleBaseCtrl");
             f.WriteLine("");
         }
@@ -45,7 +45,7 @@ namespace PythonLib
         public void SetupController()
         {
             f.WriteLine("   def setup_control(self):");
-            f.WriteLine("       self.btn_show = {0}(self, -1, \"{1}\", self.project, get_content_callback=self.get_content, statemachine=self.{2})", vc.Controller, vc.Label, vc.StateMachine);
+            f.WriteLine("       self.btn_show = {0}(self, -1, \"{1}\", self.project, get_content_callback=self.get_content, statemachine=self.{2})", t.ParentControl, vc.Label, vc.StateMachine);
         }
 
         public void SetupStateMachine()
@@ -89,6 +89,7 @@ namespace PythonLib
             f.WriteLine(className);
             f.WriteLine("   def evaluate_content(self):");
             f.WriteLine("       self.scene_name = \"{0}\"", t.SceneName);
+            WriteControlObject();
             WriteSetContent();
             f.WriteLine("");
         }
@@ -98,6 +99,13 @@ namespace PythonLib
             f.WriteLine("   def set_content(self):");
             AddContent(t);
             f.WriteLine("       pass");
+        }
+
+        public void WriteControlObject()
+        {
+            f.WriteLine("   def define_ctrl_plugin(self):");
+            f.WriteLine("       self.ctrl_plugin = viz.VizGroup(\"object\", self.scene)");
+
         }
 
         private void AddContent(HorizontalTemplate t)
@@ -114,7 +122,7 @@ namespace PythonLib
                 {
                     if (e.Type == e.Elements.Table)
                     {
-                        f.WriteLine("       self.set_table_value({0})", item);
+                        f.WriteLine("       self.set_table_col({0})", item);
                     }
                     else
                     {

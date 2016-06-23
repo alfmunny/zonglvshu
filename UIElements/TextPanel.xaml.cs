@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json.Linq;
 
 namespace Norne_Beta.UIElements
 {
@@ -30,26 +31,32 @@ namespace Norne_Beta.UIElements
         }
 
         public string Text { get; set; }
-        public TemplateName NorneType;
 
         private void Init()
         {
             Type = Elements.TextPanel;
-            NorneType = TemplateName.TextFieldPanel;
+            NorneType = TemplateName.TextPanel;
             this.Label.Content = LabelID;
+
             LabelName = this.Label.Content.ToString();
             Text = this.TextBox.Text;
-            Container = "";
         }
 
         public void SetLabel(string label)
         {
-            this.Label.Content = label;
+            LabelName = label;
         }
 
         public void SetText(string text)
         {
-            this.TextBox.Text = text;
+            Text = text;
+        }
+
+        public override void LoadContent(JArray parameters)
+        {
+            this.SetLabel((string)parameters[0]);
+            this.SetText((string)parameters[1]);
+            SetProperty();
         }
 
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
@@ -62,30 +69,31 @@ namespace Norne_Beta.UIElements
 
         }
 
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = { "LabelName", "Text", "Container" };
+            string[] properties = { "LabelName", "Text", "ControlObject" };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
         }
 
-        public override string GetUICode()
+        public override string GetUIParameters()
         {
-            String code = String.Format("\"{0}\", \"{1}\", [\"{2}\",\"{3}\"]", LabelID, NorneType, this.Label.Content.ToString(), this.TextBox.Text.ToString());
-            return code;
+            String ret = String.Format("[\"{0}\",\"{1}\"]", this.Label.Content.ToString(), this.TextBox.Text.ToString());
+            return ret;
         }
 
         public override List<string> GetContentCode()
         {
             List<string> code = new List<string>();
-            code.Add(String.Format("\"{0}\", self.content[\"txt_{1}\"]", Container, LabelID));
+            code.Add(String.Format("\"{0}\", self.content[\"txt_{1}\"]", ControlObject, LabelID));
             return code;
         }
 
         public override void SetProperty()
         {
-            this.Label.Content = LabelName;
+            this.Label.Content = ReplaceUnderlines(LabelName);
             this.TextBox.Text = Text;
         }
+
     }
 }

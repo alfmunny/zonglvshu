@@ -33,9 +33,9 @@
         <Button x:Name="buttonAddHorizontal" Content="Template" HorizontalAlignment="Left" Margin="10,802,0,0" VerticalAlignment="Top" Width="75" PreviewMouseLeftButtonDown="buttonAdd_PreviewMouseLeftButtonDown" Height="22"/>
         <Grid Margin="0,24,4,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="616*"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="155*"/>
             </Grid.ColumnDefinitions>
             <TabControl x:Name="tabControl" Margin="230,0,0,2" SelectedIndex="1">
                 <TabItem Header="Project">
@@ -57,7 +57,7 @@
                 </TabItem>
             </TabControl>
             <Button x:Name="button" Content="Connect VIZ" HorizontalAlignment="Left" Margin="0,852,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" d:IsHidden="True" Height="22"/>
-            <Label x:Name="label" Content="Properties" Margin="627,20,-197,0" VerticalAlignment="Top" Height="30" RenderTransformOrigin="1.297,0.5" d:IsHidden="True" Grid.Column="2"/>
+            <Label x:Name="label" Content="Properties" Margin="627,20,-426,0" VerticalAlignment="Top" Height="30" RenderTransformOrigin="1.297,0.5" d:IsHidden="True" Grid.Column="2"/>
             <Button x:Name="button1" Content="ComboBox" HorizontalAlignment="Left" Margin="10,207,0,0" VerticalAlignment="Top" Width="75" d:IsHidden="True" Height="22"/>
             <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="413" Margin="10,330,0,0" VerticalAlignment="Top" Width="202">
                 <TreeViewItem Header="Common Controls" IsExpanded="True">
@@ -65,11 +65,12 @@
                     <TreeViewItem Header="ComboBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Table" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Button" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="DockPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                 </TreeViewItem>
             </TreeView>
 
-            <xctk:PropertyGrid x:Name="_propertyGrid" Margin="5,2,0,0" AutoGenerateProperties="False" Grid.Column="2" Background="#FF6B6E74" PropertyValueChanged="_propertyGrid_PropertyValueChanged"/>
-            <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Grid.Column="1" Width="5" />
+            <xctk:PropertyGrid x:Name="_propertyGrid" Margin="5,2,0,479" AutoGenerateProperties="False" Grid.Column="2" Background="#FF6B6E74" PropertyValueChanged="_propertyGrid_PropertyValueChanged"/>
+            <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,2,0" />
             <ListView x:Name="TemplatesListView" HorizontalAlignment="Left" Height="293" Margin="11,28,0,0" VerticalAlignment="Top" Width="200">
                 <ListView.View>
                     <GridView ColumnHeaderStringFormat="">
@@ -77,6 +78,14 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <TreeView x:Name="treeView1" Grid.Column="2" Height="468" Margin="10,410,4,0" VerticalAlignment="Top">
+                <TreeViewItem Header="Control Objects">
+                    <TreeViewItem Header="HAHA"/>
+                    <TreeViewItem Header="b"/>
+                    <TreeViewItem Header="c"/>
+                    <TreeViewItem Header="d"/>
+                </TreeViewItem>
+            </TreeView>
         </Grid>
     </Grid>
 </Window>

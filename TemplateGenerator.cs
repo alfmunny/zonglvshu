@@ -75,7 +75,8 @@ namespace Norne_Beta
             int[] uiNums = parser.GetClassLineNumber(t.UIClassName);
             int[] gfxNums = parser.GetClassLineNumber(t.GfxClassName);
             int begin = uiNums[0];
-            int end = gfxNums[1];
+            // Plus 1 to include the space line
+            int end = gfxNums[1] + 1;
 
             string fileBackup = t.FilePath + ".backup.py";
             using (StreamReader reader = new StreamReader(t.FilePath))

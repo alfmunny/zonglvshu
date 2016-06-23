@@ -46,9 +46,6 @@ class TemplateParser(ast.NodeVisitor):
             is_found = True
             self.get_gfx(node)
 
-        if is_found:
-            self.export_json()
-
     def export_json(self):
         path = os.path.dirname(__file__) + '/template.json'
         with open(path, 'w') as output:
@@ -73,12 +70,37 @@ class TemplateParser(ast.NodeVisitor):
         self.results["gfx_class_name"] = node.body[0].value.func.id
 
     def get_gfx(self, node):
+        content_list = self.results['content']
         self.results["parent_gfx"] = node.bases[0].id
         for x in node.body:
             if isinstance(x, ast.FunctionDef) and x.name == "evaluate_content":
                 for xx in x.body:
                     if isinstance(xx, ast.Assign) and xx.targets[0].attr == "scene_name":
                         self.results["scene_name"] = xx.value.s
+            if isinstance(x, ast.FunctionDef) and x.name == "set_content":
+                for xx in x.body:
+                    content_arg = {}
+                    if isinstance(xx, ast.Expr) and xx.value.func.attr == "set_value" :
+                        args = xx.value.args
+                        content_arg['control_object'] = args[0].s
+                        element = args[1].slice.value.s
+                        content_arg['element'] = element.split('_')[0]
+                        content_arg['label_id'] = '_'.join(element.split('_')[1:])
+
+                    if isinstance(xx, ast.Expr) and xx.value.func.attr == "set_table_col" :
+                        args = xx.value.args
+                        element = args[0].slice.value.s
+                        lst = args[1].elts
+                        row = args[2].n
+
+                        content_arg['element'] = element.split('_')[0]
+                        content_arg['label_id'] = '_'.join(element.split('_')[1:])
+                        content_arg['row'] = row
+                        content_arg['col_fields'] = [x.n for x in lst]
+
+                    if isinstance(xx, ast.Pass):
+                        break
+                    content_list.append(content_arg)
 
     def get_control(self, node):
         self.results["parent_control"] = node.body[0].value.func.id
@@ -107,7 +129,7 @@ def main(f, class_name):
     source = f.read()
     node = ast.parse(source)
     p = TemplateParser(node, class_name)
-
+    p.export_json()
 
 if __name__ == "__main__":
     f = open(sys.argv[1], 'r')

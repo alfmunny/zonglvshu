@@ -47,6 +47,5 @@ namespace Norne_Beta
             temp.SceneName = txtScene.Text;
             this.Close();
         }
-
     }
 }

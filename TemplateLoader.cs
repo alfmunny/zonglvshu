@@ -33,23 +33,45 @@ namespace Norne_Beta
         public void LoadUI()
         {
             template.ClearElements();
+            template.LoadContent(TemplateJson);
+            JArray content = (JArray)TemplateJson["content"];
 
             foreach (JToken item in TemplateJson["ui"])
             {
                 string labelID = (string)item["label_id"];
                 JArray elements = (JArray)item["elements"];
-                JArray paramters = (JArray)item["parameters"];
+                JArray parameters = (JArray)item["parameters"];
 
-                for (int i = 0; i < elements.Count(); i++)
+                if (elements.Count > 1)
                 {
-                    if ((string)elements[i]== "TextFieldPanel")
+                    BaseDockPanel dp = (BaseDockPanel)template.AddElementToDockPanel(mw, "DockPanel");
+                    for (int i = 0; i < elements.Count(); i++)
                     {
-                        TextPanel tp = new TextPanel(mw, template, labelID);
-                        tp.SetLabel((string)paramters[i][0]);
-                        tp.SetText((string)paramters[i][1]);
-                        template.AddElement(tp);
+
+                        string id = labelID + "_" + ((string)elements[i]).Split('|')[0];
+                        string elementsType = ((string)elements[i]).Split('|')[1];
+
+                        ElementControl ele = dp.AddElementToDockPanel(mw, elementsType);
+                        if( ele != null)
+                        {
+                            ele.LoadContent((JArray)parameters[0][i]);
+                            ele.LoadControlObject(content, id);
+                        }
                     }
                 }
+                else
+                {
+                    for (int i = 0; i < elements.Count(); i++)
+                    {
+                        ElementControl ele = template.AddElement((string)elements[i]);
+                        if( ele != null)
+                        {
+                            ele.LoadContent((JArray)parameters[i]);
+                            ele.LoadControlObject(content, labelID);
+                        }
+                    }
+                }
+            
             }
         }
 

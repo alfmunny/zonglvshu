@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +14,149 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections;
+using Xceed.Wpf.Toolkit.PropertyGrid.Editors;
+using Xceed.Wpf.Toolkit.PropertyGrid.Converters;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using Xceed.Wpf.Toolkit.PropertyGrid;
+using System.Drawing.Design;
+using System.Drawing;
+using System.ComponentModel.Design;
+using Microsoft.Windows;
+using Newtonsoft.Json.Linq;
 
 namespace Norne_Beta.UIElements
 {
     /// <summary>
     /// Interaction logic for BaseComboBox.xaml
     /// </summary>
-    public partial class BaseComboBox : UserControl
+    public partial class BaseComboBox : ElementControl
     {
-        public BaseComboBox()
+
+        [Editor(typeof(ItemCollectionEditor), typeof(UITypeEditor))]
+        public ObservableCollection<Option> Choices{ get; set; }
+        private List<string> _choiceLabels;
+
+        public BaseComboBox(MainWindow win, TemplateControl parentTemplate, string label)
+            :base(win, parentTemplate)
         {
             InitializeComponent();
+            LabelID = label;
+            Init();
+        }
+
+        public void Init()
+        {
+            NorneType = TemplateName.Choice;
+            Choices = new ObservableCollection<Option>();
+            Choices.CollectionChanged += Choices_CollectionChanged;
+            _choiceLabels = new List<string>();
+
+            foreach (Option item in Choices)
+            {
+                _choiceLabels.Add(item.Label);
+            }
+
+            this.comboBox.ItemsSource = _choiceLabels;
+            this.comboBox.SelectedIndex = 0;
+        }
+
+        private void Choices_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            _choiceLabels = new List<string>();
+            foreach (Option item in Choices)
+            {
+                _choiceLabels.Add(item.Label);
+            }
+            this.comboBox.ItemsSource = _choiceLabels;
+            this.comboBox.SelectedIndex = 0;
+
+        }
+
+        private void comboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            string[] properties = { "Choices", "ControlObject" };
+            SetTargetProperties(properties);
+            mw._propertyGrid.SelectedObject = this;
+        }
+
+        public override string GetUIParameters()
+        {
+            string choices = "";
+            foreach (Option item in Choices)
+            {
+                choices += "\"" + item.Label + "\"";
+                choices += ",";
+            }
+            
+            String ret = String.Format("[[{0}]]", choices);
+            return ret;
+        }
+
+        public override List<string> GetContentCode()
+        {
+            List<string> code = new List<string>();
+            code.Add(String.Format("\"{0}\", self.content[\"cmb_{1}\"]", ControlObject, LabelID));
+            return code;
+        }
+
+        public override void LoadContent(JArray parameters)
+        {
+            foreach (string item in parameters[0])
+            {
+                Option opt = new Option();
+                opt.Label = item;
+                Choices.Add(opt);
+            }
         }
     }
+
+    public class Option 
+    {
+        public string Label { get; set; }
+        public string Version { get; set; }
+    }
+
+
+    public class ItemCollectionEditor : CollectionEditor
+    {
+        protected override void SetValueDependencyProperty()
+        {
+            ValueProperty = PropertyGridEditorCollectionControl.ItemsSourceProperty; 
+        }
+
+        protected override void ResolveValueBinding(PropertyItem propertyItem)
+        {
+
+            var type = propertyItem.PropertyType;
+            Editor.ItemsSourceType = type;
+            //added
+            AttributeCollection attrs = propertyItem.PropertyDescriptor.Attributes;
+            Boolean attrFound = false;
+            foreach(Attribute attr in attrs)
+            {
+              if (attr is NewItemTypesAttribute)
+              {
+                Editor.NewItemTypes = ((NewItemTypesAttribute)attr).Types;
+                attrFound = true;
+                break;
+              }
+            }
+            // end added
+            if (!attrFound)
+            {
+              if (type.BaseType == typeof(System.Array))
+              {
+                Editor.NewItemTypes = new List<Type>() { type.GetElementType() };
+              }
+              else if (type.GetGenericArguments().Count() > 0)
+              {
+                Editor.NewItemTypes = new List<Type>() { type.GetGenericArguments()[0] };
+              }
+            }
+            base.ResolveValueBinding(propertyItem);
+
+        }
+    }
+
 }

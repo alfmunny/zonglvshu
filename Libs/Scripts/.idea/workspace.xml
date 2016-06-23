@@ -10,6 +10,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/BaseComboBox.baml" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/BaseComboBox.baml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/BaseDockPanel.baml" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/BaseDockPanel.baml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/TablePanel.baml" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/TablePanel.baml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/TextPanel.baml" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/TextPanel.baml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template.json" afterPath="$PROJECT_DIR$/template.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/template_parser.py" afterPath="$PROJECT_DIR$/template_parser.py" />
@@ -31,6 +32,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../UIElements/TablePanel.xaml.cs" afterPath="$PROJECT_DIR$/../../UIElements/TablePanel.xaml.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../UIElements/TemplateControl.cs" afterPath="$PROJECT_DIR$/../../UIElements/TemplateControl.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../UIElements/TemplateName.cs" afterPath="$PROJECT_DIR$/../../UIElements/TemplateName.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../UIElements/TextPanel.xaml" afterPath="$PROJECT_DIR$/../../UIElements/TextPanel.xaml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../UIElements/TextPanel.xaml.cs" afterPath="$PROJECT_DIR$/../../UIElements/TextPanel.xaml.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/MainWindow.g.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/MainWindow.g.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/MainWindow.g.i.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/MainWindow.g.i.cs" />
@@ -44,6 +46,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/BaseDockPanel.g.i.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/BaseDockPanel.g.i.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/TablePanel.g.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/TablePanel.g.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/TablePanel.g.i.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/TablePanel.g.i.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/TextPanel.g.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/TextPanel.g.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../obj/Debug/UIElements/TextPanel.g.i.cs" afterPath="$PROJECT_DIR$/../../obj/Debug/UIElements/TextPanel.g.i.cs" />
     </list>
     <ignored path="Scripts.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,11 +82,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="template_parser.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="template_parser.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/template_parser.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="2.151629">
-                  <caret line="101" column="22" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="23" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="90" column="43" selection-start-line="90" selection-start-column="43" selection-end-line="90" selection-end-column="43" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -90,15 +94,12 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="template.json" pinned="false" current-in-tab="false">
+          <file leaf-file-name="template.json" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/template.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-                  <folding>
-                    <marker date="1466599322990" expanded="true" signature="764:782" placeholder="[...]" />
-                    <marker date="1466599322990" expanded="true" signature="764:796" placeholder="[...]" />
-                  </folding>
+                <state vertical-scroll-proportion="0.6002621">
+                  <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -111,7 +112,7 @@
             <entry file="file://$PROJECT_DIR$/templates_finder.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+                  <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -134,8 +135,8 @@
           <file leaf-file-name="test1.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test1.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-0.31954888">
-                  <caret line="21" column="24" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+                <state vertical-scroll-proportion="0.5171103">
+                  <caret line="45" column="7" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
@@ -383,6 +384,13 @@
       <option name="number" value="Default" />
       <updated>1465380246855</updated>
     </task>
+    <task id="LOCAL-00001" summary="template parser added">
+      <created>1466599670109</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1466599670109</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -401,22 +409,22 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15279241" sideWeight="0.53536344" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.327112" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15913557" sideWeight="0.5021075" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3113949" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2691552" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3110893" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26889107" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19744597" sideWeight="0.49789253" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13382508" sideWeight="0.46370968" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18940137" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18958743" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.09483667" sideWeight="0.46463653" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3988212" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2681729" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37426326" sideWeight="0.49789253" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32907662" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32907662" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3988212" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -430,6 +438,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="template parser added" />
+    <option name="LAST_COMMIT_MESSAGE" value="template parser added" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="2" />
@@ -437,6 +449,54 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/template_parser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="84" column="78" selection-start-line="84" selection-start-column="78" selection-end-line="84" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates_finder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/class_finder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/template_parser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -451,10 +511,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="34" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
-          <folding>
-            <marker date="1466599322990" expanded="true" signature="764:782" placeholder="[...]" />
-            <marker date="1466599322990" expanded="true" signature="764:796" placeholder="[...]" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -488,6 +545,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/json.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2849162">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/class_finder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -508,35 +579,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/json.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/example.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2849162">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/template.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
-          <folding>
-            <marker date="1466599322990" expanded="true" signature="764:782" placeholder="[...]" />
-            <marker date="1466599322990" expanded="true" signature="764:796" placeholder="[...]" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.31954888">
-          <caret line="21" column="24" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.5171103">
+          <caret line="45" column="7" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -545,11 +591,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/template_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.151629">
-          <caret line="101" column="22" selection-start-line="101" selection-start-column="8" selection-end-line="101" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="43" selection-start-line="90" selection-start-column="43" selection-end-line="90" selection-end-column="43" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6002621">
+          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -1,32 +1,101 @@
 {
     "control": "",
-    "gfx_class_name": "TemplateNameGfx",
-    "template_name": "TemplateName",
-    "scene_name": "",
-    "ui_class_name": "TemplateNameUI",
-    "template_label": "Label",
+    "gfx_class_name": "IBFreetextGfx",
+    "template_name": "IBFreetext",
+    "scene_name": "IB_Freetext",
+    "ui_class_name": "IBFreetextUI",
+    "template_label": "IB Freetext",
     "preframe_default": "",
     "parent_gfx": "SimpleBaseGfx",
     "parent_control": "SimpleBaseCtrl",
-    "content": [],
+    "content": [
+        {
+            "control_object": "0100",
+            "label_id": "line1_1",
+            "element": "txt"
+        },
+        {
+            "control_object": "0102",
+            "label_id": "line1_2",
+            "element": "txt"
+        },
+        {
+            "control_object": "0002",
+            "label_id": "line1_3",
+            "element": "cmb"
+        },
+        {
+            "control_object": "0500",
+            "label_id": "line3",
+            "element": "txt"
+        },
+        {
+            "col_fields": [
+                1111
+            ],
+            "label_id": "line2",
+            "row": 10,
+            "element": "tbl"
+        }
+    ],
     "parent_class": "SimpleBaseUI",
     "ui": [
         {
             "label_id": "line1",
             "elements": [
                 "1|TextPanel",
-                "2|TextPanel"
+                "2|TextPanel",
+                "3|Choice"
             ],
             "parameters": [
                 [
                     [
-                        "line1_1",
+                        "Titel",
                         ""
                     ],
                     [
-                        "line1_2",
+                        "Zusatz",
                         ""
+                    ],
+                    [
+                        [
+                            "Links",
+                            "Rechts"
+                        ]
                     ]
+                ]
+            ]
+        },
+        {
+            "label_id": "line3",
+            "elements": [
+                "TextPanel"
+            ],
+            "parameters": [
+                [
+                    "Untertitel",
+                    ""
+                ]
+            ]
+        },
+        {
+            "label_id": "line2",
+            "elements": [
+                "BaseTable"
+            ],
+            "parameters": [
+                [
+                    "self.project",
+                    [
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ]
+                    ],
+                    [
+                        "Name"
+                    ],
+                    10
                 ]
             ]
         }

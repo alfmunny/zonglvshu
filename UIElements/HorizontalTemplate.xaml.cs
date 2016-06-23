@@ -27,13 +27,14 @@ namespace Norne_Beta.UIElements
         {
             InitializeComponent();
             mw = win;
+            _dockPanel = this.MainPanel;
         }
 
         public void DockPanel_Drop(object sender, DragEventArgs e)
         {
             DockPanel dp = sender as DockPanel;
             string elementName = (string)e.Data.GetData(DataFormats.StringFormat);
-            AddElementsToDockPanel(mw, this, elementName, dp);
+            AddElementToDockPanel(mw, elementName);
         }
 
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
@@ -50,11 +51,10 @@ namespace Norne_Beta.UIElements
             tpw.Show();
         }
 
-        public override void AddElement(ElementControl element)
+        public override ElementControl AddElement(string elementType)
         {
-            MainPanel.Children.Add(element);
-            this.Elements.Add(element);
-            DockPanel.SetDock(element, Dock.Top);
+            ElementControl e =  AddElementToDockPanel(mw, elementType);
+            return e;
         }
 
         public override void ClearElements()

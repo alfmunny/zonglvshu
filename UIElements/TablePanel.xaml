@@ -4,17 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
-             mc:Ignorable="d" 
-             d:DesignHeight="155.172" d:DesignWidth="233.684">
+             mc:Ignorable="d" d:DesignWidth="290.684" d:DesignHeight="57">
     <Grid>
-        <DataGrid x:Name="dataGrid" ColumnWidth="*" HeadersVisibility="Column" MinHeight="50" SelectionUnit="Cell" CanUserSortColumns="False" PreviewMouseLeftButtonDown="dataGrid_PreviewMouseLeftButtonDown" CurrentCellChanged="dataGrid_CurrentCellChanged" SelectedCellsChanged="dataGrid_SelectedCellsChanged">
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>
-                    <MenuItem Header="Delete" Click="MenuItemDelete_Click"/>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>
+                <MenuItem Header="Delete" Click="MenuItemDelete_Click"/>
+            </ContextMenu>
+        </Grid.ContextMenu>
 
+        <DataGrid x:Name="dataGrid" ColumnWidth="*" HeadersVisibility="Column" MinHeight="30" SelectionUnit="Cell" CanUserSortColumns="False" PreviewMouseLeftButtonDown="dataGrid_PreviewMouseLeftButtonDown" SelectedCellsChanged="dataGrid_SelectedCellsChanged" Margin="0,17,0,0" Background="#FFC77E7E">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <EventSetter Event="Click" Handler="columnHeader_Click" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </DataGrid>
+        <Label x:Name="label" Content="Table" VerticalAlignment="Top" Height="17" Background="#FF9B8A8A" FontSize="10.667" Padding="1,1,0,0" PreviewMouseLeftButtonDown="label_PreviewMouseLeftButtonDown"/>
     </Grid>
 </local:ElementControl>

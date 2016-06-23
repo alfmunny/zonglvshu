@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
-             mc:Ignorable="d" Height="20.851" MinWidth="200" VerticalAlignment="Top">
+             mc:Ignorable="d" Height="20.851" MinWidth="200" VerticalAlignment="Top" AllowDrop="True" MouseLeftButtonDown="ElementControl_MouseLeftButtonDown" Drop="ElementControl_Drop">
     <DockPanel Height="21" VerticalAlignment="Top">
-        <Label x:Name="Label" Content="Label" VerticalAlignment="Center" Height="21" VerticalContentAlignment="Center" Padding="5,2,5,4" Background="#FFDA8989" MouseLeftButtonDown="Label_MouseLeftButtonDown">
+        <Label x:Name="Label" Content="Label" VerticalAlignment="Top" Height="21" VerticalContentAlignment="Center" Padding="5,2,5,4" Background="#FFDA8989" PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown">
             <Label.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>

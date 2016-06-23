@@ -8,7 +8,7 @@ namespace Norne_Beta.UIElements
 {
     public enum TemplateName
     {
-        TextFieldPanel,
+        TextPanel,
         Label,
         Text,
         BaseTable,

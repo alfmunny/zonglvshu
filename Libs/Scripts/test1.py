@@ -23,7 +23,7 @@ class TemplateNameGfx(SimpleBaseGfx):
        pass
 
 class ThatTemplateNameUI(SimpleBaseUI):
-   name = "ThatTemplateNameUI"
+   name = "ThatTemplateName"
    label = "Label"
    def __init__(self, parent, wxid, project, *args, **kwargs):
        self.globals_dct.update(globals())
@@ -31,17 +31,20 @@ class ThatTemplateNameUI(SimpleBaseUI):
    def setup_control(self):
        self.btn_show = SimpleBaseCtrl(self, -1, "Label", self.project, get_content_callback=self.get_content, statemachine=self.statemachine)
    def setup_statemachine(self):
-       self.statemachine = ThatTemplateNameUIGfx(self.project)
+       self.statemachine = ThatTemplateNameGfx(self.project)
    def create_ui(self):
        self.ctrl_obj.add_element("line1", "TextFieldPanel,Label", [["LALA", "HAHA"],["AIJOSDIAJS"]])
        self.ctrl_obj.add_element("line2", "TextFieldPanel", ["HA@@#1", "HAHA"])
        self.ctrl_obj.add_element("line3", "TextFieldPanel", ["HA@@#1", "HAHA"])
        pass
-class ThatTemplateNameUIGfx(SimpleBaseGfx):
+class ThatTemplateNameGfx(SimpleBaseGfx):
    def evaluate_content(self):
-       self.scene_name = ""
+       self.scene_name = "This is a"
    def set_content(self):
-       self.set_value("", self.content["txt_line1"])
+       self.set_value("0001", self.content["txt_lin1_1"])
+       self.set_value("0002", self.content["txt_line2_2"])
+       self.set_table_col(self.content["tbl_line2"], [1000, ], 10)
+
        pass
 class ThisTemplateNameUI(SimpleBaseUI):
    name = "ThisTemplateNameUI"

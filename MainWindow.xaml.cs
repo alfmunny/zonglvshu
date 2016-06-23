@@ -25,6 +25,7 @@ using System.Diagnostics;
 using Norne_Beta.UIElements;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 using PythonLib;
+using Norne_Beta.VizLib;
 using Newtonsoft.Json;
 
 namespace Norne_Beta
@@ -37,11 +38,17 @@ namespace Norne_Beta
     {
 
         private PyParser openedParser;
+        private string server;
+        private int port;
+        private VizSession viz;
 
         public MainWindow()
         {
             InitializeComponent();
             addHorizontalTemplateDockPanel(this, BaseTemplateDockPanel);
+            server = "172.17.10.20";
+            port = 6100;
+            viz = new VizSession(server, port);
         }
 
         private void NewProjectItem_Click(object sender, RoutedEventArgs e)
@@ -284,7 +291,6 @@ namespace Norne_Beta
         }
 
 
-
         private TemplateControl BuidlTemplate()
         {
             if (BaseTemplateDockPanel.Children.Count != 0)
@@ -333,56 +339,30 @@ namespace Norne_Beta
         private async void button_Click(object sender, RoutedEventArgs e)
         {
 
-            string m1 = "1448 SCENE*scene/Redesign_2016/Formel_1/BB_3z*TREE*#18823*NAME GET \0";
-            string m2 = "1448 SCENE*scene/Redesign_2016/Formel_1/BB_3z*TREE*#18823*FUNCTION*ControlObject*in SET LIST \0";
-            string m3 = "1449 SCENE*scene/Redesign_2016/Formel_1/BB_2z*TREE*#15928*FUNCTION*ControlObject*result GET \0";
-            string m4 = "1449 SCENE*scene/Redesign_2016/Formel_1/BB_3z*TREE*#18823*FUNCTION*ControlObject*result GET \0";
+            string m2 = "1448 SCENE*scene/SKY/Redesign_2016/Globals/IB_Aufstellung*TREE*$object*FUNCTION*ControlObject*in SET LIST \0";
+            string m3 = "1449 SCENE*scene/SKY/Redesign_2016/Globals/IB_Aufstellung*TREE*$object*FUNCTION*ControlObject*result GET \0";
 
-            //await AccessVizAsync(m1);
-            //await AccessVizAsync(m2);
-            string res3 = await AccessVizAsync(m4);
+            string res = await viz.GetFromViz(m2);
+            string res3 = await viz.GetFromViz(m3);
 
-            Console.WriteLine(res3);
+            TreeViewItem i = treeView1.Items[0] as TreeViewItem;
+            i.Items.Clear();
+            foreach (ControlObject item in viz.parseObjectControl(res3))
+            {
+                i.Items.Add(new TreeViewItem() { Header = item.Field });
+            }
         }
 
-        private async Task<string>AccessVizAsync(string message)
+        private int getChildNode(TreeView tree, string nodeName)
         {
-            try
+            foreach (TreeViewItem item in tree.Items)
             {
-                Int32 port = 6100;
-                String server = "172.17.10.20";
-                // String message = "-1 RENDERER SET_OBJECT \0";
-                //string message1 = "6280 RENDERER*MAIN_LAYER SET_OBJECT SCENE*scene/DFL_2013/fullscreen_stats_match \0";
-                //string message2 = "5775 SCENE*scene/DFL_2013/fullscreen_stats_match*STAGE START \0";
-                Console.WriteLine("Connecting......");
-
-                TcpClient client = new TcpClient();
-                client.Connect(server, port);
-
-                Console.WriteLine("Connected");
-
-                Stream stream = client.GetStream();
-                ASCIIEncoding asen = new ASCIIEncoding();
-                byte[] ba = asen.GetBytes(message);
-                await stream.WriteAsync(ba, 0, ba.Length);
-                Console.WriteLine("Sent: {0}", message);
-
-                byte[] bb = new byte[1000];
-                await stream.ReadAsync(bb, 0, 1000);
-                string res = System.Text.Encoding.UTF8.GetString(bb);
-                client.Close();
-                return res;
+                if (item.Header.ToString() == nodeName)
+                {
+                    return tree.Items.IndexOf(item);
+                }
             }
-            catch (ArgumentNullException eve)
-            {
-                Console.WriteLine("ArgumentNullException: {0}", eve);
-                return "ArgumentNullException";
-            }
-            catch (SocketException eve)
-            {
-                Console.WriteLine("SocketException: {0}", eve);
-                return "SocektException";
-            }
+            return -1;
         }
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -424,7 +404,7 @@ namespace Norne_Beta
             }
         }
 
-        private const int NumberOfRetries = 3;
+        private const int NumberOfRetries = 10;
         private const int DelayOnRetry = 1000;
 
         private void Watcher_Created(object sender, FileSystemEventArgs e)
