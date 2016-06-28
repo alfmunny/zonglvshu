@@ -80,3 +80,4 @@ $RECYCLE.BIN/
 
 #Debug
 obj/
+*.cache
