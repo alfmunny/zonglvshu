@@ -33,9 +33,21 @@ namespace Norne_Beta.UIElements
     public partial class BaseComboBox : ElementControl
     {
 
+        private List<string> _choiceLabels;
+
         [Editor(typeof(ItemCollectionEditor), typeof(UITypeEditor))]
         public ObservableCollection<Option> Choices{ get; set; }
-        private List<string> _choiceLabels;
+        public List<string> ChoiceLabels {
+            get
+            {
+                return _choiceLabels;
+            }
+            set
+            {
+                _choiceLabels = value;
+            }
+
+       }
 
         public BaseComboBox(MainWindow win, TemplateControl parentTemplate, string label)
             :base(win, parentTemplate)
@@ -45,19 +57,25 @@ namespace Norne_Beta.UIElements
             Init();
         }
 
+        public override ElementControl GetCopy()
+        {
+            BaseComboBox copy = new BaseComboBox(mw, ParentTemplate, ParentTemplate.GetLabelID());
+            copy.ChoiceLabels = this.ChoiceLabels;
+            copy.Choices = this.Choices;
+            copy.comboBox.ItemsSource = ChoiceLabels;
+            copy.comboBox.SelectedIndex = 0;
+            return copy;
+        }
+
         public void Init()
         {
             NorneType = TemplateName.Choice;
-            Choices = new ObservableCollection<Option>();
-            Choices.CollectionChanged += Choices_CollectionChanged;
             _choiceLabels = new List<string>();
+            Choices = new ObservableCollection<Option>();
 
-            foreach (Option item in Choices)
-            {
-                _choiceLabels.Add(item.Label);
-            }
+            Choices.CollectionChanged += Choices_CollectionChanged;
 
-            this.comboBox.ItemsSource = _choiceLabels;
+            this.comboBox.ItemsSource = ChoiceLabels;
             this.comboBox.SelectedIndex = 0;
         }
 
@@ -68,13 +86,13 @@ namespace Norne_Beta.UIElements
             {
                 _choiceLabels.Add(item.Label);
             }
-            this.comboBox.ItemsSource = _choiceLabels;
+            this.comboBox.ItemsSource = ChoiceLabels;
             this.comboBox.SelectedIndex = 0;
-
         }
 
         private void comboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            this.comboBox.ItemsSource = ChoiceLabels;
             string[] properties = { "Choices", "ControlObject" };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
@@ -116,7 +134,6 @@ namespace Norne_Beta.UIElements
         public string Label { get; set; }
         public string Version { get; set; }
     }
-
 
     public class ItemCollectionEditor : CollectionEditor
     {

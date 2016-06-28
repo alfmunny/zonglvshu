@@ -31,11 +31,16 @@ namespace Norne_Beta.UIElements
         public string SceneName { get; set; }
         public string ProjectName { get; set; }
         public string FilePath { get; set; }
+
+        // Must intialize the ui element of the main panel
         public DockPanel _dockPanel;
-        public ElementControl _elementToInsert;
+
+        public ElementControl ElementToInsert;
+        public ElementControl ElementToCopy;
 
         public List<ElementControl> Elements;
-        private string label = "line";
+        private string _label = "line";
+        private int _elementid = 0;
 
         public TemplateControl()
         {
@@ -52,9 +57,10 @@ namespace Norne_Beta.UIElements
             this.FilePath= "";
         }
 
-        private string GetLabelID()
+        public string GetLabelID()
         {
-            return this.label + (this.Size + 1).ToString();
+            _elementid += 1;
+            return this._label + _elementid.ToString();
         }
 
         public enum Action

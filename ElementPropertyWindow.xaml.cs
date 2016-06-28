@@ -30,7 +30,6 @@ namespace Norne_Beta
 
     private void button_Click(object sender, RoutedEventArgs e)
     {
-        ele.LabelName = Label.Text;
         ele.Content = Label.Text;
         this.Close();
     }

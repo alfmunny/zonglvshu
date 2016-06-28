@@ -26,6 +26,7 @@ namespace Norne_Beta.UIElements
 
         TemplateControl pc;
         private char labelSeperator;
+        private int id; 
 
         public BaseDockPanel(MainWindow win, TemplateControl parentControl, string labelId)
             :base(win, parentControl)
@@ -34,9 +35,33 @@ namespace Norne_Beta.UIElements
 
             this.LabelID = labelId;
             pc = parentControl;
+            id = 0;
 
             elements = new List<ElementControl>();
             labelSeperator = '_';
+            MenuItem itemPaste = new MenuItem();
+            itemPaste.Header = "Paste";
+            itemPaste.Click += ItemPaste_Click;
+            Menu.Items.Add(itemPaste);
+        }
+
+
+        private void ItemPaste_Click(object sender, RoutedEventArgs e)
+        {
+            ElementControl ElementToCopy = this.ParentTemplate.ElementToCopy;
+            if (ElementToCopy != null)
+            {
+                this.baseDockPanel.Children.Add(ElementToCopy);
+                this.elements.Add(ElementToCopy);
+                DockPanel.SetDock(ElementToCopy, Dock.Left);
+
+                ElementToCopy.LabelID = this.GetLabelID();
+                ElementToCopy = null;
+            }
+            else
+            {
+                MessageBox.Show("There is no available ui element to paste, please copy at first");
+            }
         }
 
         public enum Action
@@ -56,7 +81,8 @@ namespace Norne_Beta.UIElements
         
         private string GetLabelID()
         {
-            return this.LabelID + labelSeperator + (this.elements.Count() + 1).ToString();
+            id += 1;
+            return this.LabelID + labelSeperator + id.ToString();
         }
 
         public ElementControl AddElementToDockPanel(MainWindow win, string elementType)

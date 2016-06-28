@@ -20,39 +20,69 @@ namespace Norne_Beta.UIElements
         public string Type { get; set; }
         public string LabelID { get; set; }
         public string ElementName { get; set; }
-        public string LabelName{ get; set; }
         public TemplateName NorneType;
+        public ContextMenu Menu;
 
         [Category(VizCategory)]
         public string Container { get; set; }
 
         [Category(VizCategory)]
-        public string ControlObject{ get; set; }
+        public string ControlObject { get; set; }
 
         public MainWindow mw;
         public TemplateControl ParentTemplate;
         public BaseDockPanel ParentDockPanel;
-        public ElementType Elements;
-        public BindingList<Property> Properties;
         public int SizePropertyList = 0;
 
 
         public ElementControl(MainWindow win, TemplateControl parentTemplate)
         {
-            Properties = new BindingList<Property>();
-            Elements = new ElementType();
             mw = win;
             ParentTemplate = parentTemplate;
+            Create_Event();
+            Create_ContextMenu();
+        }
+
+        public ElementControl(ElementControl e)
+        {
+            mw = e.mw;
+            ParentTemplate = e.ParentTemplate;
+            Create_Event();
+            Create_ContextMenu();
+        }
+
+        public virtual ElementControl GetCopy()
+        {
+            return null;
+        }
+
+        private void Create_Event()
+        {
             this.MouseLeftButtonDown += ElementControl_MouseLeftButtonDown;
             this.Drop += ElementControl_Drop;
+        }
 
-            ContextMenu cm = new ContextMenu();
+        private void Create_ContextMenu()
+        {
+            Menu = new ContextMenu();
             MenuItem itemRemove = new MenuItem();
+            MenuItem itemCopy = new MenuItem();
+
             itemRemove.Header = "Remove";
             itemRemove.Click += ItemRemove_Click;
-            cm.Items.Add(itemRemove);
-            this.ContextMenu = cm;
 
+            itemCopy.Header = "Copy";
+            itemCopy.Click += ItemCopy_Click;
+
+            Menu.Items.Add(itemRemove);
+            Menu.Items.Add(itemCopy);
+            this.ContextMenu = Menu;
+
+        }
+
+        private void ItemCopy_Click(object sender, RoutedEventArgs e)
+        {
+            ParentTemplate.ElementToCopy = this.GetCopy();
         }
 
         private void ItemRemove_Click(object sender, RoutedEventArgs e)
@@ -138,7 +168,7 @@ namespace Norne_Beta.UIElements
             ElementControl item = e.Source as ElementControl;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                ParentTemplate._elementToInsert = item;
+                ParentTemplate.ElementToInsert = item;
                 DragDrop.DoDragDrop(item, item.GetType().BaseType.Name, DragDropEffects.All);
             }
         }
@@ -153,37 +183,37 @@ namespace Norne_Beta.UIElements
             }
 
             ElementControl s = sender as ElementControl;
-            if(s.ParentDockPanel != null && ParentTemplate._elementToInsert != null)
+            if(s.ParentDockPanel != null && ParentTemplate.ElementToInsert != null)
             {
-                bool isElementInBaseDockPanel = s.ParentDockPanel.elements.Contains(ParentTemplate._elementToInsert);
+                bool isElementInBaseDockPanel = s.ParentDockPanel.elements.Contains(ParentTemplate.ElementToInsert);
 
                 if (!isElementInBaseDockPanel) return;
                 
                 int index = ParentDockPanel.baseDockPanel.Children.IndexOf(s);
 
-                ParentDockPanel.baseDockPanel.Children.Remove(ParentTemplate._elementToInsert);
-                ParentDockPanel.baseDockPanel.Children.Insert(index, ParentTemplate._elementToInsert);
+                ParentDockPanel.baseDockPanel.Children.Remove(ParentTemplate.ElementToInsert);
+                ParentDockPanel.baseDockPanel.Children.Insert(index, ParentTemplate.ElementToInsert);
 
-                ParentDockPanel.elements.Remove(ParentTemplate._elementToInsert);
-                ParentDockPanel.elements.Insert(index, ParentTemplate._elementToInsert);
+                ParentDockPanel.elements.Remove(ParentTemplate.ElementToInsert);
+                ParentDockPanel.elements.Insert(index, ParentTemplate.ElementToInsert);
 
-                ParentTemplate._elementToInsert = null;
+                ParentTemplate.ElementToInsert = null;
                 e.Handled = true;
             }
 
             else
             {
-                bool isElementInBaseDockPanel = ParentTemplate.Elements.Contains(ParentTemplate._elementToInsert);
+                bool isElementInBaseDockPanel = ParentTemplate.Elements.Contains(ParentTemplate.ElementToInsert);
                 if (!isElementInBaseDockPanel) return;
 
                 int index = ParentTemplate._dockPanel.Children.IndexOf(s);
-                ParentTemplate._dockPanel.Children.Remove(ParentTemplate._elementToInsert);
-                ParentTemplate._dockPanel.Children.Insert(index, ParentTemplate._elementToInsert);
+                ParentTemplate._dockPanel.Children.Remove(ParentTemplate.ElementToInsert);
+                ParentTemplate._dockPanel.Children.Insert(index, ParentTemplate.ElementToInsert);
 
-                ParentTemplate.Elements.Remove(ParentTemplate._elementToInsert);
-                ParentTemplate.Elements.Insert(index, ParentTemplate._elementToInsert);
+                ParentTemplate.Elements.Remove(ParentTemplate.ElementToInsert);
+                ParentTemplate.Elements.Insert(index, ParentTemplate.ElementToInsert);
 
-                ParentTemplate._elementToInsert = null;
+                ParentTemplate.ElementToInsert = null;
                 e.Handled = true;
             }
 

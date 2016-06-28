@@ -26,8 +26,15 @@ namespace Norne_Beta
 
         public void LoadTemplate()
         {
-            LoadUI();
-            LoadGfx();
+            try
+            {
+                LoadUI();
+                LoadGfx();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Cant't Load Template");
+            }
         }
 
         public void LoadUI()

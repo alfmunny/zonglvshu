@@ -9,6 +9,7 @@
         <ContextMenu>
             <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>
             <MenuItem Header="Delete" Click="MenuItemDelete_Click"/>
+            <MenuItem Header="Paste" Click="MenuItemPaste_Click"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid>

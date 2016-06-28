@@ -21,6 +21,18 @@ namespace Norne_Beta.UIElements
     /// </summary>
     public partial class BaseCheckBox : ElementControl 
     {
+        public string LabelName
+        {
+            get
+            {
+                return this.checkBox.Content.ToString();
+            }
+            set
+            {
+                this.checkBox.Content = value;
+            }
+        }
+        
         public BaseCheckBox(MainWindow win, TemplateControl parentTemplate, string label)
             :base(win, parentTemplate)
         {
@@ -32,7 +44,6 @@ namespace Norne_Beta.UIElements
         public void Init()
         {
             NorneType = TemplateName.CheckBox;
-            LabelName = this.checkBox.Content.ToString();
         }
 
         private void ElementControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -50,12 +61,11 @@ namespace Norne_Beta.UIElements
 
         public override void LoadContent(JArray parameters)
         {
-            this.checkBox.Content = (string)parameters[0];
+            LabelName = (string)parameters[0];
         }
 
         public override void SetProperty()
         {
-            this.checkBox.Content = LabelName;
         }
 
     }

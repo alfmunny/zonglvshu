@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 using Newtonsoft.Json.Linq;
 using System.Windows.Controls.Primitives;
+using System.Drawing.Design;
 
 namespace Norne_Beta.UIElements
 {
@@ -37,7 +38,8 @@ namespace Norne_Beta.UIElements
             { ColumnType.Logo,  new List<string> {"LogoAssetChoice", "None"} },
             { ColumnType.CheckBox, new List<string> { "wx.CheckBox", "None"} },
             { ColumnType.FotoCheckBox, new List<string> { "FotoCheckBox", "None"} },
-            { ColumnType.MultiText, new List<string> { "MultiLinesFieldPanel", "None"} },
+            { ColumnType.MultiText, new List<string> { "MultiTextPanel", "None"} },
+            { ColumnType.Choice, new List<string> { "Choice", "[]"} },
         };
 
         public int RowCount {
@@ -87,7 +89,7 @@ namespace Norne_Beta.UIElements
 
         private void Init()
         {
-            this.Type = Elements.Table;
+            NorneType = TemplateName.BaseTable;
             Seperator = "0";
             SetColumns(ColumnCount);
             SetRows(RowCount);
@@ -236,11 +238,21 @@ namespace Norne_Beta.UIElements
         {
             DataGridColumnHeader columnHeader = sender as DataGridColumnHeader;
             int index = columnHeader.DisplayIndex;
+            string[] properties;
             DataColumn dc = _dataTable.Columns[index];
 
             TableColumn tc = new TableColumn(mw, ParentTemplate, dataGrid.Columns[index], dc);
 
-            string[] properties = { "Header", "ColumnType", "StartID", "RowOffset"};
+            if((ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.Choice)
+            {
+                 properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "Parameters"};
+            }
+
+            else
+            {
+                properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset"};
+            }
+
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = tc;
         }
@@ -261,6 +273,11 @@ namespace Norne_Beta.UIElements
             col.ExtendedProperties.Add("ColumnType", ct);
             col.ExtendedProperties.Add("StartID", "-1");
             col.ExtendedProperties.Add("RowOffset", 100);
+
+            if(ct == ColumnType.Choice)
+            {
+                col.ExtendedProperties.Add("Parameters", new List<string>());
+            }
         }
 
         public override void SetProperty()
@@ -356,6 +373,7 @@ namespace Norne_Beta.UIElements
         Team,
         Player,
         Logo,
+        Choice,
         CheckBox,
         FotoCheckBox,
         MultiText,
@@ -369,6 +387,10 @@ namespace Norne_Beta.UIElements
         public string StartID { get; set; } 
         [Category(VizCategory)]
         public int RowOffset{ get; set; } 
+
+        [Editor(typeof(ItemCollectionEditor),typeof(UITypeEditor))]
+        public ObservableCollection<Choice> Parameters { get; set; }
+
         private DataGridColumn _dataGridColumn;
         private DataColumn _dataColumn;
 
@@ -380,6 +402,14 @@ namespace Norne_Beta.UIElements
 
             PropertyCollection pc = dc.ExtendedProperties;
             Header = dc.ColumnName;
+            if (pc.Contains("Parameters"))
+            {
+                Parameters = (ObservableCollection<Choice>)pc["Parameters"];
+            }
+            else
+            {
+                Parameters = new ObservableCollection<Choice>();
+            }
             ColumnType = (ColumnType)pc["ColumnType"];
             StartID = (dynamic)pc["StartID"];
             RowOffset = (dynamic)pc["RowOffset"];
@@ -391,8 +421,15 @@ namespace Norne_Beta.UIElements
             _dataColumn.ExtendedProperties["ColumnType"] = ColumnType;
             _dataColumn.ExtendedProperties["StartID"] = StartID;
             _dataColumn.ExtendedProperties["RowOffset"] = RowOffset;
-            
+            _dataColumn.ExtendedProperties["Parameters"] = Parameters;
+
+            this.mw._propertyGrid.SelectedObject = this;
         }
+    }
+
+    public class Choice
+    {
+        public string Label { get; set; }
     }
 
     public class TableCell

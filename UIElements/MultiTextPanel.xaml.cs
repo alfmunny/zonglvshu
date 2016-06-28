@@ -22,7 +22,29 @@ namespace Norne_Beta.UIElements
     public partial class MultiTextPanel : ElementControl 
     {
         public int LineCount { get; set; }
-        public string Text { get; set; }
+        public string LabelName
+        {
+            get
+            {
+                return this.Label.Content.ToString();
+            }
+            set
+            {
+                this.Label.Content = value;
+            }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return this.TextBox.Text;
+            }
+            set
+            {
+                this.TextBox.Text = value;
+            }
+        }
 
         public MultiTextPanel(MainWindow win, TemplateControl parentTemplate, string label)
             :base(win, parentTemplate)
@@ -32,12 +54,20 @@ namespace Norne_Beta.UIElements
             Init();
         }
 
+        public override ElementControl GetCopy()
+        {
+            MultiTextPanel copy = new MultiTextPanel(mw, ParentTemplate, ParentTemplate.GetLabelID());
+            copy.LabelName = this.LabelName;
+            copy.Text = this.Text;
+            copy.ControlObject = this.ControlObject;
+            copy.LineCount = this.LineCount;
+            return copy;
+        }
+        
         private void Init()
         {
             NorneType = TemplateName.MultiTextPanel;
             this.Label.Content = LabelID;
-            LabelName = this.Label.Content.ToString();
-            Text = this.TextBox.Text;
             LineCount = 3;
         }
 
@@ -87,9 +117,7 @@ namespace Norne_Beta.UIElements
         public override void SetProperty()
         {
             this.Height = 17 * LineCount;
-            Console.WriteLine(this.TextBox.Height);
             this.Label.Content = ReplaceUnderlines(LabelName);
-            this.TextBox.Text = Text;
         }
     }
 }

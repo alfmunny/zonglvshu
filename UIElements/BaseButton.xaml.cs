@@ -35,14 +35,12 @@ namespace Norne_Beta.UIElements
 
         private void Init()
         {
-            this.Type = Elements.Button;
+            NorneType = TemplateName.Button;
             Property pLabel = new Property<string>("Label", this.button.Content.ToString());
-            Properties.Add(pLabel);
         }
 
         public override void SetProperty()
         {
-            SetLabel(((dynamic)Properties[0]).Value);
         }
 
         public override String GetUICode()

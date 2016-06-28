@@ -8,7 +8,8 @@
              d:DesignHeight="23.353" d:DesignWidth="274.85" BorderThickness="2" VerticalAlignment="Top" Height="30" FlowDirection="RightToLeft">
     <Grid Background="#FF6B74B0" Margin="0,0,0,-1">
 
-        <DockPanel x:Name="baseDockPanel" Background="#FFA09292" Drop="DockPanel_Drop" AllowDrop="True" FlowDirection="LeftToRight" Margin="6,4,6,3"/>
+        <DockPanel x:Name="baseDockPanel" Background="#FFA09292" Drop="DockPanel_Drop" AllowDrop="True" FlowDirection="LeftToRight" Margin="6,4,6,3">
+        </DockPanel>
 
     </Grid>
 </local:ElementControl>
