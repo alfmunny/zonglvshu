@@ -35,7 +35,9 @@ namespace Norne_Beta.UIElements
             { ColumnType.Team, new List<string> {"wx.TextCtrl", "BaseTable.TEAM"} },
             { ColumnType.Player, new List<string> {"wx.TextCtrl", "BaseTable.PLAYER"} },
             { ColumnType.Logo,  new List<string> {"LogoAssetChoice", "None"} },
-            { ColumnType.CheckBox, new List<string> { "wx.CheckBox", "None"} }
+            { ColumnType.CheckBox, new List<string> { "wx.CheckBox", "None"} },
+            { ColumnType.FotoCheckBox, new List<string> { "FotoCheckBox", "None"} },
+            { ColumnType.MultiText, new List<string> { "MultiLinesFieldPanel", "None"} },
         };
 
         public int RowCount {
@@ -196,7 +198,7 @@ namespace Norne_Beta.UIElements
             for (int i = 0; i < headers.Count(); i++)
             {
                 _dataTable.Columns.Add((string)headers[i]);
-                List<string> col = new List<string> { (string)columnType[i][0], (string)columnType[i][1] };
+                List<string> col = new List<string> { (string)columnType[i][0], (string)columnType[i][1].ToString()};
                 ColumnType key = _columnTypeDic.FirstOrDefault(x => x.Value.SequenceEqual(col)).Key;
                 SetExtendedProperties(_dataTable.Columns[i], key);
             }
@@ -257,7 +259,7 @@ namespace Norne_Beta.UIElements
         private void SetExtendedProperties(DataColumn col, ColumnType ct)
         {
             col.ExtendedProperties.Add("ColumnType", ct);
-            col.ExtendedProperties.Add("StartID", 1000);
+            col.ExtendedProperties.Add("StartID", "-1");
             col.ExtendedProperties.Add("RowOffset", 100);
         }
 
@@ -300,16 +302,25 @@ namespace Norne_Beta.UIElements
 
         public override List<string> GetContentCode()
         {
+            List<string> code = new List<string>();
+
             string col_fields = "[";
             foreach (DataColumn item in _dataTable.Columns)
             {
-                col_fields += item.ExtendedProperties["StartID"].ToString();
+                string startID = item.ExtendedProperties["StartID"].ToString();
+                if (startID == "")
+                {
+                    col_fields += "-1";
+                }
+                else
+                {
+                    col_fields += startID;
+                }
+
                 col_fields += ", ";
             }
-
             col_fields += "]";
 
-            List<string> code = new List<string>();
             code.Add(String.Format("self.content[\"tbl_{0}\"], {1}, {2}", LabelID, col_fields, _dataTable.Rows.Count));
             return code;
         }
@@ -329,6 +340,14 @@ namespace Norne_Beta.UIElements
             }
         }
 
+        private void dataGrid_ColumnReordered(object sender, DataGridColumnEventArgs e)
+        {
+            string header = e.Column.Header.ToString();
+            int index = e.Column.DisplayIndex;
+            _dataTable.Columns[header].SetOrdinal(index);
+            this.dataGrid.ItemsSource = _dataTable.AsDataView();
+            this.dataGrid.CanUserAddRows = false;
+        }
     }
 
     public enum ColumnType 
@@ -338,6 +357,8 @@ namespace Norne_Beta.UIElements
         Player,
         Logo,
         CheckBox,
+        FotoCheckBox,
+        MultiText,
     }
 
     public class TableColumn : ElementControl
@@ -345,7 +366,7 @@ namespace Norne_Beta.UIElements
         public string Header{ get; set; }
         public ColumnType ColumnType { get; set; }
         [Category(VizCategory)]
-        public int StartID { get; set; } 
+        public string StartID { get; set; } 
         [Category(VizCategory)]
         public int RowOffset{ get; set; } 
         private DataGridColumn _dataGridColumn;

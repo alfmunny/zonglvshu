@@ -45,8 +45,20 @@ namespace Norne_Beta.UIElements
             ParentTemplate = parentTemplate;
             this.MouseLeftButtonDown += ElementControl_MouseLeftButtonDown;
             this.Drop += ElementControl_Drop;
+
+            ContextMenu cm = new ContextMenu();
+            MenuItem itemRemove = new MenuItem();
+            itemRemove.Header = "Remove";
+            itemRemove.Click += ItemRemove_Click;
+            cm.Items.Add(itemRemove);
+            this.ContextMenu = cm;
+
         }
 
+        private void ItemRemove_Click(object sender, RoutedEventArgs e)
+        {
+            this.Remove(this);
+        }
 
         public void Remove(object ele)
         {
@@ -109,8 +121,11 @@ namespace Norne_Beta.UIElements
                 (from c in content
                 where (string)(c["label_id"]) == labelID
                 select (string)c["control_object"]).ToList();
-            string controlObject = x[0];
-            ControlObject = controlObject;
+            if(x.Count > 0)
+            {
+                string controlObject = x[0];
+                ControlObject = controlObject;
+            }
         }
 
         public string ReplaceUnderlines(string s)

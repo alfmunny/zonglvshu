@@ -9,7 +9,9 @@ namespace Norne_Beta.UIElements
     public enum TemplateName
     {
         TextPanel,
+        MultiTextPanel,
         Label,
+        Logo,
         Text,
         BaseTable,
         Button,

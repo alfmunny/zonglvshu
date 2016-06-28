@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
              mc:Ignorable="d" d:DesignWidth="142" d:DesignHeight="25" MinWidth="100">
     <Grid>
-        <ComboBox x:Name="comboBox" PreviewMouseLeftButtonDown="comboBox_PreviewMouseLeftButtonDown"/>
-
+        <Label x:Name="label" Content="" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Background="#FFD8D13E" Height="23" Width="19" Padding="2"/>
+        <ComboBox x:Name="comboBox" PreviewMouseLeftButtonDown="comboBox_PreviewMouseLeftButtonDown" Margin="20,0,0,0">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    <GradientStop Color="#FFF7F7F7" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+        </ComboBox>
     </Grid>
 </local:ElementControl>

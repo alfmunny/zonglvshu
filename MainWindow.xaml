@@ -62,9 +62,12 @@
             <TreeView x:Name="treeView" HorizontalAlignment="Left" Height="413" Margin="10,330,0,0" VerticalAlignment="Top" Width="202">
                 <TreeViewItem Header="Common Controls" IsExpanded="True">
                     <TreeViewItem Header="TextPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="MultiTextPanel" HorizontalAlignment="Left" Width="112" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="ComboBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="Logo" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Table" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Button" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="CheckBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="DockPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                 </TreeViewItem>
             </TreeView>

@@ -111,6 +111,13 @@ namespace Norne_Beta.UIElements
             return tp;
         }
 
+        public ElementControl AddCheckBoxToDockPanel()
+        {
+            string label = GetLabelID();
+            BaseCheckBox tp = new BaseCheckBox(mw, pc, label);
+            tp.ParentDockPanel = this;
+            return tp;
+        }
         public ElementControl AddComboBoxToDockPanel()
         {
             string label = GetLabelID();
@@ -121,6 +128,14 @@ namespace Norne_Beta.UIElements
         public ElementControl AddChoiceToDockPanel()
         {
             return AddComboBoxToDockPanel();
+        }
+
+        public ElementControl AddLogoToDockPanel()
+        {
+            string label = GetLabelID();
+            BaseLogo logo = new BaseLogo(mw, pc, label);
+            logo.ParentDockPanel = this;
+            return logo;
         }
 
         public override string GetUIElements()
@@ -168,7 +183,10 @@ namespace Norne_Beta.UIElements
             List<string> code = new List<string>();
             foreach (ElementControl item in elements)
             {
-                code.AddRange(item.GetContentCode());
+                if(item.GetContentCode() != null)
+                {
+                    code.AddRange(item.GetContentCode());
+                }
             }
             return code;
         }

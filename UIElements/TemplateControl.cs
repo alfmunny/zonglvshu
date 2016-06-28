@@ -115,6 +115,14 @@ namespace Norne_Beta.UIElements
             return btn;
         }
 
+        public ElementControl AddLogoToDockPanel(MainWindow win, TemplateControl parentTemplate)
+        {
+            string label = GetLabelID();
+            BaseLogo logo = new BaseLogo(win, parentTemplate, label);
+            return logo;
+        }
+
+
         /*
         public void AddTextBoxToDockPanel(DockPanel dp)
         {
@@ -137,11 +145,25 @@ namespace Norne_Beta.UIElements
             return tp;
         }
 
+        public ElementControl AddMultiTextPanelToDockPanel(MainWindow win, TemplateControl parentTemplate)
+        {
+            string label = GetLabelID();
+            MultiTextPanel tp = new MultiTextPanel(win, parentTemplate, label);
+            return tp;
+        }
+
         public ElementControl AddTableToDockPanel(MainWindow win, TemplateControl parentTemplate)
         {
             string label = GetLabelID();
             TablePanel tp = new TablePanel(win, parentTemplate, label);
             return tp;
+        }
+
+        public ElementControl AddCheckBoxToDockPanel(MainWindow win, TemplateControl parentTemplate)
+        {
+            string label = GetLabelID();
+            BaseCheckBox cb = new BaseCheckBox(win, parentTemplate, label);
+            return cb;
         }
 
         public ElementControl AddBaseTableToDockPanel(MainWindow win, TemplateControl parentTemplate)

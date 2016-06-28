@@ -7,13 +7,7 @@
              mc:Ignorable="d" Height="20.851" MinWidth="200" VerticalAlignment="Top" AllowDrop="True" MouseLeftButtonDown="ElementControl_MouseLeftButtonDown" Drop="ElementControl_Drop">
     <DockPanel Height="21" VerticalAlignment="Top">
         <Label x:Name="Label" Content="Label" VerticalAlignment="Top" Height="21" VerticalContentAlignment="Center" Padding="5,2,5,4" Background="#FFDA8989" PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown">
-            <Label.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>
-                    <MenuItem Header="Delete" Click="MenuItemDelete_Click"/>
-                </ContextMenu>
-            </Label.ContextMenu>
         </Label>
-        <TextBox x:Name="TextBox" TextWrapping="Wrap"/>
+        <TextBox x:Name="TextBox" MaxLines="1"/>
     </DockPanel>
 </local:ElementControl>
