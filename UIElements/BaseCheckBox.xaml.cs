@@ -43,7 +43,7 @@ namespace Norne_Beta.UIElements
         
         public void Init()
         {
-            NorneType = TemplateName.CheckBox;
+            NorneType = ElementType.CheckBox;
         }
 
         private void ElementControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

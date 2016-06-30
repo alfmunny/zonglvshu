@@ -93,7 +93,7 @@ namespace Norne_Beta.UIElements
 
         private void Init()
         {
-            NorneType = TemplateName.BaseTable;
+            NorneType = ElementType.BaseTable;
             Seperator = "0";
             SetColumns(ColumnCount);
             SetRows(RowCount);
@@ -334,7 +334,7 @@ namespace Norne_Beta.UIElements
 
             String code = String.Format(
                 "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}]", 
-                LabelID, TemplateName.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
+                LabelID, ElementType.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
             return code;
         }
 

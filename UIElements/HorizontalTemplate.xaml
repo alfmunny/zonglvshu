@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
-             mc:Ignorable="d" d:DesignWidth="510.268" d:DesignHeight="212.262" MinHeight="212">
+             mc:Ignorable="d" d:DesignWidth="510.268" d:DesignHeight="212.262" MinHeight="212" PreviewMouseLeftButtonDown="TemplateControl_PreviewMouseLeftButtonDown">
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>

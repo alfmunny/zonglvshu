@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Norne_Beta.UIElements
 {
-    public enum TemplateName
+    public enum ElementType 
     {
         TextPanel,
         MultiTextPanel,
@@ -17,5 +17,6 @@ namespace Norne_Beta.UIElements
         Button,
         CheckBox,
         Choice,
+        DockPanel,
     }
 }

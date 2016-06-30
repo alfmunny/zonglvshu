@@ -45,6 +45,7 @@ namespace Norne_Beta.UIElements
                 this.TextBox.Text = value;
             }
         }
+        public bool IsUpperCase { get; set; }
 
         public TextPanel(MainWindow win, TemplateControl parentTemplate, string label)
             :base(win, parentTemplate)
@@ -65,8 +66,9 @@ namespace Norne_Beta.UIElements
 
         private void Init()
         {
-            NorneType = TemplateName.TextPanel;
+            NorneType = ElementType.TextPanel;
             this.Label.Content = LabelID;
+            IsUpperCase = false;
             //LabelName = this.Label.Content.ToString();
             //Text = this.TextBox.Text;
         }
@@ -85,19 +87,28 @@ namespace Norne_Beta.UIElements
         {
             this.SetLabel((string)parameters[0]);
             this.SetText((string)parameters[1]);
+            if (parameters.Count == 3)
+            {
+                IsUpperCase = ((string)parameters[2] == "True") ? true : false;
+            }
+            else
+            {
+                IsUpperCase = false;
+            }
             SetProperty();
         }
 
         private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = { "LabelName", "Text", "ControlObject" };
+            string[] properties = { "LabelName", "Text", nameof(IsUpperCase), "ControlObject" };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
         }
 
         public override string GetUIParameters()
         {
-            String ret = String.Format("[\"{0}\",\"{1}\"]", this.Label.Content.ToString(), this.TextBox.Text.ToString());
+            string upper = (IsUpperCase == true) ? "True" : "False";
+            String ret = String.Format("[\"{0}\",\"{1}\", {2}]", this.Label.Content.ToString(), this.TextBox.Text.ToString(), upper);
             return ret;
         }
 

@@ -23,7 +23,7 @@ namespace Norne_Beta.UIElements
         public string Type { get; set; }
         public string LabelID { get; set; }
         public string ElementName { get; set; }
-        public TemplateName NorneType;
+        public ElementType NorneType;
         public ContextMenu Menu;
 
         [Category(VizCategory)]
@@ -243,23 +243,6 @@ namespace Norne_Beta.UIElements
         }
 
     }
-
-    public class ElementType
-    {
-        public string Button;
-        public string TextPanel;
-        public string Table;
-        public string Choice;
-
-        public ElementType()
-        {
-            this.Button = "Button";
-            this.TextPanel= "TextPanel";
-            this.Table = "Table";
-            this.Choice = "Choice";
-        }
-    }
-    
 
     public abstract class Property
     {

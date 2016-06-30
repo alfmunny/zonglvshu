@@ -64,16 +64,16 @@
                 <TreeViewItem Header="Common Controls" IsExpanded="True">
                     <TreeViewItem Header="TextPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="MultiTextPanel" HorizontalAlignment="Left" Width="112" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
-                    <TreeViewItem Header="ComboBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="Choice" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Logo" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
-                    <TreeViewItem Header="Table" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="BaseTable" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Button" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="CheckBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="DockPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                 </TreeViewItem>
             </TreeView>
 
-            <xctk:PropertyGrid x:Name="_propertyGrid" Margin="5,2,0,479" AutoGenerateProperties="False" Grid.Column="2" Background="#FF6B6E74" PropertyValueChanged="_propertyGrid_PropertyValueChanged"/>
+            <xctk:PropertyGrid x:Name="_propertyGrid" Margin="5,2,0,479" AutoGenerateProperties="False" Grid.Column="2" Background="#FF6B6E74" PropertyValueChanged="_propertyGrid_PropertyValueChanged" ShowAdvancedOptions="True"/>
             <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Grid.Column="1" Margin="0,0,2,0" />
             <ListView x:Name="TemplatesListView" HorizontalAlignment="Left" Height="293" Margin="11,28,0,0" VerticalAlignment="Top" Width="200">
                 <ListView.View>

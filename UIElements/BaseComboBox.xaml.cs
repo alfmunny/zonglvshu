@@ -69,7 +69,7 @@ namespace Norne_Beta.UIElements
 
         public void Init()
         {
-            NorneType = TemplateName.Choice;
+            NorneType = ElementType.Choice;
             _choiceLabels = new List<string>();
             Choices = new ObservableCollection<Option>();
 

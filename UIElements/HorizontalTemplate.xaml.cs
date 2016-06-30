@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
+using Xceed.Wpf.Toolkit.PropertyGrid;
 
 namespace Norne_Beta.UIElements
 {
@@ -67,6 +68,28 @@ namespace Norne_Beta.UIElements
             {
                 MessageBox.Show("There is no available ui element to paste, please copy at first");
             }
+        }
+        private void TemplateControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SetTargetProperties(new string[]
+            {
+                nameof(TemplateName),
+                nameof(TemplateLabel),
+                nameof(ParentControl),
+                nameof(ParentGfx),
+                nameof(SceneName),
+                nameof(ContinuesLeft),
+            });
+
+            mw._propertyGrid.SelectedObject = this;
+        }
+
+        public void SetTargetProperties(string[] properties)
+        {
+            mw._propertyGrid.PropertyDefinitions.Clear();
+            PropertyDefinition item = new PropertyDefinition();
+            item.TargetProperties = properties;
+            mw._propertyGrid.PropertyDefinitions.Add(item);
         }
 
         private void MenuItemLoad_Click(object sender, RoutedEventArgs e)

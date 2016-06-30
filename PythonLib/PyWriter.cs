@@ -120,7 +120,7 @@ namespace PythonLib
 
                 foreach (string item in e.GetContentCode())
                 {
-                    if (e.NorneType == TemplateName.BaseTable)
+                    if (e.NorneType == ElementType.BaseTable)
                     {
                         f.WriteLine("       self.set_table_col({0})", item);
                     }

@@ -35,7 +35,7 @@ namespace Norne_Beta.UIElements
 
         private void Init()
         {
-            NorneType = TemplateName.Button;
+            NorneType = ElementType.Button;
             Property pLabel = new Property<string>("Label", this.button.Content.ToString());
         }
 

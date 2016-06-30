@@ -27,9 +27,7 @@ namespace Norne_Beta
             InitializeComponent();
             this.temp = temp;
             TemplateName.Text = temp.TemplateName;
-            ParentControl.Text = temp.ParentControl;
             ParentClass.Text = temp.ParentClass;
-            ParentGfx.Text = temp.ParentGfx;
             Label.Text = temp.TemplateLabel;
             txtScene.Text = temp.SceneName;
         }
@@ -41,8 +39,6 @@ namespace Norne_Beta
             temp.UIClassName = TemplateName.Text + "UI";
             temp.GfxClassName = TemplateName.Text + "Gfx";
             temp.ParentClass = ParentClass.Text;
-            temp.ParentControl = ParentControl.Text;
-            temp.ParentGfx = ParentGfx.Text;
             temp.TemplateLabel = Label.Text;
             temp.SceneName = txtScene.Text;
             this.Close();

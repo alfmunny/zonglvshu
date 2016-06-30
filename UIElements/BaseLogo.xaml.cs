@@ -37,7 +37,7 @@ namespace Norne_Beta.UIElements
 
         public void Init()
         {
-            NorneType = TemplateName.Logo;
+            NorneType = ElementType.Logo;
             AllowBlank = false;
         }
 

@@ -27,9 +27,9 @@ namespace Norne_Beta.UIElements
         {
             InitializeComponent();
             this.TemplateName = "";
-            this.ParentControl = "SimpleBaseCtrl";
+            this.ParentControl = CtrlType.SimpleBaseCtrl;
             this.ParentClass = "SimpleBaseUI";
-            this.ParentGfx = "ParentGfx";
+            this.ParentGfx = GfxType.SimpleBaseGfx;
         }
 
         public void DockPanel_Drop(object sender, DragEventArgs e)
