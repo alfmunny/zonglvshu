@@ -10,9 +10,12 @@ using System.Windows.Controls;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 using Newtonsoft.Json.Linq;
 using System.Windows.Input;
+using Norne_Beta.FileUtils;
+using System.IO;
 
 namespace Norne_Beta.UIElements
 {
+    [Serializable]
     public partial class ElementControl : UserControl
     {
         public const string VizCategory = "Viz Variables";
@@ -34,6 +37,7 @@ namespace Norne_Beta.UIElements
         public BaseDockPanel ParentDockPanel;
         public int SizePropertyList = 0;
 
+        public ElementControl() {}
 
         public ElementControl(MainWindow win, TemplateControl parentTemplate)
         {
@@ -67,6 +71,7 @@ namespace Norne_Beta.UIElements
             Menu = new ContextMenu();
             MenuItem itemRemove = new MenuItem();
             MenuItem itemCopy = new MenuItem();
+            MenuItem itemSave = new MenuItem();
 
             itemRemove.Header = "Remove";
             itemRemove.Click += ItemRemove_Click;
@@ -74,15 +79,28 @@ namespace Norne_Beta.UIElements
             itemCopy.Header = "Copy";
             itemCopy.Click += ItemCopy_Click;
 
+            itemSave.Header = "Save";
+            itemSave.Click += ItemSave_Click; ;
+
             Menu.Items.Add(itemRemove);
             Menu.Items.Add(itemCopy);
+            Menu.Items.Add(itemSave);
+
             this.ContextMenu = Menu;
 
         }
 
+        private void ItemSave_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.DefaultExt = ".xml";
+            dlg.Filter = "XML Files (*.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+        }
+
         private void ItemCopy_Click(object sender, RoutedEventArgs e)
         {
-            ParentTemplate.ElementToCopy = this.GetCopy();
+            mw.ElementToCopy = this.GetCopy();
         }
 
         private void ItemRemove_Click(object sender, RoutedEventArgs e)
@@ -178,6 +196,11 @@ namespace Norne_Beta.UIElements
             string type = (string)e.Data.GetData(DataFormats.StringFormat);
 
             if(type != typeof(ElementControl).Name)
+            {
+                return;
+            }
+
+            if(ParentTemplate.ElementToInsert == null)
             {
                 return;
             }

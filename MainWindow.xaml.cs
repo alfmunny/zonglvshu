@@ -41,6 +41,7 @@ namespace Norne_Beta
         private string server;
         private int port;
         private VizSession viz;
+        public ElementControl ElementToCopy;
 
         public MainWindow()
         {
@@ -389,16 +390,25 @@ namespace Norne_Beta
 
         private void MenuItemLoadTemplate_Click(object sender, RoutedEventArgs e)
         {
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Path = "E:/Projects/microsoft/Norne Beta/Libs/Scripts/";
-            watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
-            watcher.Filter = "*.json";
-            watcher.Created += new FileSystemEventHandler(Watcher_Created);
-            watcher.Changed += new FileSystemEventHandler(Watcher_Created);
-            watcher.EnableRaisingEvents = true;
-
             if(TemplatesListView.SelectedItem != null && BaseTemplateDockPanel.Children.Count != 0)
             {
+                TemplateControl t = BaseTemplateDockPanel.Children[0] as TemplateControl;
+                ParseTemplate(t);
+            }
+        }
+
+        public void ParseTemplate(TemplateControl target)
+        {
+            if (TemplatesListView.SelectedItem != null)
+            {
+                FileSystemWatcher watcher = new FileSystemWatcher();
+                watcher.Path = "E:/Projects/microsoft/Norne Beta/Libs/Scripts/";
+                watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
+                watcher.Filter = "*.json";
+                watcher.Created += new FileSystemEventHandler((s, ee) => LoadTemplate(s, ee, target));
+                watcher.Changed += new FileSystemEventHandler((s, ee) => LoadTemplate(s, ee, target));
+                watcher.EnableRaisingEvents = true;
+
                 string className = TemplatesListView.SelectedItem.ToString();
                 openedParser.ParseTemplate(className);
             }
@@ -407,10 +417,11 @@ namespace Norne_Beta
         private const int NumberOfRetries = 10;
         private const int DelayOnRetry = 1000;
 
-        private void Watcher_Created(object sender, FileSystemEventArgs e)
+        public void LoadTemplate(object sender, FileSystemEventArgs e, TemplateControl t)
         {
             var watcher = sender as FileSystemWatcher;
             watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
             for(int i=1; i <= NumberOfRetries; i++)
             {
                 try
@@ -421,7 +432,7 @@ namespace Norne_Beta
                         dynamic TemplateJson = JsonConvert.DeserializeObject(json);
                         this.Dispatcher.Invoke((Action)(() =>
                             {
-                                TemplateLoader tLoader = new TemplateLoader(TemplateJson, this, BaseTemplateDockPanel.Children[0] as HorizontalTemplate);
+                                TemplateLoader tLoader = new TemplateLoader(TemplateJson, this, t);
                                 tLoader.LoadTemplate();
                             }));
                     }
@@ -438,5 +449,9 @@ namespace Norne_Beta
 
         }
 
+        // TODO: Add function to save and load custom elements
+        private void MenuItemLoadCustomElement_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

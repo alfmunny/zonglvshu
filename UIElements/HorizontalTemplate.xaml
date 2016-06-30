@@ -8,8 +8,9 @@
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Edit" Click="MenuItemEdit_Click"/>
-            <MenuItem Header="Delete" Click="MenuItemDelete_Click"/>
             <MenuItem Header="Paste" Click="MenuItemPaste_Click"/>
+            <MenuItem Header="Delete" Click="MenuItemDelete_Click"/>
+            <MenuItem Header="Load" Click="MenuItemLoad_Click"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid>

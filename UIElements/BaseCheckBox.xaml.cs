@@ -59,6 +59,14 @@ namespace Norne_Beta.UIElements
             return ret;
         }
 
+        public override List<string> GetContentCode()
+        {
+            List<string> code = new List<string>();
+            String ret = String.Format("\"{0}\", self.content[\"chk_{1}\"]", ControlObject, LabelID);
+            code.Add(ret);
+            return code;
+        }
+
         public override void LoadContent(JArray parameters)
         {
             LabelName = (string)parameters[0];

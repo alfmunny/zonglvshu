@@ -22,6 +22,7 @@
                     <MenuItem Header="Add Template To..." Click="MenuItemAddTemplateTo_Click" InputGestureText="F10"/>
                     <MenuItem Header="Save Template As" Click="MenuItemSaveTemplateAs_Click"/>
                     <MenuItem Header="Load Template" Click="MenuItemLoadTemplate_Click"/>
+                    <MenuItem Header="Load Custom Element" Click="MenuItemLoadCustomElement_Click"/>
                 </MenuItem>
                 <MenuItem Header="Build">
                     <MenuItem Header="Build Template" Click="MenuItemBuildTemplate_Click" InputGestureText="F10"/>

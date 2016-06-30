@@ -22,6 +22,30 @@ namespace Norne_Beta.UIElements
     /// </summary>
     public partial class TextPanel : ElementControl 
     {
+
+        public string LabelName
+        {
+            get
+            {
+                return this.Label.Content.ToString();
+            }
+            set
+            {
+                this.Label.Content = value;
+            }
+        }
+
+        public string Text {
+            get
+            {
+                return this.TextBox.Text;
+            }
+            set
+            {
+                this.TextBox.Text = value;
+            }
+        }
+
         public TextPanel(MainWindow win, TemplateControl parentTemplate, string label)
             :base(win, parentTemplate)
         {
@@ -30,16 +54,21 @@ namespace Norne_Beta.UIElements
             Init();
         }
 
-        public string Text { get; set; }
+        public override ElementControl GetCopy()
+        {
+            TextPanel copy = new TextPanel(mw, ParentTemplate, ParentTemplate.GetLabelID());
+            copy.LabelName = this.LabelName;
+            copy.Text = this.Text;
+            copy.ControlObject = this.ControlObject;
+            return copy;
+        }
 
         private void Init()
         {
-            Type = Elements.TextPanel;
             NorneType = TemplateName.TextPanel;
             this.Label.Content = LabelID;
-
-            LabelName = this.Label.Content.ToString();
-            Text = this.TextBox.Text;
+            //LabelName = this.Label.Content.ToString();
+            //Text = this.TextBox.Text;
         }
 
         public void SetLabel(string label)
@@ -57,16 +86,6 @@ namespace Norne_Beta.UIElements
             this.SetLabel((string)parameters[0]);
             this.SetText((string)parameters[1]);
             SetProperty();
-        }
-
-        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
-        {
-            this.Remove(this);
-        }
-
-        private void MenuItemEdit_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -92,7 +111,6 @@ namespace Norne_Beta.UIElements
         public override void SetProperty()
         {
             this.Label.Content = ReplaceUnderlines(LabelName);
-            this.TextBox.Text = Text;
         }
 
     }

@@ -20,6 +20,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid;
 using Newtonsoft.Json.Linq;
 using System.Windows.Controls.Primitives;
 using System.Drawing.Design;
+using PythonLib;
 
 namespace Norne_Beta.UIElements
 {
@@ -32,6 +33,7 @@ namespace Norne_Beta.UIElements
         private int columnCount = 3;
         private Dictionary<ColumnType, List<string>> _columnTypeDic = new Dictionary<ColumnType, List<string>>()
         {
+            // TODO: Generalize the case of different parameters for different ColumnType
             { ColumnType.Text, new List<string> {"wx.TextCtrl", "None"} },
             { ColumnType.Team, new List<string> {"wx.TextCtrl", "BaseTable.TEAM"} },
             { ColumnType.Player, new List<string> {"wx.TextCtrl", "BaseTable.PLAYER"} },
@@ -39,7 +41,8 @@ namespace Norne_Beta.UIElements
             { ColumnType.CheckBox, new List<string> { "wx.CheckBox", "None"} },
             { ColumnType.FotoCheckBox, new List<string> { "FotoCheckBox", "None"} },
             { ColumnType.MultiText, new List<string> { "MultiTextPanel", "None"} },
-            { ColumnType.Choice, new List<string> { "Choice", "[]"} },
+            { ColumnType.StringChoice, new List<string> { "wx.Choice", "[]"} },
+            { ColumnType.SelectionChoice, new List<string> { "SelectionChoice", "[]"} },
         };
 
         public int RowCount {
@@ -76,7 +79,8 @@ namespace Norne_Beta.UIElements
         [Category(VizCategory)]
         public int ColumnID { get; set; }
 
-        private DataTable _dataTable;
+        public DataTable _dataTable { get; set; }
+
         private DataTable _cellPropertyTable;
 
         public TablePanel(MainWindow win, TemplateControl parentTemplate, string label):
@@ -164,7 +168,6 @@ namespace Norne_Beta.UIElements
 
         }
 
-
         private void MakeDataTable(int number)
         {
             DataRow row;
@@ -203,6 +206,17 @@ namespace Norne_Beta.UIElements
                 List<string> col = new List<string> { (string)columnType[i][0], (string)columnType[i][1].ToString()};
                 ColumnType key = _columnTypeDic.FirstOrDefault(x => x.Value.SequenceEqual(col)).Key;
                 SetExtendedProperties(_dataTable.Columns[i], key);
+                if ((string)columnType[i][0] == _columnTypeDic[ColumnType.StringChoice][0])
+                {
+                    _dataTable.Columns[i].ExtendedProperties["ColumnType"] = ColumnType.StringChoice;
+                    _dataTable.Columns[i].ExtendedProperties["Parameters"] = StringUtils.JArrayStringToObservableCollection((JArray)columnType[i][1]);
+                }
+
+                else if ((string)columnType[i][0] == _columnTypeDic[ColumnType.SelectionChoice][0])
+                {
+                    _dataTable.Columns[i].ExtendedProperties["ColumnType"] = ColumnType.SelectionChoice;
+                    _dataTable.Columns[i].ExtendedProperties["Parameters"] = StringUtils.JArrayStringToObservableCollection((JArray)columnType[i][1]);
+                }
             }
 
             for (int i = 0; i<rowCount; i++)
@@ -213,6 +227,7 @@ namespace Norne_Beta.UIElements
             this.dataGrid.ItemsSource = _dataTable.AsDataView();
             this.dataGrid.CanUserAddRows = false;
         }
+
         private void MenuItemEdit_Click(object sender, RoutedEventArgs e)
         {
 
@@ -234,7 +249,7 @@ namespace Norne_Beta.UIElements
             mw._propertyGrid.SelectedObject = this;
         }
 
-        private void columnHeader_Click(object sender, RoutedEventArgs e)
+        public void columnHeader_Click(object sender, RoutedEventArgs e)
         {
             DataGridColumnHeader columnHeader = sender as DataGridColumnHeader;
             int index = columnHeader.DisplayIndex;
@@ -243,7 +258,8 @@ namespace Norne_Beta.UIElements
 
             TableColumn tc = new TableColumn(mw, ParentTemplate, dataGrid.Columns[index], dc);
 
-            if((ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.Choice)
+            if ((ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.SelectionChoice ||
+                (ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.StringChoice)
             {
                  properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "Parameters"};
             }
@@ -273,11 +289,7 @@ namespace Norne_Beta.UIElements
             col.ExtendedProperties.Add("ColumnType", ct);
             col.ExtendedProperties.Add("StartID", "-1");
             col.ExtendedProperties.Add("RowOffset", 100);
-
-            if(ct == ColumnType.Choice)
-            {
-                col.ExtendedProperties.Add("Parameters", new List<string>());
-            }
+            col.ExtendedProperties.Add("Parameters", new ObservableCollection<ListItem>());
         }
 
         public override void SetProperty()
@@ -297,9 +309,18 @@ namespace Norne_Beta.UIElements
             foreach (DataColumn item in this._dataTable.Columns)
             {
                 rowList.Add(item.ColumnName.ToString());
-                List<string> ctd = _columnTypeDic[(ColumnType)item.ExtendedProperties["ColumnType"]];
+                ColumnType x = (ColumnType)item.ExtendedProperties["ColumnType"];
+                List<string> ctd = _columnTypeDic[x];
                 string columnType = ctd[0];
-                string typeParam = ctd[1];
+                string typeParam = String.Empty;
+                if (x == ColumnType.StringChoice || x == ColumnType.SelectionChoice)
+                {
+                   typeParam = StringUtils.ObservableCollectionToPyList((ObservableCollection<ListItem>)item.ExtendedProperties["Parameters"]);
+                }
+                else
+                {
+                    typeParam = ctd[1];
+                }
                 labelList.Add(new Tuple<string, string>(columnType, typeParam));
             }
 
@@ -312,8 +333,8 @@ namespace Norne_Beta.UIElements
             string labelString = string.Format("[{0}]", String.Join(", ", labelStringList.ToArray()));
 
             String code = String.Format(
-                "\"{0}\", \"{1}\", [self.project, {2}, {3}, {4}]", 
-                LabelID, TemplateName.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString());
+                "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}]", 
+                LabelID, TemplateName.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
             return code;
         }
 
@@ -357,6 +378,26 @@ namespace Norne_Beta.UIElements
             }
         }
 
+        public override ElementControl GetCopy()
+        {
+            TablePanel copy = new TablePanel(mw, ParentTemplate, ParentTemplate.GetLabelID());
+            copy.RowCount = this.RowCount;
+            copy.ColumnCount = this.ColumnCount;
+            copy._dataTable = this._dataTable;
+            copy.dataGrid.ItemsSource = _dataTable.AsDataView();
+            copy.dataGrid.CanUserAddRows = false;
+
+            /*
+            foreach (DataGridColumn item in copy.dataGrid.Columns)
+            {
+                int index = copy.dataGrid.Columns.IndexOf(item);
+                item.Header = this.dataGrid.Columns[index].Header;
+            }
+            */
+
+            return copy;
+        }
+
         private void dataGrid_ColumnReordered(object sender, DataGridColumnEventArgs e)
         {
             string header = e.Column.Header.ToString();
@@ -373,46 +414,39 @@ namespace Norne_Beta.UIElements
         Team,
         Player,
         Logo,
-        Choice,
         CheckBox,
         FotoCheckBox,
         MultiText,
+        StringChoice,
+        SelectionChoice,
     }
 
     public class TableColumn : ElementControl
     {
-        public string Header{ get; set; }
+        public string Header { get; set; }
         public ColumnType ColumnType { get; set; }
         [Category(VizCategory)]
-        public string StartID { get; set; } 
+        public string StartID { get; set; }
         [Category(VizCategory)]
-        public int RowOffset{ get; set; } 
-
-        [Editor(typeof(ItemCollectionEditor),typeof(UITypeEditor))]
-        public ObservableCollection<Choice> Parameters { get; set; }
+        public int RowOffset { get; set; }
+        [Editor(typeof(ItemCollectionEditor), typeof(UITypeEditor))]
+        public ObservableCollection<ListItem> Parameters { get; set; }
 
         private DataGridColumn _dataGridColumn;
         private DataColumn _dataColumn;
 
         public TableColumn(MainWindow win, TemplateControl parentTemplate, DataGridColumn dgc, DataColumn dc)
-            :base(win, parentTemplate)
+            : base(win, parentTemplate)
         {
             _dataGridColumn = dgc;
             _dataColumn = dc;
 
             PropertyCollection pc = dc.ExtendedProperties;
             Header = dc.ColumnName;
-            if (pc.Contains("Parameters"))
-            {
-                Parameters = (ObservableCollection<Choice>)pc["Parameters"];
-            }
-            else
-            {
-                Parameters = new ObservableCollection<Choice>();
-            }
             ColumnType = (ColumnType)pc["ColumnType"];
             StartID = (dynamic)pc["StartID"];
             RowOffset = (dynamic)pc["RowOffset"];
+            Parameters = (ObservableCollection<ListItem>)pc["Parameters"];
         }
         public override void SetProperty()
         {
@@ -423,13 +457,33 @@ namespace Norne_Beta.UIElements
             _dataColumn.ExtendedProperties["RowOffset"] = RowOffset;
             _dataColumn.ExtendedProperties["Parameters"] = Parameters;
 
+            string[] properties;
+
+            if ((ColumnType)_dataColumn.ExtendedProperties["ColumnType"] == ColumnType.StringChoice||
+                (ColumnType)_dataColumn.ExtendedProperties["ColumnType"] == ColumnType.SelectionChoice)
+            {
+                 properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "Parameters"};
+            }
+
+            else
+            {
+                properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset"};
+            }
+
+            SetTargetProperties(properties);
             this.mw._propertyGrid.SelectedObject = this;
         }
     }
 
-    public class Choice
+    public class ListItem
     {
         public string Label { get; set; }
+
+        public ListItem() { }
+        public ListItem(string label)
+        {
+            Label = label;
+        }
     }
 
     public class TableCell

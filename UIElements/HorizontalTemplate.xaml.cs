@@ -53,18 +53,25 @@ namespace Norne_Beta.UIElements
 
         private void MenuItemPaste_Click(object sender, RoutedEventArgs e)
         {
-            if(ElementToCopy != null)
+            ElementControl x = mw.ElementToCopy;
+
+            if(x != null)
             {
-                this._dockPanel.Children.Add(ElementToCopy);
-                this.Elements.Add(ElementToCopy);
-                ElementToCopy.LabelID = this.GetLabelID();
-                DockPanel.SetDock(ElementToCopy, Dock.Top);
-                ElementToCopy = null;
+                this._dockPanel.Children.Add(x);
+                this.Elements.Add(x);
+                x.LabelID = this.GetLabelID();
+                DockPanel.SetDock(x, Dock.Top);
+                mw.ElementToCopy  = null;
             }
             else
             {
                 MessageBox.Show("There is no available ui element to paste, please copy at first");
             }
+        }
+
+        private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
+        {
+            this.mw.ParseTemplate(this);
         }
 
         public override ElementControl AddElement(string elementType)
