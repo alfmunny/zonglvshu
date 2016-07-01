@@ -71,17 +71,31 @@ namespace Norne_Beta.UIElements
         public int StartID { get; set; }
 
         [Category(VizCategory)]
-        public int RowID { get; set; }
+        public string LineSelectControl { get; set; }
+        [Category(VizCategory)]
+        public int StartSelect{ get; set; }
+        [Category(VizCategory)]
+        public int EndSelect{ get; set; }
+
+        [Category("Highlights")]
+        public bool HasHighlights{ get; set; }
+        [Category("Highlights")]
+        public int HighlightLabelIndex{ get; set; }
+        [Category("Highlights")]
+        public int HighlightBoxIndex{ get; set; }
 
         [Category(VizCategory)]
+        public int RowID { get; set; }
+        [Category(VizCategory)]
         public string Seperator { get; set; }
-
         [Category(VizCategory)]
         public int ColumnID { get; set; }
 
         public DataTable _dataTable { get; set; }
 
         private DataTable _cellPropertyTable;
+
+        public string PyCodeTableCount;
 
         public TablePanel(MainWindow win, TemplateControl parentTemplate, string label):
             base(win, parentTemplate)
@@ -94,9 +108,15 @@ namespace Norne_Beta.UIElements
         private void Init()
         {
             NorneType = ElementType.BaseTable;
+            StartSelect = 1;
+            EndSelect = 10;
             Seperator = "0";
             SetColumns(ColumnCount);
             SetRows(RowCount);
+            PyCodeTableCount = "0";
+            HasHighlights = false;
+            HighlightLabelIndex = 0;
+            HighlightBoxIndex = 0;
         }
 
         private void SetColumns(int number)
@@ -244,7 +264,11 @@ namespace Norne_Beta.UIElements
 
         private void label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = { "RowCount", "ColumnCount", "RowID", "ColumnID", "Seperator"};
+            string[] properties = { "RowCount", "ColumnCount", nameof(StartSelect), nameof(EndSelect), nameof(LineSelectControl),
+                nameof(HighlightLabelIndex),
+                nameof(HasHighlights),
+                nameof(HighlightBoxIndex)
+            };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
         }
@@ -253,7 +277,7 @@ namespace Norne_Beta.UIElements
         {
             DataGridColumnHeader columnHeader = sender as DataGridColumnHeader;
             int index = columnHeader.DisplayIndex;
-            string[] properties;
+            string[] properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "MustFilled"};
             DataColumn dc = _dataTable.Columns[index];
 
             TableColumn tc = new TableColumn(mw, ParentTemplate, dataGrid.Columns[index], dc);
@@ -261,12 +285,10 @@ namespace Norne_Beta.UIElements
             if ((ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.SelectionChoice ||
                 (ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.StringChoice)
             {
-                 properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "Parameters"};
+                properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "MustFilled", "Parameters"};
             }
-
             else
             {
-                properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset"};
             }
 
             SetTargetProperties(properties);
@@ -289,6 +311,7 @@ namespace Norne_Beta.UIElements
             col.ExtendedProperties.Add("ColumnType", ct);
             col.ExtendedProperties.Add("StartID", "-1");
             col.ExtendedProperties.Add("RowOffset", 100);
+            col.ExtendedProperties.Add("MustFilled", false);
             col.ExtendedProperties.Add("Parameters", new ObservableCollection<ListItem>());
         }
 
@@ -343,6 +366,8 @@ namespace Norne_Beta.UIElements
             List<string> code = new List<string>();
 
             string col_fields = "[";
+            string must_cols = "(";
+
             foreach (DataColumn item in _dataTable.Columns)
             {
                 string startID = item.ExtendedProperties["StartID"].ToString();
@@ -356,10 +381,21 @@ namespace Norne_Beta.UIElements
                 }
 
                 col_fields += ", ";
+
+                bool field = (bool)item.ExtendedProperties["MustFilled"];
+                if (field)
+                {
+                    must_cols += _dataTable.Columns.IndexOf(item).ToString() + ",";
+                }
+
             }
             col_fields += "]";
+            must_cols += ")";
+
+            PyCodeTableCount = String.Format("self.get_table_cnt(self.content[\"tbl_{0}\"], {1}, {2}, {3})", LabelID, must_cols, StartSelect, EndSelect);
 
             code.Add(String.Format("self.content[\"tbl_{0}\"], {1}, {2}", LabelID, col_fields, _dataTable.Rows.Count));
+            code.Add(String.Format("\"{0}\", {1}", LineSelectControl, PyCodeTableCount));
             return code;
         }
 
@@ -372,10 +408,20 @@ namespace Norne_Beta.UIElements
 
             JToken j = x[0];
             JArray col_fields = (JArray)j["col_fields"];
+            JArray must_filled = (JArray)j["must_filled"];
             for (int i = 0; i < col_fields.Count; i++)
             {
                 _dataTable.Columns[i].ExtendedProperties["StartID"] = col_fields[i];
             }
+            for (int i = 0; i < must_filled.Count; i++)
+            {
+                _dataTable.Columns[i].ExtendedProperties["MustFilled"] = true;
+            }
+
+            StartSelect = (int)j["start_select"];
+            EndSelect = (int)j["end_select"];
+            LineSelectControl = (string)j["line_select"];
+
         }
 
         public override ElementControl GetCopy()
@@ -427,10 +473,15 @@ namespace Norne_Beta.UIElements
         public ColumnType ColumnType { get; set; }
         [Category(VizCategory)]
         public string StartID { get; set; }
+
         [Category(VizCategory)]
         public int RowOffset { get; set; }
+
         [Editor(typeof(ItemCollectionEditor), typeof(UITypeEditor))]
         public ObservableCollection<ListItem> Parameters { get; set; }
+
+        [Category(VizCategory)]
+        public bool MustFilled { get; set; }
 
         private DataGridColumn _dataGridColumn;
         private DataColumn _dataColumn;
@@ -443,6 +494,7 @@ namespace Norne_Beta.UIElements
 
             PropertyCollection pc = dc.ExtendedProperties;
             Header = dc.ColumnName;
+            MustFilled = (bool)pc["MustFilled"];
             ColumnType = (ColumnType)pc["ColumnType"];
             StartID = (dynamic)pc["StartID"];
             RowOffset = (dynamic)pc["RowOffset"];
@@ -452,6 +504,7 @@ namespace Norne_Beta.UIElements
         {
             _dataGridColumn.Header = Header;
             _dataColumn.ColumnName = Header;
+            _dataColumn.ExtendedProperties["MustFilled"] = MustFilled;
             _dataColumn.ExtendedProperties["ColumnType"] = ColumnType;
             _dataColumn.ExtendedProperties["StartID"] = StartID;
             _dataColumn.ExtendedProperties["RowOffset"] = RowOffset;
@@ -462,12 +515,12 @@ namespace Norne_Beta.UIElements
             if ((ColumnType)_dataColumn.ExtendedProperties["ColumnType"] == ColumnType.StringChoice||
                 (ColumnType)_dataColumn.ExtendedProperties["ColumnType"] == ColumnType.SelectionChoice)
             {
-                 properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "Parameters"};
+                 properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "MustFilled",  "Parameters"};
             }
 
             else
             {
-                properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset"};
+                properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "MustFilled"};
             }
 
             SetTargetProperties(properties);

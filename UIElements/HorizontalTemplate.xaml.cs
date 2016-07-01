@@ -69,18 +69,10 @@ namespace Norne_Beta.UIElements
                 MessageBox.Show("There is no available ui element to paste, please copy at first");
             }
         }
+
         private void TemplateControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            SetTargetProperties(new string[]
-            {
-                nameof(TemplateName),
-                nameof(TemplateLabel),
-                nameof(ParentControl),
-                nameof(ParentGfx),
-                nameof(SceneName),
-                nameof(ContinuesLeft),
-            });
-
+            SetTargetProperties(BasicProperty.ToArray());
             mw._propertyGrid.SelectedObject = this;
         }
 

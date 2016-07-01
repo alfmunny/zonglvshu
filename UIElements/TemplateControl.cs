@@ -37,6 +37,7 @@ namespace Norne_Beta.UIElements
 
     public partial class TemplateControl : UserControl
     {
+        public const string VizCategory = "Viz Variables";
 
         [Category("Appearance")]
         public string TemplateLabel { get; set; }
@@ -52,12 +53,18 @@ namespace Norne_Beta.UIElements
 
         public int ContinuesLeft { get; set; }
 
+        [Category(VizCategory)]
+        public bool HasHighlights { get; set; }
+        [Category(VizCategory)]
+        public string HighlightPrefix{ get; set; }
+        [Category(VizCategory)]
+        public string ControlObjectName{ get; set; }
+
         public string ParentClass { get; set; }
         public string UIClassName{ get; set; }
         public string GfxClassName{ get; set; }
         public string ProjectName { get; set; }
         public string FilePath { get; set; }
-
 
         // Must intialize the ui element of the main panel
         public DockPanel _dockPanel;
@@ -68,6 +75,7 @@ namespace Norne_Beta.UIElements
         public List<ElementControl> Elements;
         private string _label = "line";
         private int _elementid = 0;
+        public List<string> BasicProperty;
 
         public TemplateControl()
         {
@@ -80,6 +88,22 @@ namespace Norne_Beta.UIElements
             this.ParentGfx = GfxType.SimpleBaseGfx;
             this.Elements = new List<ElementControl>();
             this.ContinuesLeft = 1;
+            this.HasHighlights = false;
+            this.HighlightPrefix = "H";
+            this.ControlObjectName = "object";
+
+            this.BasicProperty = new List<string>
+            {
+                nameof(TemplateName),
+                nameof(TemplateLabel),
+                nameof(ParentControl),
+                nameof(ParentGfx),
+                nameof(SceneName),
+                nameof(ContinuesLeft),
+                nameof(HasHighlights),
+                nameof(HighlightPrefix),
+                nameof(BasicProperty),
+            };
 
             this.SceneName = "";
             this.FilePath= "";
@@ -89,6 +113,16 @@ namespace Norne_Beta.UIElements
         {
             _elementid += 1;
             return this._label + _elementid.ToString();
+        }
+
+        public string GetUIClassName()
+        {
+            return this.TemplateName + "UI";
+        }
+
+        public string GetGfxClassName()
+        {
+            return this.TemplateName + "Gfx";
         }
 
         public enum Action

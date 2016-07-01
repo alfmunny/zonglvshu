@@ -21,6 +21,7 @@ namespace Norne_Beta.UIElements
     /// </summary>
     public partial class BaseCheckBox : ElementControl 
     {
+        private bool _isHighlight;
         public string LabelName
         {
             get
@@ -30,6 +31,30 @@ namespace Norne_Beta.UIElements
             set
             {
                 this.checkBox.Content = value;
+            }
+        }
+        public bool IsHighlight
+        {
+            get
+            {
+                return _isHighlight;
+            }
+            set
+            {
+                _isHighlight = value;
+                if (_isHighlight)
+                {
+                    LabelID = "has_highlights!";
+                    this.ParentTemplate.HasHighlights = true;
+                }
+                else
+                {
+                    LabelID = "not_highlights";
+                    this.ParentTemplate.HasHighlights = false;
+                }
+                string[] properties = {nameof(LabelID), "LabelName", "ControlObject", nameof(IsHighlight)};
+                SetTargetProperties(properties);
+                mw._propertyGrid.SelectedObject = this;
             }
         }
         
@@ -48,7 +73,7 @@ namespace Norne_Beta.UIElements
 
         private void ElementControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = {"LabelName", "ControlObject" };
+            string[] properties = {nameof(LabelID), "LabelName", "ControlObject", nameof(IsHighlight)};
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
         }
@@ -62,7 +87,16 @@ namespace Norne_Beta.UIElements
         public override List<string> GetContentCode()
         {
             List<string> code = new List<string>();
-            String ret = String.Format("\"{0}\", self.content[\"chk_{1}\"]", ControlObject, LabelID);
+            String ret;
+            if (LabelID.Contains("!"))
+            {
+                ret = String.Format("\"{0}\", self.content[\"{1}\"]", ControlObject, LabelID.TrimEnd('!'));
+
+            }
+            else
+            {
+                ret = String.Format("\"{0}\", self.content[\"chk_{1}\"]", ControlObject, LabelID);
+            }
             code.Add(ret);
             return code;
         }
@@ -70,6 +104,14 @@ namespace Norne_Beta.UIElements
         public override void LoadContent(JArray parameters)
         {
             LabelName = (string)parameters[0];
+        }
+
+        public override void LoadLabelID(string labelID)
+        {
+            if(labelID.Contains("!") )
+            {
+                IsHighlight = true;
+            }
         }
 
         public override void SetProperty()

@@ -170,7 +170,14 @@ namespace Norne_Beta.UIElements
 
             foreach(ElementControl item in elements)
             {
-                ret += item.LabelID.Split(labelSeperator)[1] + '|' + item.GetUIElements();
+                if (!item.LabelID.Contains("!"))
+                {
+                    ret += item.LabelID.Split(labelSeperator)[1] + '|' + item.GetUIElements();
+                }
+                else
+                {
+                    ret += item.LabelID + '|' + item.GetUIElements();
+                }
                 ret += ",";
             }
             ret = ret.Substring(0, ret.Count() - 1);
@@ -209,7 +216,7 @@ namespace Norne_Beta.UIElements
             List<string> code = new List<string>();
             foreach (ElementControl item in elements)
             {
-                if(item.GetContentCode() != null)
+                if(item.GetContentCode() != null && item.ControlObject != "")
                 {
                     code.AddRange(item.GetContentCode());
                 }

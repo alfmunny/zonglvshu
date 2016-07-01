@@ -72,38 +72,91 @@ class TemplateParser(ast.NodeVisitor):
     def get_gfx(self, node):
         content_list = self.results['content']
         self.results["parent_gfx"] = node.bases[0].id
+        # attributes for table
+        self.node_set_lincnt = None
+        self.lin_select = None
+
         for x in node.body:
-            if isinstance(x, ast.FunctionDef) and x.name == "evaluate_content":
-                for xx in x.body:
-                    if isinstance(xx, ast.Assign) and xx.targets[0].attr == "scene_name":
-                        self.results["scene_name"] = xx.value.s
-            if isinstance(x, ast.FunctionDef) and x.name == "set_content":
-                for xx in x.body:
-                    content_arg = {}
-                    if isinstance(xx, ast.Expr) and xx.value.func.attr == "set_value" :
-                        args = xx.value.args
-                        content_arg['control_object'] = args[0].s
-                        element = args[1].slice.value.s
-                        content_arg['element'] = element.split('_')[0]
-                        content_arg['label_id'] = '_'.join(element.split('_')[1:])
-
-                    if isinstance(xx, ast.Expr) and xx.value.func.attr == "set_table_col" :
-                        args = xx.value.args
-                        element = args[0].slice.value.s
-                        lst = args[1].elts
-                        row = args[2].n
-
-                        content_arg['element'] = element.split('_')[0]
-                        content_arg['label_id'] = '_'.join(element.split('_')[1:])
-                        content_arg['row'] = row
-                        content_arg['col_fields'] = [x.n for x in lst]
-
-                    if isinstance(xx, ast.Pass):
-                        break
-                    content_list.append(content_arg)
+            self.evaluate_content_parser(x)
+            self.set_content_parser(x, content_list)
 
     def get_control(self, node):
         self.results["parent_control"] = node.body[0].value.func.id
+
+    def evaluate_content_parser(self, x):
+        if isinstance(x, ast.FunctionDef) and x.name == "evaluate_content":
+            for xx in x.body:
+                if isinstance(xx, ast.Assign) and xx.targets[0].attr == "scene_name":
+                    self.results["scene_name"] = xx.value.s
+
+    def set_content_parser(self, x, content_list):
+        if isinstance(x, ast.FunctionDef) and x.name == "set_content":
+            for xx in x.body:
+                content_arg = {}
+                self.set_value_parser(xx, content_arg)
+                self.set_table_col_parser(xx, content_arg)
+                if isinstance(xx, ast.Pass):
+                    break
+                else:
+                    pass
+
+                if content_arg:
+                    content_list.append(content_arg)
+
+            if self.node_set_lincnt:
+                args = self.node_set_lincnt.args
+                element = args[0].slice.value.s
+                label_id = '_'.join(element.split('_')[1:])
+                for c in self.results['content']:
+                    if c['label_id'] == label_id:
+                        lst = args[1].elts
+                        c['start_select'] = args[2].n
+                        c['end_select'] = args[3].n
+                        c['must_filled'] = [x.n for x in lst]
+                        c['line_select'] = self.lin_select
+
+    def setup_highlights_parser(self, x):
+        if isinstance(x, ast.FunctionDef) and x.name == "setup_highlights":
+            for xx in x.body:
+
+                pass
+
+
+    def get_table_col_parser(self, x):
+        if isinstance(x[1], ast.Call) and x[1].func.attr == "get_table_cnt":
+            self.node_set_lincnt = x[1]
+            self.lin_select = x[0].s
+
+    def set_value_parser(self, x, content_arg):
+        if isinstance(x, ast.Expr) and x.value.func.attr == "set_value" :
+            args = x.value.args
+            if isinstance(args[1], ast.Call):
+                self.get_table_col_parser(args)
+            else:
+                self.set_value_parameters_parser(args, content_arg)
+
+    def set_value_parameters_parser(self, x, content_arg):
+        content_arg['control_object'] = x[0].s
+        element = x[1].slice.value.s
+        content_arg['element'] = element.split('_')[0]
+        content_arg['label_id'] = '_'.join(element.split('_')[1:])
+
+    def set_table_col_parser(self, x, content_arg):
+        if isinstance(x, ast.Expr) and x.value.func.attr == "set_table_col" :
+            args = x.value.args
+            element = args[0].slice.value.s
+            lst = args[1].elts
+            row = args[2].n
+
+            content_arg['element'] = element.split('_')[0]
+            content_arg['label_id'] = '_'.join(element.split('_')[1:])
+            content_arg['row'] = row
+            content_arg['col_fields'] = [x.n for x in lst]
+            content_arg['start_select'] = 1
+            content_arg['end_select'] = 10
+            content_arg['must_filled'] = []
+            content_arg['line_select'] = ""
+
 
     def args_parser(self, node):
         if isinstance(node, ast.Str):

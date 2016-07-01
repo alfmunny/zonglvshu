@@ -15,7 +15,6 @@ using System.IO;
 
 namespace Norne_Beta.UIElements
 {
-    [Serializable]
     public partial class ElementControl : UserControl
     {
         public const string VizCategory = "Viz Variables";
@@ -174,6 +173,11 @@ namespace Norne_Beta.UIElements
                 string controlObject = x[0];
                 ControlObject = controlObject;
             }
+        }
+
+        public virtual void LoadLabelID(string labelID)
+        {
+            return;
         }
 
         public string ReplaceUnderlines(string s)

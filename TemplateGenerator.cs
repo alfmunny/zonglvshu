@@ -57,6 +57,11 @@ namespace Norne_Beta
             py.CreateUI();
         }
 
+        public void WriteHighlights()
+        {
+            py.WriteSetHighlights();
+        }
+
         public void WriteController()
         {
         }

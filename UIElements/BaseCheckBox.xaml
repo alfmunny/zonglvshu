@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
-             mc:Ignorable="d" Height="18" Width="75.136" PreviewMouseLeftButtonDown="ElementControl_PreviewMouseLeftButtonDown" HorizontalAlignment="Left" VerticalAlignment="Top">
+             mc:Ignorable="d" Height="16.08" Width="75.136" PreviewMouseLeftButtonDown="ElementControl_PreviewMouseLeftButtonDown" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF659ED6">
     <Grid Margin="0,0,227,282">
-        <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="1,0,-75,-18" VerticalAlignment="Top" Background="#FF894E4E" Foreground="Black" BorderBrush="#FFFBFFFF" Height="18" Width="74">
-        </CheckBox>
+        <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="1,0,-75,-16" VerticalAlignment="Top" Background="#FF894E4E" Foreground="Black" BorderBrush="#FFFBFFFF" Height="16" Width="74" OpacityMask="Black"/>
 
     </Grid>
 </local:ElementControl>

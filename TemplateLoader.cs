@@ -55,13 +55,24 @@ namespace Norne_Beta
                     for (int i = 0; i < elements.Count(); i++)
                     {
 
-                        string id = labelID + "_" + ((string)elements[i]).Split('|')[0];
+                        string id;
+                        string subLabelID = ((string)elements[i]).Split('|')[0];
+
+                        if (! subLabelID.Contains("!"))
+                        {
+                            id = labelID + "_" + ((string)elements[i]).Split('|')[0];
+                        }
+                        else
+                        {
+                            id = subLabelID;
+                        }
                         string elementsType = ((string)elements[i]).Split('|')[1];
 
                         ElementControl ele = dp.AddElementToDockPanel(mw, elementsType);
                         if( ele != null)
                         {
                             ele.LoadContent((JArray)parameters[0][i]);
+                            ele.LoadLabelID(id);
                             ele.LoadControlObject(content, id);
                         }
                     }
