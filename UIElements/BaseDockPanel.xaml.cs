@@ -48,7 +48,7 @@ namespace Norne_Beta.UIElements
 
         private void ItemPaste_Click(object sender, RoutedEventArgs e)
         {
-            ElementControl ElementToCopy = this.ParentTemplate.ElementToCopy;
+            ElementControl ElementToCopy = mw.ElementToCopy;
             if (ElementToCopy != null)
             {
                 this.baseDockPanel.Children.Add(ElementToCopy);
@@ -160,6 +160,14 @@ namespace Norne_Beta.UIElements
         {
             string label = GetLabelID();
             BaseLogo logo = new BaseLogo(mw, pc, label);
+            logo.ParentDockPanel = this;
+            return logo;
+        }
+
+        public ElementControl AddToggleLogoToDockPanel()
+        {
+            string label = GetLabelID();
+            BaseToggleLogo logo = new BaseToggleLogo(mw, pc, label);
             logo.ParentDockPanel = this;
             return logo;
         }

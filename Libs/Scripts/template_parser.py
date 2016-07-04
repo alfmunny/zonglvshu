@@ -20,6 +20,8 @@ class TemplateParser(ast.NodeVisitor):
             "scene_name": "",
             "preframe_default": "",
             "continues_left": "",
+            "has_highlights": False,
+            "highlight_prefix": "",
             "content": [],
             "ui": [],
         }
@@ -79,6 +81,7 @@ class TemplateParser(ast.NodeVisitor):
         for x in node.body:
             self.evaluate_content_parser(x)
             self.set_content_parser(x, content_list)
+            self.setup_highlights_parser(x)
 
     def get_control(self, node):
         self.results["parent_control"] = node.body[0].value.func.id
@@ -117,21 +120,34 @@ class TemplateParser(ast.NodeVisitor):
 
     def setup_highlights_parser(self, x):
         if isinstance(x, ast.FunctionDef) and x.name == "setup_highlights":
+            self.results["has_highlights"] = True
             for xx in x.body:
+                if isinstance(xx, ast.Assign) and isinstance(xx.targets[0], ast.Name) and xx.targets[0].id == "prefix":
+                    self.results["highlight_prefix"] = xx.value.s
+                if isinstance(xx, ast.Expr):
+                    if isinstance(xx.value, ast.Call) and xx.value.func.attr == "set_onair_highlights":
+                        args = xx.value.args
+                        subscript = args[0]
+                        caption_index = args[1].n
+                        chk_index = args[2].n
+                        name = subscript.slice.value.s
+                        ele, label_id = name.split('_')[0:2]
+                        for r in self.results["content"]:
+                            if r["label_id"] == label_id and r["element"] == "tbl":
+                                r["has_highlights"] = True
+                                r["caption_index"] = caption_index
+                                r["chk_index"] = chk_index
 
-                pass
-
-
-    def get_table_col_parser(self, x):
-        if isinstance(x[1], ast.Call) and x[1].func.attr == "get_table_cnt":
+    def get_line_cnt_parser(self, x):
+        if isinstance(x[1], ast.Call) and x[1].func.attr == "get_line_cnt":
             self.node_set_lincnt = x[1]
             self.lin_select = x[0].s
 
     def set_value_parser(self, x, content_arg):
-        if isinstance(x, ast.Expr) and x.value.func.attr == "set_value" :
+        if isinstance(x, ast.Expr) and x.value.func.attr == "set_value":
             args = x.value.args
             if isinstance(args[1], ast.Call):
-                self.get_table_col_parser(args)
+                self.get_line_cnt_parser(args)
             else:
                 self.set_value_parameters_parser(args, content_arg)
 
@@ -156,7 +172,9 @@ class TemplateParser(ast.NodeVisitor):
             content_arg['end_select'] = 10
             content_arg['must_filled'] = []
             content_arg['line_select'] = ""
-
+            content_arg['has_highlights'] = False
+            content_arg['caption_index'] = 0
+            content_arg['chk_index'] = 0
 
     def args_parser(self, node):
         if isinstance(node, ast.Str):
@@ -174,8 +192,8 @@ class TemplateParser(ast.NodeVisitor):
                 res.append(self.args_parser(x))
             return res
 
-    def elements_parser(self, astStr):
-        return astStr.s.split(',')
+    def elements_parser(self, ast_str):
+        return ast_str.s.split(',')
 
 
 def main(f, class_name):

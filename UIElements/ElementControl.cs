@@ -289,22 +289,5 @@ namespace Norne_Beta.UIElements
             }
         }
 
-        public T Value
-        {
-            get
-            {
-                return this.value;
-            }
-
-            set
-            {
-                this.value = value;
-                NotifyPropertyChanged("Value");
-            }
-        }
-
-
-
-
     }
 }

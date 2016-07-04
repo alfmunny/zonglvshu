@@ -87,7 +87,7 @@ namespace PythonLib
 
         public void WriteStateMachine()
         {
-            string className = string.Format("class {0}({1}):", t.GfxClassName, t.ParentGfx);
+            string className = string.Format("class {0}({1}):", t.GetGfxClassName(), t.ParentGfx);
             f.WriteLine(className);
             f.WriteLine("\tdef evaluate_content(self):");
             f.WriteLine("\t\tself.scene_name = \"{0}\"", t.SceneName);
@@ -115,7 +115,7 @@ namespace PythonLib
                 f.WriteLine("\t\thighlights = self.set_single_highlights(prefix, lin_cnt)");
                 f.WriteLine("\t\tself.lin_cnt = {0}", tp.PyCodeTableCount.ToString());
                 f.WriteLine("\t\tself.highlights = {\"onair\": highlights}");
-                f.WriteLine("\t\tself.set_onair_highlights(self.content[\"tbl_{0}\"], {1}, {2}, lin_cnt)", tp.LabelID, tp.HighlightLabelIndex, tp.HighlightBoxIndex);
+                f.WriteLine("\t\tself.set_onair_highlights(self.content[\"tbl_{0}\"], {1}, {2}, lin_cnt)", tp.LabelID, tp.HighlightLabelIndex, tp.HighlightCheckBoxIndex);
             }
         }
 

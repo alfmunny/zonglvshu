@@ -12,6 +12,7 @@ namespace Norne_Beta.UIElements
         MultiTextPanel,
         Label,
         Logo,
+        ToggleLogo,
         Text,
         BaseTable,
         Button,

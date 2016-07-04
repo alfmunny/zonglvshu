@@ -227,6 +227,7 @@ namespace Norne_Beta.UIElements
             {ElementType.Logo, typeof(BaseLogo)},
             {ElementType.Button, typeof(BaseButton)},
             {ElementType.DockPanel, typeof(BaseDockPanel)},
+            {ElementType.ToggleLogo, typeof(BaseToggleLogo)},
         };
     }
 }

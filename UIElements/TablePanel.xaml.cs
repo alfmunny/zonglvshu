@@ -53,6 +53,7 @@ namespace Norne_Beta.UIElements
             set
             {
                 this.rowCount = value;
+                EndSelect = value;
                 updateRows(value);
             }
 
@@ -82,7 +83,7 @@ namespace Norne_Beta.UIElements
         [Category("Highlights")]
         public int HighlightLabelIndex{ get; set; }
         [Category("Highlights")]
-        public int HighlightBoxIndex{ get; set; }
+        public int HighlightCheckBoxIndex{ get; set; }
 
         [Category(VizCategory)]
         public int RowID { get; set; }
@@ -96,6 +97,7 @@ namespace Norne_Beta.UIElements
         private DataTable _cellPropertyTable;
 
         public string PyCodeTableCount;
+        public string PyCodeLineCount;
 
         public TablePanel(MainWindow win, TemplateControl parentTemplate, string label):
             base(win, parentTemplate)
@@ -109,14 +111,14 @@ namespace Norne_Beta.UIElements
         {
             NorneType = ElementType.BaseTable;
             StartSelect = 1;
-            EndSelect = 10;
             Seperator = "0";
             SetColumns(ColumnCount);
             SetRows(RowCount);
+            EndSelect = RowCount;
             PyCodeTableCount = "0";
             HasHighlights = false;
             HighlightLabelIndex = 0;
-            HighlightBoxIndex = 0;
+            HighlightCheckBoxIndex = 0;
         }
 
         private void SetColumns(int number)
@@ -159,7 +161,6 @@ namespace Norne_Beta.UIElements
             }
             this.dataGrid.ItemsSource = _dataTable.AsDataView();
             this.dataGrid.CanUserAddRows = false;
-
         }
 
         private void updateRows(int number)
@@ -211,8 +212,6 @@ namespace Norne_Beta.UIElements
         private void InitCellPropertyTable()
         {
             _cellPropertyTable = new DataTable("Cell Property");
-
-
         }
 
         private void LoadDataTable(JArray headers, JArray columnType)
@@ -267,7 +266,7 @@ namespace Norne_Beta.UIElements
             string[] properties = { "RowCount", "ColumnCount", nameof(StartSelect), nameof(EndSelect), nameof(LineSelectControl),
                 nameof(HighlightLabelIndex),
                 nameof(HasHighlights),
-                nameof(HighlightBoxIndex)
+                nameof(HighlightCheckBoxIndex)
             };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
@@ -392,10 +391,15 @@ namespace Norne_Beta.UIElements
             col_fields += "]";
             must_cols += ")";
 
-            PyCodeTableCount = String.Format("self.get_table_cnt(self.content[\"tbl_{0}\"], {1}, {2}, {3})", LabelID, must_cols, StartSelect, EndSelect);
+            PyCodeTableCount = String.Format("self.get_table_cnt(self.content[\"tbl_{0}\"], {1})", LabelID, must_cols);
+            PyCodeLineCount = String.Format("self.get_line_cnt(self.content[\"tbl_{0}\"], {1}, {2}, {3})", LabelID, must_cols, StartSelect, EndSelect);
 
             code.Add(String.Format("self.content[\"tbl_{0}\"], {1}, {2}", LabelID, col_fields, _dataTable.Rows.Count));
-            code.Add(String.Format("\"{0}\", {1}", LineSelectControl, PyCodeTableCount));
+
+            if (LineSelectControl != "")
+            {
+                code.Add(String.Format("\"{0}\", {1}", LineSelectControl, PyCodeLineCount));
+            }
             return code;
         }
 
@@ -415,13 +419,15 @@ namespace Norne_Beta.UIElements
             }
             for (int i = 0; i < must_filled.Count; i++)
             {
-                _dataTable.Columns[i].ExtendedProperties["MustFilled"] = true;
+                _dataTable.Columns[(int)must_filled[i]].ExtendedProperties["MustFilled"] = true;
             }
 
             StartSelect = (int)j["start_select"];
             EndSelect = (int)j["end_select"];
             LineSelectControl = (string)j["line_select"];
-
+            HasHighlights = (bool)j["has_highlights"];
+            HighlightLabelIndex = (int)j["caption_index"];
+            HighlightCheckBoxIndex = (int)j["chk_index"];
         }
 
         public override ElementControl GetCopy()

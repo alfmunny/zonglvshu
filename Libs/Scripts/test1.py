@@ -44,9 +44,15 @@ class ThatTemplateNameGfx(SimpleBaseGfx):
        self.set_value("0001", self.content["txt_lin1_1"])
        self.set_value("0002", self.content["txt_line2_2"])
        self.set_table_col(self.content["tbl_line2"], [1000, ], 10)
-       self.set_value("0004", self.get_table_cnt(self.content["tbl_line2"], (1, 2), 1, 6))
+       self.set_value("0004", self.get_line_cnt(self.content["tbl_line2"], (1, 2), 1, 6))
 
        pass
+   def setup_highlights(self):
+		prefix = "H"
+		lin_cnt = self.get_table_cnt(self.content["tbl_line3"], (), 1, 10)
+		highlights = self.set_single_highlights(prefix, lin_cnt)
+		self.highlights = {"onair": highlights }
+		self.set_onair_highlights(self.content["tbl_line2"], 1, 2, lin_cnt)
 
 class ThisTemplateNameUI(SimpleBaseUI):
    name = "ThisTemplateNameUI"
