@@ -22,6 +22,7 @@ namespace Norne_Beta.UIElements
         public string Type { get; set; }
         public string LabelID { get; set; }
         public string ElementName { get; set; }
+        public string ShortLabel { get; set; }
         public ElementType NorneType;
         public ContextMenu Menu;
 
@@ -35,8 +36,6 @@ namespace Norne_Beta.UIElements
         public TemplateControl ParentTemplate;
         public BaseDockPanel ParentDockPanel;
         public int SizePropertyList = 0;
-
-        public ElementControl() {}
 
         public ElementControl(MainWindow win, TemplateControl parentTemplate)
         {
@@ -157,6 +156,17 @@ namespace Norne_Beta.UIElements
             string ret = String.Empty;
             return ret;
         }
+
+
+        public virtual JObject GetGfxContent()
+        {
+            JObject ret = new JObject();
+            ret["label_id"] = LabelID;
+            ret["control_object"] = ControlObject;
+            ret["element"] = ShortLabel;
+            return ret;
+        }
+        
 
         public virtual void LoadContent(JArray parameters)
         {

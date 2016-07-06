@@ -29,6 +29,10 @@ namespace Norne_Beta.UIElements
             InitializeComponent();
             mw = win;
             _dockPanel = this.MainPanel;
+            ControlEditing = new BaseControlButton(mw, this);
+            ControlPanel.Children.Add(ControlEditing);
+            DockPanel.SetDock(ControlEditing, Dock.Top);
+            StateMachines.Add(ControlEditing);
         }
 
         public void DockPanel_Drop(object sender, DragEventArgs e)
@@ -101,5 +105,14 @@ namespace Norne_Beta.UIElements
             MainPanel.Children.Clear();
         }
 
+        private void ControlPanel_Drop(object sender, DragEventArgs e)
+        {
+            DockPanel dp = sender as DockPanel;
+            string elementName = (string)e.Data.GetData(DataFormats.StringFormat);
+            BaseControlButton bcb = new BaseControlButton(mw, this);
+            ControlPanel.Children.Add(bcb);
+            DockPanel.SetDock(bcb, Dock.Top);
+            StateMachines.Add(bcb);
+        }
     }
 }

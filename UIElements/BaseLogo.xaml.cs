@@ -38,6 +38,7 @@ namespace Norne_Beta.UIElements
         public void Init()
         {
             NorneType = ElementType.Logo;
+            ShortLabel = "logo";
             AllowBlank = false;
         }
 

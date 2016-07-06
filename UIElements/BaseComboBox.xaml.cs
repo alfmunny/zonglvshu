@@ -70,6 +70,7 @@ namespace Norne_Beta.UIElements
         public void Init()
         {
             NorneType = ElementType.Choice;
+            ShortLabel = "cmb";
             _choiceLabels = new List<string>();
             Choices = new ObservableCollection<Option>();
 

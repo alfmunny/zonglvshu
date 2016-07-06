@@ -67,6 +67,7 @@ namespace Norne_Beta.UIElements
         private void Init()
         {
             NorneType = ElementType.TextPanel;
+            ShortLabel = "txt";
             this.Label.Content = LabelID;
             IsUpperCase = false;
             //LabelName = this.Label.Content.ToString();

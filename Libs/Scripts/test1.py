@@ -43,6 +43,9 @@ class ThatTemplateNameGfx(SimpleBaseGfx):
    def set_content(self):
        self.set_value("0001", self.content["txt_lin1_1"])
        self.set_value("0002", self.content["txt_line2_2"])
+       self.set_value("0085", self.content["logo_line30_4"]["choice"])
+       self.set_value("0090", self.content["logo_line30_4"]["logo"])
+       self.set_value("0095", self.content["logo_line30_4"]["logo"])
        self.set_table_col(self.content["tbl_line2"], [1000, ], 10)
        self.set_value("0004", self.get_line_cnt(self.content["tbl_line2"], (1, 2), 1, 6))
 

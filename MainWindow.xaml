@@ -72,6 +72,9 @@
                     <TreeViewItem Header="CheckBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="DockPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                 </TreeViewItem>
+                <TreeViewItem Header="Control Buttons" IsExpanded="True">
+                    <TreeViewItem Header="BaseControl" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                </TreeViewItem>
             </TreeView>
 
             <xctk:PropertyGrid x:Name="_propertyGrid" Margin="5,2,0,479" AutoGenerateProperties="False" Grid.Column="2" Background="#FF6B6E74" PropertyValueChanged="_propertyGrid_PropertyValueChanged" ShowAdvancedOptions="True"/>

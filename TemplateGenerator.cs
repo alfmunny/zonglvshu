@@ -68,7 +68,7 @@ namespace Norne_Beta
 
         public void WriteStatemachine()
         {
-            py.WriteStateMachine();
+            py.WriteMultipleStateMachines();
         }
 
         public void UpdateTempalte()
@@ -77,11 +77,10 @@ namespace Norne_Beta
             string line = null;
             bool isUpdated = false;
 
-            int[] uiNums = parser.GetClassLineNumber(t.UIClassName);
-            int[] gfxNums = parser.GetClassLineNumber(t.GfxClassName);
+            int[] uiNums = parser.GetClassLineNumber(t.GetUIClassName());
             int begin = uiNums[0];
             // Plus 1 to include the space line
-            int end = gfxNums[1] + 1;
+            int end = uiNums[1] + 1;
 
             string fileBackup = t.FilePath + ".backup.py";
             using (StreamReader reader = new StreamReader(t.FilePath))
@@ -115,6 +114,51 @@ namespace Norne_Beta
             System.IO.File.Move(fileBackup, t.FilePath);
         }
 
+        public void UpdateGfx()
+        {
+            int lineNumber = 1;
+            string line = null;
+            bool isUpdated = false;
+
+            string lala = t.GetGfxClassName();
+
+            int[] gfxNums = parser.GetClassLineNumber(t.GetGfxClassName());
+
+            int begin = gfxNums[0];
+            // Plus 1 to include the space line
+            int end = gfxNums[1] + 1;
+            string fileBackup = t.FilePath + ".backup.py";
+            using (StreamReader reader = new StreamReader(t.FilePath))
+            {
+                using (FileStream fs = File.Create(fileBackup))
+                {
+                }
+
+                using (StreamWriter s = File.AppendText(fileBackup))
+                {
+                    py = new PyWriter(s, t);
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (lineNumber < begin || lineNumber > end)
+                        {
+                            s.WriteLine(line);
+                        }
+                        else if (!isUpdated)
+                        {
+
+                            WriteUI();
+                            WriteController();
+                            WriteStatemachine();
+                            isUpdated = true;
+                        }
+                        lineNumber += 1;
+                    }
+                }
+            }
+            System.IO.File.Delete(t.FilePath);
+            System.IO.File.Move(fileBackup, t.FilePath);
+        }
+
         public void DeleteTemplate()
         {
 
@@ -122,7 +166,7 @@ namespace Norne_Beta
 
         public bool isTemplateExists()
         {
-            return parser.GetTemplates().Contains(t.UIClassName);
+            return parser.GetTemplates().Contains(t.GetUIClassName());
         }
     }
 }

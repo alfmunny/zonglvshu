@@ -85,6 +85,7 @@ namespace Norne_Beta
                         if( ele != null)
                         {
                             ele.LoadContent((JArray)parameters[i]);
+                            // TODO: Add LoadLabelID
                             ele.LoadControlObject(content, labelID);
                         }
                     }

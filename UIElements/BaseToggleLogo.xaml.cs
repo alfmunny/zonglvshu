@@ -41,6 +41,7 @@ namespace Norne_Beta.UIElements
         public void Init()
         {
             NorneType = ElementType.ToggleLogo;
+            ShortLabel = "logo";
             AllowBlank = false;
             ToggleSelect = "0085";
             TeamControlObject = "0090";

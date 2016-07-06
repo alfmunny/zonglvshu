@@ -85,6 +85,9 @@ namespace Norne_Beta.UIElements
         [Category("Highlights")]
         public int HighlightCheckBoxIndex{ get; set; }
 
+        public JArray MustFilled { get; set; }
+        public JArray ColFields { get; set; }
+
         [Category(VizCategory)]
         public int RowID { get; set; }
         [Category(VizCategory)]
@@ -110,6 +113,7 @@ namespace Norne_Beta.UIElements
         private void Init()
         {
             NorneType = ElementType.BaseTable;
+            ShortLabel = "tbl";
             StartSelect = 1;
             Seperator = "0";
             SetColumns(ColumnCount);
@@ -119,6 +123,8 @@ namespace Norne_Beta.UIElements
             HasHighlights = false;
             HighlightLabelIndex = 0;
             HighlightCheckBoxIndex = 0;
+            MustFilled = new JArray();
+            ColFields = new JArray();
         }
 
         private void SetColumns(int number)
@@ -366,6 +372,8 @@ namespace Norne_Beta.UIElements
 
             string col_fields = "[";
             string must_cols = "(";
+            ColFields.Clear();
+            MustFilled.Clear();
 
             foreach (DataColumn item in _dataTable.Columns)
             {
@@ -373,18 +381,25 @@ namespace Norne_Beta.UIElements
                 if (startID == "")
                 {
                     col_fields += "-1";
+                    ColFields.Add(-1);
                 }
                 else
                 {
                     col_fields += startID;
+                    int x = new int();
+                    Int32.TryParse(startID, out x);
+                    ColFields.Add(startID);
                 }
 
                 col_fields += ", ";
 
                 bool field = (bool)item.ExtendedProperties["MustFilled"];
+
                 if (field)
                 {
-                    must_cols += _dataTable.Columns.IndexOf(item).ToString() + ",";
+                    int index = _dataTable.Columns.IndexOf(item);
+                    must_cols += index.ToString() + ",";
+                    MustFilled.Add(index);
                 }
 
             }
@@ -457,6 +472,46 @@ namespace Norne_Beta.UIElements
             _dataTable.Columns[header].SetOrdinal(index);
             this.dataGrid.ItemsSource = _dataTable.AsDataView();
             this.dataGrid.CanUserAddRows = false;
+        }
+
+        public override JObject GetGfxContent()
+        {
+            ColFields.Clear();
+            MustFilled.Clear();
+            foreach (DataColumn item in _dataTable.Columns)
+            {
+                string startID = item.ExtendedProperties["StartID"].ToString();
+                if (startID == "")
+                {
+                    ColFields.Add(-1);
+                }
+                else
+                {
+                    int x = new int();
+                    Int32.TryParse(startID, out x);
+                    ColFields.Add(startID);
+                }
+
+                bool field = (bool)item.ExtendedProperties["MustFilled"];
+
+                if (field)
+                {
+                    int index = _dataTable.Columns.IndexOf(item);
+                    MustFilled.Add(index);
+                }
+            }
+            
+            JObject ret = new JObject();
+            ret["label_id"] = LabelID;
+            ret["col_fields"] = ControlObject;
+            ret["must_filled"] = ShortLabel;
+            ret["has_highlights"] = HasHighlights;
+            ret["caption_index"] = HighlightLabelIndex;
+            ret["chk_index"] = HighlightCheckBoxIndex;
+            ret["element"] = ShortLabel;
+            ret["end_select"] = EndSelect;
+            ret["start_select"] = StartSelect;
+            return ret;
         }
     }
 

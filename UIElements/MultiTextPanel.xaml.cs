@@ -67,6 +67,7 @@ namespace Norne_Beta.UIElements
         private void Init()
         {
             NorneType = ElementType.MultiTextPanel;
+            ShortLabel = "txt";
             this.Label.Content = LabelID;
             LineCount = 3;
         }

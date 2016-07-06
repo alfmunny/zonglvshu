@@ -47,13 +47,22 @@ namespace PythonLib
         public void SetupController()
         {
             f.WriteLine("\tdef setup_control(self):");
-            f.WriteLine("\t\tself.btn_show = {0}(self, -1, \"{1}\", self.project, get_content_callback=self.get_content, statemachine=self.{2})", t.ParentControl, vc.Label, vc.StateMachine);
+            for (int i = 0; i < t.StateMachines.Count; i++)
+            {
+                BaseControl x = t.StateMachines[i];
+                f.WriteLine("\t\tself.{0} = {1}(self, -1, \"{2}\", self.project, get_content_callback=self.get_content, statemachine=self.{3})", 
+                     x.BtnName, x.ParentControl, x.ControlName, x.StateMachineName);
+
+            }
         }
 
         public void SetupStateMachine()
         {
             f.WriteLine("\tdef setup_statemachine(self):");
-            f.WriteLine("\t\tself.statemachine = {0}(self.project)", t.GetGfxClassName());
+            foreach (BaseControl item in t.StateMachines)
+            {
+                f.WriteLine("\t\tself.{0} = {1}(self.project)", item.StateMachineName, item.GfxClassName);
+            }
         }
 
         public void CreateUI()
@@ -85,13 +94,21 @@ namespace PythonLib
 
         }
 
-        public void WriteStateMachine()
+        public void WriteMultipleStateMachines()
         {
-            string className = string.Format("class {0}({1}):", t.GetGfxClassName(), t.ParentGfx);
+            foreach (BaseControl bc in t.StateMachines)
+            {
+                WriteStateMachine(bc);
+            }
+        }
+
+        public void WriteStateMachine(BaseControl bc)
+        {
+            string className = string.Format("class {0}({1}):", bc.GfxClassName, bc.ParentGfx);
             f.WriteLine(className);
             f.WriteLine("\tdef evaluate_content(self):");
-            f.WriteLine("\t\tself.scene_name = \"{0}\"", t.SceneName);
-            if (t.HasHighlights)
+            f.WriteLine("\t\tself.scene_name = \"{0}\"", bc.SceneName);
+            if (bc.HasHighlights)
             {
                 f.WriteLine("\t\tself.has_highlights= self.content.get(\"has_highlights\")");
             }

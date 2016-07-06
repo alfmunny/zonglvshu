@@ -313,6 +313,7 @@ namespace Norne_Beta
                         if (res == MessageBoxResult.Yes)
                         {
                             tg.UpdateTempalte();
+                            tg.UpdateGfx();
                             RefreshTemplatesListView(t.FilePath);
                         }
                         else

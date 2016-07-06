@@ -66,11 +66,14 @@ namespace Norne_Beta.UIElements
         public string ProjectName { get; set; }
         public string FilePath { get; set; }
 
+        public List<BaseControl> StateMachines { get; set; }
+
         // Must intialize the ui element of the main panel
         public DockPanel _dockPanel;
 
         public ElementControl ElementToInsert;
         public ElementControl ElementToCopy;
+        public BaseControl ControlEditing;
 
         public List<ElementControl> Elements;
         private string _label = "line";
@@ -79,33 +82,26 @@ namespace Norne_Beta.UIElements
 
         public TemplateControl()
         {
-            this.TemplateName = "TemplateName";
-            this.UIClassName = this.TemplateName + "UI";
-            this.GfxClassName = this.TemplateName + "Gfx";
-            this.TemplateLabel = "Label";
-            this.ParentClass = "SimpleBaseUI";
-            this.ParentControl = CtrlType.SimpleBaseCtrl;
-            this.ParentGfx = GfxType.SimpleBaseGfx;
-            this.Elements = new List<ElementControl>();
-            this.ContinuesLeft = 1;
-            this.HasHighlights = false;
-            this.HighlightPrefix = "H";
-            this.ControlObjectName = "object";
+            TemplateName = "TemplateName";
+            UIClassName = TemplateName + "UI";
+            GfxClassName = TemplateName + "Gfx";
+            TemplateLabel = "Label";
+            ParentClass = "SimpleBaseUI";
+            ParentControl = CtrlType.SimpleBaseCtrl;
+            ParentGfx = GfxType.SimpleBaseGfx;
+            Elements = new List<ElementControl>();
+            StateMachines = new List<BaseControl>();
+            ContinuesLeft = 0;
+            HasHighlights = false;
+            HighlightPrefix = "H";
+            ControlObjectName = "object";
+            SceneName = "";
 
             this.BasicProperty = new List<string>
             {
                 nameof(TemplateName),
-                nameof(TemplateLabel),
-                nameof(ParentControl),
-                nameof(ParentGfx),
-                nameof(SceneName),
-                nameof(ContinuesLeft),
-                nameof(HasHighlights),
-                nameof(HighlightPrefix),
-                nameof(BasicProperty),
             };
 
-            this.SceneName = "";
             this.FilePath= "";
         }
 
@@ -150,7 +146,16 @@ namespace Norne_Beta.UIElements
 
         public ElementControl AddElementToDockPanel(MainWindow win, string elementType)
         {
-            ElementType et = (ElementType)Enum.Parse(typeof(ElementType), elementType);
+            ElementType et;
+            try
+            {
+                et = (ElementType)Enum.Parse(typeof(ElementType), elementType);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
             Type x = TemplateMap[et];
             string label = GetLabelID();
             ElementControl ele  = (ElementControl)Activator.CreateInstance(x, new object[] { win, this, label});
@@ -183,13 +188,6 @@ namespace Norne_Beta.UIElements
             return btn;
         }
 
-        public ElementControl AddLogoToDockPanel(MainWindow win, TemplateControl parentTemplate)
-        {
-            string label = GetLabelID();
-            BaseLogo logo = new BaseLogo(win, parentTemplate, label);
-            return logo;
-        }
-
         public virtual void LoadElements()
         {
             Console.WriteLine("Please implement the method of LoadTemplate");
@@ -204,6 +202,15 @@ namespace Norne_Beta.UIElements
         {
             Console.WriteLine("Please implement the method of AddElement");
             return null;
+        }
+
+        public virtual void LoadStateMachine(JArray content)
+        {
+
+            foreach (var item in content)
+            {
+                
+            }
         }
 
         public virtual void LoadContent(JObject parameters)
