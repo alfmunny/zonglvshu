@@ -22,15 +22,16 @@ namespace Norne_Beta.UIElements
     public partial class BaseCheckBox : ElementControl 
     {
         private bool _isHighlight;
+
         public string LabelName
         {
             get
             {
-                return this.checkBox.Content.ToString();
+                return this.label.Content.ToString();
             }
             set
             {
-                this.checkBox.Content = value;
+                this.label.Content = value;
             }
         }
         public bool IsHighlight
@@ -44,17 +45,16 @@ namespace Norne_Beta.UIElements
                 _isHighlight = value;
                 if (_isHighlight)
                 {
-                    LabelID = "has_highlights!";
+                    hasSpecialID = true;
+                    SpecialID = SpecialType.has_highlights + "!";
                     this.ParentTemplate.HasHighlights = true;
                 }
                 else
                 {
-                    LabelID = "not_highlights";
+                    hasSpecialID = false;
+                    SpecialID = String.Empty;
                     this.ParentTemplate.HasHighlights = false;
                 }
-                string[] properties = {nameof(LabelID), "LabelName", "ControlObject", nameof(IsHighlight)};
-                SetTargetProperties(properties);
-                mw._propertyGrid.SelectedObject = this;
             }
         }
         
@@ -72,26 +72,53 @@ namespace Norne_Beta.UIElements
             ShortLabel = "chk";
         }
 
+        public override ElementControl GetCopy()
+        {
+            BaseCheckBox copy = new BaseCheckBox(mw, ParentTemplate, "lineCopy");
+            copy.LabelName = this.LabelName;
+            copy.IsHighlight = this.IsHighlight;
+            copy.hasSpecialID = this.hasSpecialID;
+            copy.SpecialID = this.SpecialID;
+            copy.ControlObject = this.ControlObject;
+            return copy;
+        }
+
         private void ElementControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = {nameof(LabelID), "LabelName", "ControlObject", nameof(IsHighlight)};
+            string[] properties = {
+                "LabelName",
+                "ControlObject",
+                nameof(IsHighlight),
+                "LabelID",
+            };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
         }
 
         public override string GetUIParameters()
         {
-            String ret = String.Format("[\"{0}\"]", this.checkBox.Content.ToString());
+            String ret = String.Format("[\"{0}\"]", this.label.Content.ToString());
             return ret;
+        }
+
+        public override string GetUICode()
+        {
+            String code = String.Format("\"{0}\", \"{1}\", {2}", LabelID, GetUIElements(), GetUIParameters());
+            return code;
         }
 
         public override List<string> GetContentCode()
         {
             List<string> code = new List<string>();
             String ret;
-            if (LabelID.Contains("!"))
+            if (ControlObject == "")
             {
-                ret = String.Format("\"{0}\", self.content[\"{1}\"]", ControlObject, LabelID.TrimEnd('!'));
+                return code;
+            }
+
+            if (IsHighlight)
+            {
+                ret = String.Format("\"{0}\", self.content[\"{1}\"]", ControlObject, SpecialType.has_highlights);
 
             }
             else
@@ -109,9 +136,13 @@ namespace Norne_Beta.UIElements
 
         public override void LoadLabelID(string labelID)
         {
-            if(labelID.Contains("!") )
+            if(labelID.Contains('!'))
             {
                 IsHighlight = true;
+            }
+            else
+            {
+                LabelID = labelID;
             }
         }
 

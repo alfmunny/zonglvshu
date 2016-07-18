@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Norne_Beta.UIElements;
+using System.Windows.Controls;
 
 namespace Norne_Beta
 {
@@ -52,9 +53,9 @@ namespace Norne_Beta
                 if (elements.Count > 1)
                 {
                     BaseDockPanel dp = (BaseDockPanel)template.AddElementToDockPanel(mw, "DockPanel");
+                    dp.LoadLabelID(labelID);
                     for (int i = 0; i < elements.Count(); i++)
                     {
-
                         string id;
                         string subLabelID = ((string)elements[i]).Split('|')[0];
 
@@ -73,7 +74,6 @@ namespace Norne_Beta
                         {
                             ele.LoadContent((JArray)parameters[0][i]);
                             ele.LoadLabelID(id);
-                            ele.LoadControlObject(content, id);
                         }
                     }
                 }
@@ -81,12 +81,12 @@ namespace Norne_Beta
                 {
                     for (int i = 0; i < elements.Count(); i++)
                     {
-                        ElementControl ele = template.AddElement((string)elements[i]);
+                        ElementControl ele = template.AddElementToDockPanel(mw, (string)elements[i]);
                         if( ele != null)
                         {
                             ele.LoadContent((JArray)parameters[i]);
+                            ele.LoadLabelID(labelID);
                             // TODO: Add LoadLabelID
-                            ele.LoadControlObject(content, labelID);
                         }
                     }
                 }
@@ -96,10 +96,17 @@ namespace Norne_Beta
 
         public void LoadGfx()
         {
-
+            template._controlPanel.Children.Clear();
+            template.StateMachines.Clear();
+            foreach (JProperty item in ((JObject)TemplateJson["statemachines"]).Properties())
+            {
+                BaseControlButton bcb = new BaseControlButton(mw, template);
+                template.StateMachines.Add(bcb);
+                template._controlPanel.Children.Add(bcb);
+                DockPanel.SetDock(bcb, Dock.Top);
+                bcb.LoadGfxContent(item);
+            }
         }
-
-
 
     }
 }

@@ -296,7 +296,14 @@ namespace Norne_Beta
         {
             if (BaseTemplateDockPanel.Children.Count != 0)
             {
+
                 HorizontalTemplate t = BaseTemplateDockPanel.Children[0] as HorizontalTemplate;
+
+                if(t.StateMachines.Count == 0)
+                {
+                    MessageBox.Show("Template has no controls");
+                    return t;
+                }
 
                 if (t.FilePath == "")
                 {
@@ -313,7 +320,6 @@ namespace Norne_Beta
                         if (res == MessageBoxResult.Yes)
                         {
                             tg.UpdateTempalte();
-                            tg.UpdateGfx();
                             RefreshTemplatesListView(t.FilePath);
                         }
                         else
@@ -382,6 +388,7 @@ namespace Norne_Beta
             PropertyGrid pg = sender as PropertyGrid;
             ElementControl ec = pg.SelectedObject as ElementControl;
             ec.SetProperty();
+            ec.SetStateMachine();
         }
 
         private void ChangeTitle(string filepath)

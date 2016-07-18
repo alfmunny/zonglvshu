@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
 using Xceed.Wpf.Toolkit.PropertyGrid;
+using Newtonsoft.Json.Linq;
 
 namespace Norne_Beta.UIElements
 {
@@ -29,6 +30,7 @@ namespace Norne_Beta.UIElements
             InitializeComponent();
             mw = win;
             _dockPanel = this.MainPanel;
+            _controlPanel = this.ControlPanel;
             ControlEditing = new BaseControlButton(mw, this);
             ControlPanel.Children.Add(ControlEditing);
             DockPanel.SetDock(ControlEditing, Dock.Top);
@@ -62,10 +64,8 @@ namespace Norne_Beta.UIElements
 
             if(x != null)
             {
-                this._dockPanel.Children.Add(x);
-                this.Elements.Add(x);
-                x.LabelID = this.GetLabelID();
-                DockPanel.SetDock(x, Dock.Top);
+                x.UpdateElementsAfterPaste(this);
+                AddElement(x);
                 mw.ElementToCopy  = null;
             }
             else
@@ -91,12 +91,6 @@ namespace Norne_Beta.UIElements
         private void MenuItemLoad_Click(object sender, RoutedEventArgs e)
         {
             this.mw.ParseTemplate(this);
-        }
-
-        public override ElementControl AddElement(string elementType)
-        {
-            ElementControl e =  AddElementToDockPanel(mw, elementType);
-            return e;
         }
 
         public override void ClearElements()

@@ -57,7 +57,7 @@ namespace Norne_Beta.UIElements
 
         public override ElementControl GetCopy()
         {
-            TextPanel copy = new TextPanel(mw, ParentTemplate, ParentTemplate.GetLabelID());
+            TextPanel copy = new TextPanel(mw, ParentTemplate, "lineCopy");
             copy.LabelName = this.LabelName;
             copy.Text = this.Text;
             copy.ControlObject = this.ControlObject;
@@ -101,7 +101,7 @@ namespace Norne_Beta.UIElements
 
         private void Label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = { "LabelName", "Text", nameof(IsUpperCase), "ControlObject" };
+            string[] properties = { "LabelName", "Text", nameof(IsUpperCase), "ControlObject", "LabelID" };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
         }

@@ -38,6 +38,7 @@ namespace Norne_Beta.UIElements
             { ColumnType.Team, new List<string> {"wx.TextCtrl", "BaseTable.TEAM"} },
             { ColumnType.Player, new List<string> {"wx.TextCtrl", "BaseTable.PLAYER"} },
             { ColumnType.Logo,  new List<string> {"LogoAssetChoice", "None"} },
+            { ColumnType.ToggleLogo,  new List<string> {"CustomToggleChoice", "None"} },
             { ColumnType.CheckBox, new List<string> { "wx.CheckBox", "None"} },
             { ColumnType.FotoCheckBox, new List<string> { "FotoCheckBox", "None"} },
             { ColumnType.MultiText, new List<string> { "MultiTextPanel", "None"} },
@@ -69,6 +70,8 @@ namespace Norne_Beta.UIElements
                 updateColumns(value);
             }
         }
+        private bool _hasHighlights { get; set; }
+
         public int StartID { get; set; }
 
         [Category(VizCategory)]
@@ -79,7 +82,21 @@ namespace Norne_Beta.UIElements
         public int EndSelect{ get; set; }
 
         [Category("Highlights")]
-        public bool HasHighlights{ get; set; }
+        public bool HasHighlights
+        {
+            get
+            {
+                return _hasHighlights;
+            }
+            set
+            {
+                _hasHighlights = value;
+            }
+        }
+
+
+        [Category("Highlights")]
+        public string HighlightPrefix{ get; set; }
         [Category("Highlights")]
         public int HighlightLabelIndex{ get; set; }
         [Category("Highlights")]
@@ -112,6 +129,8 @@ namespace Norne_Beta.UIElements
 
         private void Init()
         {
+            _hasHighlights = false;
+
             NorneType = ElementType.BaseTable;
             ShortLabel = "tbl";
             StartSelect = 1;
@@ -120,7 +139,7 @@ namespace Norne_Beta.UIElements
             SetRows(RowCount);
             EndSelect = RowCount;
             PyCodeTableCount = "0";
-            HasHighlights = false;
+            HighlightPrefix = "H";
             HighlightLabelIndex = 0;
             HighlightCheckBoxIndex = 0;
             MustFilled = new JArray();
@@ -269,13 +288,23 @@ namespace Norne_Beta.UIElements
 
         private void label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = { "RowCount", "ColumnCount", nameof(StartSelect), nameof(EndSelect), nameof(LineSelectControl),
+            string[] properties = {
+                "RowCount", "ColumnCount",
+                nameof(StartSelect),
+                nameof(EndSelect),
+                nameof(LineSelectControl),
                 nameof(HighlightLabelIndex),
                 nameof(HasHighlights),
-                nameof(HighlightCheckBoxIndex)
+                nameof(HighlightCheckBoxIndex),
+                nameof(HighlightPrefix),
             };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
+        }
+
+        public void GetHighlights()
+        {
+            
         }
 
         public void columnHeader_Click(object sender, RoutedEventArgs e)
@@ -285,7 +314,7 @@ namespace Norne_Beta.UIElements
             string[] properties = new string[] { "Header", "ColumnType", "StartID", "RowOffset", "MustFilled"};
             DataColumn dc = _dataTable.Columns[index];
 
-            TableColumn tc = new TableColumn(mw, ParentTemplate, dataGrid.Columns[index], dc);
+            TableColumn tc = new TableColumn(mw, ParentTemplate, this, dataGrid.Columns[index], dc);
 
             if ((ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.SelectionChoice ||
                 (ColumnType)dc.ExtendedProperties["ColumnType"] == ColumnType.StringChoice)
@@ -422,19 +451,39 @@ namespace Norne_Beta.UIElements
         {
             List<JToken> x =
                 (from c in content
-                where (string)(c["label_id"]) == labelID
-                select c).ToList();
+                 where (string)(c["label_id"]) == labelID
+                 select c).ToList();
+
+            if (x.Count < 1)
+            {
+                return;
+            }
 
             JToken j = x[0];
             JArray col_fields = (JArray)j["col_fields"];
             JArray must_filled = (JArray)j["must_filled"];
+
+            List<int> mf = new List<int>{ };
+            foreach (JToken item in must_filled)
+            {
+                mf.Add((int)item);
+            }
+
             for (int i = 0; i < col_fields.Count; i++)
             {
                 _dataTable.Columns[i].ExtendedProperties["StartID"] = col_fields[i];
             }
-            for (int i = 0; i < must_filled.Count; i++)
+
+            for (int i = 0; i < _dataTable.Columns.Count; i++)
             {
-                _dataTable.Columns[(int)must_filled[i]].ExtendedProperties["MustFilled"] = true;
+                if(!mf.Contains(i))
+                {
+                    _dataTable.Columns[i].ExtendedProperties["MustFilled"] = false;
+                }
+                else
+                {
+                    _dataTable.Columns[i].ExtendedProperties["MustFilled"] = true;
+                }
             }
 
             StartSelect = (int)j["start_select"];
@@ -474,7 +523,7 @@ namespace Norne_Beta.UIElements
             this.dataGrid.CanUserAddRows = false;
         }
 
-        public override JObject GetGfxContent()
+        public override JArray GetGfxContent()
         {
             ColFields.Clear();
             MustFilled.Clear();
@@ -487,9 +536,9 @@ namespace Norne_Beta.UIElements
                 }
                 else
                 {
-                    int x = new int();
-                    Int32.TryParse(startID, out x);
-                    ColFields.Add(startID);
+                    int i = new int();
+                    Int32.TryParse(startID, out i);
+                    ColFields.Add(i);
                 }
 
                 bool field = (bool)item.ExtendedProperties["MustFilled"];
@@ -500,18 +549,42 @@ namespace Norne_Beta.UIElements
                     MustFilled.Add(index);
                 }
             }
-            
-            JObject ret = new JObject();
-            ret["label_id"] = LabelID;
-            ret["col_fields"] = ControlObject;
-            ret["must_filled"] = ShortLabel;
-            ret["has_highlights"] = HasHighlights;
-            ret["caption_index"] = HighlightLabelIndex;
-            ret["chk_index"] = HighlightCheckBoxIndex;
-            ret["element"] = ShortLabel;
-            ret["end_select"] = EndSelect;
-            ret["start_select"] = StartSelect;
+
+            JArray ret = new JArray();
+            JObject x = new JObject();
+            x["label_id"] = LabelID;
+            x["col_fields"] = ColFields;
+            x["must_filled"] = MustFilled;
+            x["has_highlights"] = HasHighlights;
+            x["caption_index"] = HighlightLabelIndex;
+            x["chk_index"] = HighlightCheckBoxIndex;
+            x["element"] = ShortLabel;
+            x["end_select"] = EndSelect;
+            x["start_select"] = StartSelect;
+            x["line_select"] = LineSelectControl;
+
+            ret.Add(x);
             return ret;
+        }
+
+        public override void SetStateMachine()
+        {
+            foreach (JObject item in ParentTemplate.ControlEditing.GfxContent)
+            {
+                if ((string)item["label_id"] == LabelID)
+                {
+                    JObject ret = (JObject)GetGfxContent()[0];
+                    item["col_fields"] = ret["col_fields"];
+                    item["must_filled"] = ret["must_filled"];
+                    item["has_highlights"] = ret["has_highlights"];
+                    item["caption_index"] = ret["caption_index"];
+                    item["chk_index"] = ret["chk_index"];
+                    item["element"] = ret["element"];
+                    item["end_select"] = ret["end_select"];
+                    item["start_select"] = ret["start_select"];
+                    item["line_select"] = ret["line_select"];
+                }
+            }
         }
     }
 
@@ -521,11 +594,13 @@ namespace Norne_Beta.UIElements
         Team,
         Player,
         Logo,
+        ToggleLogo,
         CheckBox,
         FotoCheckBox,
         MultiText,
         StringChoice,
         SelectionChoice,
+        PicReader,
     }
 
     public class TableColumn : ElementControl
@@ -546,12 +621,14 @@ namespace Norne_Beta.UIElements
 
         private DataGridColumn _dataGridColumn;
         private DataColumn _dataColumn;
+        private TablePanel _tablePanel;
 
-        public TableColumn(MainWindow win, TemplateControl parentTemplate, DataGridColumn dgc, DataColumn dc)
+        public TableColumn(MainWindow win, TemplateControl parentTemplate, TablePanel tp, DataGridColumn dgc, DataColumn dc)
             : base(win, parentTemplate)
         {
             _dataGridColumn = dgc;
             _dataColumn = dc;
+            _tablePanel = tp;
 
             PropertyCollection pc = dc.ExtendedProperties;
             Header = dc.ColumnName;
@@ -570,7 +647,9 @@ namespace Norne_Beta.UIElements
             _dataColumn.ExtendedProperties["StartID"] = StartID;
             _dataColumn.ExtendedProperties["RowOffset"] = RowOffset;
             _dataColumn.ExtendedProperties["Parameters"] = Parameters;
+            _tablePanel.SetStateMachine();
 
+            // Refresh the property grid
             string[] properties;
 
             if ((ColumnType)_dataColumn.ExtendedProperties["ColumnType"] == ColumnType.StringChoice||

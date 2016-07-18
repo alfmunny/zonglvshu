@@ -57,11 +57,6 @@ namespace Norne_Beta
             py.CreateUI();
         }
 
-        public void WriteHighlights()
-        {
-            py.WriteSetHighlights();
-        }
-
         public void WriteController()
         {
         }
@@ -77,9 +72,10 @@ namespace Norne_Beta
             string line = null;
             bool isUpdated = false;
 
-            int[] uiNums = parser.GetClassLineNumber(t.GetUIClassName());
-            int begin = uiNums[0];
+            int[] uiNums = parser.GetUIGfxLineNumber(t.GetUIClassName());
             // Plus 1 to include the space line
+
+            int begin = uiNums[0];
             int end = uiNums[1] + 1;
 
             string fileBackup = t.FilePath + ".backup.py";
@@ -116,47 +112,6 @@ namespace Norne_Beta
 
         public void UpdateGfx()
         {
-            int lineNumber = 1;
-            string line = null;
-            bool isUpdated = false;
-
-            string lala = t.GetGfxClassName();
-
-            int[] gfxNums = parser.GetClassLineNumber(t.GetGfxClassName());
-
-            int begin = gfxNums[0];
-            // Plus 1 to include the space line
-            int end = gfxNums[1] + 1;
-            string fileBackup = t.FilePath + ".backup.py";
-            using (StreamReader reader = new StreamReader(t.FilePath))
-            {
-                using (FileStream fs = File.Create(fileBackup))
-                {
-                }
-
-                using (StreamWriter s = File.AppendText(fileBackup))
-                {
-                    py = new PyWriter(s, t);
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (lineNumber < begin || lineNumber > end)
-                        {
-                            s.WriteLine(line);
-                        }
-                        else if (!isUpdated)
-                        {
-
-                            WriteUI();
-                            WriteController();
-                            WriteStatemachine();
-                            isUpdated = true;
-                        }
-                        lineNumber += 1;
-                    }
-                }
-            }
-            System.IO.File.Delete(t.FilePath);
-            System.IO.File.Move(fileBackup, t.FilePath);
         }
 
         public void DeleteTemplate()

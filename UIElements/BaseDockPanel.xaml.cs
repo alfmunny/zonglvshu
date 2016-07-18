@@ -98,6 +98,7 @@ namespace Norne_Beta.UIElements
                 this.elements.Add(ele);
                 this.baseDockPanel.Children.Add(ele);
                 DockPanel.SetDock(ele, Dock.Left);
+                UpdateStateMachine(ele);
                 return ele;
             }
             else
@@ -105,6 +106,32 @@ namespace Norne_Beta.UIElements
                 Console.WriteLine("{0} can't be added to the template", elementType);
                 return null;
             }
+        }
+
+        private void UpdateStateMachine(ElementControl ele)
+        {
+            foreach (BaseControl sm in ParentTemplate.StateMachines)
+            {
+                foreach (JObject item in ele.GetGfxContent())
+                {
+                    sm.GfxContent.Add(item);
+                }
+            }
+        }
+
+        public override ElementControl GetCopy()
+        {
+            BaseDockPanel copy = new BaseDockPanel(mw, ParentTemplate, "lineCopy");
+            foreach (ElementControl item in elements)
+            {
+                ElementControl x = item.GetCopy();
+                x.LabelID = copy.GetLabelID();
+                copy.elements.Add(x);
+                copy.baseDockPanel.Children.Add(x);
+                DockPanel.SetDock(x, Dock.Left);
+            }
+
+            return copy;
         }
 
         public string GetMethodName(Enum action, string label, Enum taget)
@@ -172,19 +199,36 @@ namespace Norne_Beta.UIElements
             return logo;
         }
 
+        public override void UpdateElementsAfterPaste(TemplateControl parentTemplate)
+        {
+            LabelID = parentTemplate.GetLabelID();
+            ParentTemplate = parentTemplate;
+            foreach (ElementControl item in elements)
+            {
+                if (!item.hasSpecialID)
+                {
+                    item.LabelID = LabelID + labelSeperator + item.LabelID.Split(labelSeperator)[1];
+                }
+                else
+                {
+
+                }
+            }
+        }
+
         public override string GetUIElements()
         {
             String ret = "";
 
             foreach(ElementControl item in elements)
             {
-                if (!item.LabelID.Contains("!"))
+                if (item.hasSpecialID)
                 {
-                    ret += item.LabelID.Split(labelSeperator)[1] + '|' + item.GetUIElements();
+                    ret += item.SpecialID + '|' + item.GetUIElements();
                 }
                 else
                 {
-                    ret += item.LabelID + '|' + item.GetUIElements();
+                    ret += item.LabelID.Split(labelSeperator)[1] + '|' + item.GetUIElements();
                 }
                 ret += ",";
             }
@@ -232,12 +276,30 @@ namespace Norne_Beta.UIElements
             return code;
         }
 
+        public override void LoadControlObject(JArray content, string labelID)
+        {
+            foreach(ElementControl item in elements)
+            {
+                item.LoadControlObject(content, item.LabelID);
+            }
+        }
+
+        public override JArray GetGfxContent()
+        {
+            List<JToken> x = new List<JToken>();
+
+            foreach (ElementControl item in elements)
+            {
+                x.AddRange(item.GetGfxContent().ToList());
+            }
+            JArray ret = new JArray(x);
+            return ret;
+        }
 
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
             this.Remove(this);
         }
-
 
         public override void LoadContent(JArray parameters)
         {

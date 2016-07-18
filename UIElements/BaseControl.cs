@@ -14,10 +14,23 @@ namespace Norne_Beta.UIElements
     {
         private const string GFX = "Gfx";
         private string _controlName;
+        private string _label;
 
-        public string Label { get; set; }
+        public string Label
+        {
+            get
+            {
+                return _label;
+            }
+            set
+            {
+                _label = value;
+                SetProperty();
+            }
+        }
         public bool HasHighlights { get; set; }
-        public string HighlightPrefix{ get; set; }
+        public string HighlightPrefix { get; set; }
+        public string AnimContinue { get; set; }
         public string SceneName { get; set; }
         public GfxType ParentGfx { get; set; }
         public CtrlType ParentControl { get; set; }
@@ -26,6 +39,33 @@ namespace Norne_Beta.UIElements
         public string StateMachineName { get; set; }
         public string BtnName{ get; set; }
         public JArray GfxContent{ get; set; }
+        public bool IsAtCorner { get; set; }
+        public bool IsCustomScene { get; set; }
+
+        private List<TablePanel> _highlights { get; set; }
+        public List<TablePanel> Highlights {
+            get
+            {
+                _highlights.Clear();
+                foreach(ElementControl item in ParentTemplate.Elements)
+                {
+                    if(item.GetType() == typeof(TablePanel))
+                    {
+                        TablePanel tp = item as TablePanel;
+                        if (tp.HasHighlights)
+                        {
+                            _highlights.Add(tp);
+                        }
+                    }
+
+                }
+                return _highlights;
+            }
+            set
+            {
+                _highlights = value;
+            }
+        }
 
         public string ControlName {
             get
@@ -49,8 +89,14 @@ namespace Norne_Beta.UIElements
         public BaseControl(MainWindow win, TemplateControl parentTemplate)
         {
             mw = win;
+
+            _label = "Label";
+            _highlights = new List<TablePanel>();
             ParentTemplate = parentTemplate;
             HighlightPrefix = "H";
+            AnimContinue = "WECHSEL";
+            IsAtCorner = false;
+            IsCustomScene = false;
             GfxContent = new JArray();
 
             if (ParentTemplate.StateMachines.Count == 0)
@@ -80,15 +126,26 @@ namespace Norne_Beta.UIElements
                 nameof(ParentControl),
                 nameof(ContinuesLeft),
                 nameof(ControlName),
-                nameof(GfxClassName)
+                nameof(GfxClassName),
+                nameof(AnimContinue),
+                nameof(Highlights),
+                nameof(IsAtCorner),
+                nameof(IsCustomScene),
             };
 
             Create_ContextMenu();
+            CreateStateMachine();
         }
 
-        public virtual void LoadContent()
+        private void CreateStateMachine()
         {
-
+            foreach (ElementControl item in ParentTemplate.Elements)
+            {
+                foreach (JObject x in item.GetGfxContent())
+                {
+                    GfxContent.Add(x);
+                }
+            }
         }
 
         private void Create_ContextMenu()
@@ -119,12 +176,64 @@ namespace Norne_Beta.UIElements
 
         }
 
+        public virtual void LoadGfxContent(JProperty statemachine)
+        {
+            StateMachineName = statemachine.Name;
+
+            JToken x = statemachine.Value;
+            SceneName = (string)x["scene_name"];
+            ParentControl = (CtrlType)Enum.Parse(typeof(CtrlType), (string)x["parent_control"]);
+            ParentGfx = (GfxType)Enum.Parse(typeof(GfxType), (string)x["parent_gfx"]);
+            ControlName = ((string)x["gfx_class_name"]).Replace("Gfx", "");
+            BtnName = (string)x["btn_name"];
+            Label = (string)x["label"];
+            HasHighlights = (bool)x["has_highlights"];
+            HighlightPrefix = (string)x["highlight_prefix"];
+            ContinuesLeft = (int)x["continues_left"];
+            AnimContinue = (string)x["anim_cont"];
+            IsAtCorner = (bool)x["is_at_corner"];
+            IsCustomScene = (bool)x["custom_viz_dir"];
+
+            foreach (JToken item in (JArray)x["content"])
+            {
+                List<JToken> s =
+                    (from c in GfxContent
+                     where (string)(c["label_id"]) == (string)item["label_id"]
+                     select c).ToList();
+
+                if (s.Count > 0)
+                {
+                    int index = GfxContent.IndexOf(s[0]);
+                    GfxContent[index] = item;
+                }
+                else
+                {
+                    continue;
+                }
+
+            }
+
+        }
+
+        public void LoadStateMachine()
+        {
+            foreach (ElementControl item in ParentTemplate.Elements)
+            {
+                item.LoadControlObject(GfxContent, item.LabelID);
+            }
+        }
+
         public void SetTargetProperties(string[] properties)
         {
             mw._propertyGrid.PropertyDefinitions.Clear();
             PropertyDefinition item = new PropertyDefinition();
             item.TargetProperties = properties;
             mw._propertyGrid.PropertyDefinitions.Add(item);
+        }
+
+        public virtual void SetProperty()
+        {
+
         }
     }
 }

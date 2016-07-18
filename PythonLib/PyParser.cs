@@ -44,6 +44,23 @@ namespace PythonLib
             return result;
         }
 
+        public int[] GetUIGfxLineNumber(string className)
+        {
+            string script = pyLibFolder + @"\ui_gfx_finder.py";
+            string output = GetPyStdOutput(script, new string[] { className } );
+            string[] nums = StringUtils.PyListToList(output);
+            int[] result = new int[nums.Count()];
+
+            for (int i = 0; i < result.Count(); i++)
+            {
+                Int32.TryParse(nums[i], out result[i]);
+            }
+            
+            return result;
+        }
+
+
+
         public void ParseTemplate(string className)
         {
             string script = pyLibFolder + @"\template_parser.py";

@@ -23,17 +23,6 @@ namespace Norne_Beta.UIElements
         private const string _inactiveColor = "#FF979BEE";
         private const string _activeColor = "#FFEC8992";
 
-        public new string Label
-        {
-            get
-            {
-                return this.button.Content.ToString();
-            }
-            set
-            {
-                this.button.Content = value;
-            }
-        }
 
         public BaseControlButton(MainWindow win, TemplateControl parentTemplate)
             :base(win, parentTemplate)
@@ -44,19 +33,27 @@ namespace Norne_Beta.UIElements
 
         public void Init()
         {
+            this.button.Content = Label;
+        }
 
+        public override void SetProperty()
+        {
+            this.button.Content = Label;
         }
 
         private void button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ((BaseControlButton)ParentTemplate.ControlEditing).ChangeColor(_inactiveColor);
-            ParentTemplate.ControlEditing = this;
             this.ChangeColor(_activeColor);
+
+            ParentTemplate.ControlEditing = this;
+            ParentTemplate.LoadStateMachine();
 
             this.BasicProperty.Add(nameof(Label));
             SetTargetProperties(BasicProperty.ToArray());
             this.mw._propertyGrid.SelectedObject = this;
         }
+        
 
         private void ChangeColor(string color)
         {

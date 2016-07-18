@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
-             mc:Ignorable="d" Height="16.08" Width="75.136" PreviewMouseLeftButtonDown="ElementControl_PreviewMouseLeftButtonDown" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF659ED6">
-    <Grid Margin="0,0,227,282">
-        <CheckBox x:Name="checkBox" Content="CheckBox" HorizontalAlignment="Left" Margin="1,0,-75,-16" VerticalAlignment="Top" Background="#FF894E4E" Foreground="Black" BorderBrush="#FFFBFFFF" Height="16" Width="74" OpacityMask="Black"/>
-
-    </Grid>
+             mc:Ignorable="d" Height="16.08" PreviewMouseLeftButtonDown="ElementControl_PreviewMouseLeftButtonDown" VerticalAlignment="Top" Background="#FF659ED6" HorizontalAlignment="Left">
+    <DockPanel>
+        <CheckBox x:Name="checkBox" Content="" HorizontalAlignment="Left" Margin="1,1,-15,-1" VerticalAlignment="Top" Background="#FF894E4E" Foreground="Black" BorderBrush="#FFFBFFFF" Height="16" Width="14" OpacityMask="Black"/>
+        <Label x:Name="label" Content="Label" Margin="16,0,1,1" Padding="0" DockPanel.Dock="Top"/>
+    </DockPanel>
 </local:ElementControl>

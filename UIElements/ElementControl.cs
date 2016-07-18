@@ -23,6 +23,8 @@ namespace Norne_Beta.UIElements
         public string LabelID { get; set; }
         public string ElementName { get; set; }
         public string ShortLabel { get; set; }
+        public bool hasSpecialID { get; set; }
+        public string SpecialID { get; set; }
         public ElementType NorneType;
         public ContextMenu Menu;
 
@@ -31,6 +33,8 @@ namespace Norne_Beta.UIElements
 
         [Category(VizCategory)]
         public string ControlObject { get; set; }
+
+        public List<string> BasciProperty { get; set; }
 
         public MainWindow mw;
         public TemplateControl ParentTemplate;
@@ -41,6 +45,15 @@ namespace Norne_Beta.UIElements
         {
             mw = win;
             ParentTemplate = parentTemplate;
+
+            BasciProperty = new List<string>
+            {
+                nameof(ControlObject)
+            };
+
+            hasSpecialID = false;
+            SpecialID = String.Empty;
+
             Create_Event();
             Create_ContextMenu();
         }
@@ -133,6 +146,7 @@ namespace Norne_Beta.UIElements
             Console.WriteLine("Please write SetProperty for the element!");
         }
 
+
         public virtual String GetUICode()
         {
             String code = String.Format("\"{0}\", \"{1}\", {2}", LabelID, GetUIElements(), GetUIParameters());
@@ -157,19 +171,19 @@ namespace Norne_Beta.UIElements
             return ret;
         }
 
-
-        public virtual JObject GetGfxContent()
-        {
-            JObject ret = new JObject();
-            ret["label_id"] = LabelID;
-            ret["control_object"] = ControlObject;
-            ret["element"] = ShortLabel;
-            return ret;
-        }
-        
-
         public virtual void LoadContent(JArray parameters)
         {
+        }
+
+        public virtual JArray GetGfxContent()
+        {
+            JArray ret = new JArray();
+            JObject x = new JObject();
+            x["label_id"] = LabelID;
+            x["control_object"] = ControlObject;
+            x["element"] = ShortLabel;
+            ret.Add(x);
+            return ret;
         }
 
         public virtual void LoadControlObject(JArray content, string labelID)
@@ -185,9 +199,25 @@ namespace Norne_Beta.UIElements
             }
         }
 
+        public virtual void SetStateMachine()
+        {
+            foreach (JObject item in ParentTemplate.ControlEditing.GfxContent)
+            {
+                if ((string)item["label_id"] == LabelID)
+                {
+                    item["control_object"] = ControlObject;
+                    break;
+                }
+                else
+                {
+
+                }
+            }
+        }
+
         public virtual void LoadLabelID(string labelID)
         {
-            return;
+            LabelID = labelID;
         }
 
         public string ReplaceUnderlines(string s)
@@ -203,6 +233,12 @@ namespace Norne_Beta.UIElements
                 ParentTemplate.ElementToInsert = item;
                 DragDrop.DoDragDrop(item, item.GetType().BaseType.Name, DragDropEffects.All);
             }
+        }
+
+        public virtual void UpdateElementsAfterPaste(TemplateControl parentTemplate)
+        {
+          LabelID = parentTemplate.GetLabelID();
+          ParentTemplate = parentTemplate;
         }
 
         public void ElementControl_Drop(object sender, DragEventArgs e)
@@ -256,6 +292,11 @@ namespace Norne_Beta.UIElements
 
         }
 
+    }
+
+    public enum SpecialType
+    {
+        has_highlights
     }
 
     public abstract class Property

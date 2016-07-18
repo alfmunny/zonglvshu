@@ -48,6 +48,13 @@ namespace Norne_Beta.UIElements
             FlagControlObject = "0095";
         }
 
+        public override ElementControl GetCopy()
+        {
+            BaseToggleLogo copy = new BaseToggleLogo(mw, ParentTemplate, "lineCopy");
+            copy.AllowBlank = this.AllowBlank;
+            return copy;
+        }
+
         public override string GetUIParameters()
         {
             string blank;
@@ -60,7 +67,7 @@ namespace Norne_Beta.UIElements
                 blank = "False";
             }
 
-            String ret = String.Format("[[\"logo_asset_manager\", \"diverse_asset_manager\"], {0}]", blank);
+            String ret = String.Format("[{0}, [\"logo_asset_manager\", \"diverse_asset_manager\"], ]", blank);
             return ret;
         }
 
@@ -88,7 +95,7 @@ namespace Norne_Beta.UIElements
         // TODO: Load the content of the control object
         public override void LoadContent(JArray parameters)
         {
-            if ((string)parameters[1] == "True")
+            if ((string)parameters[0] == "True")
             {
                 AllowBlank = true;
             }

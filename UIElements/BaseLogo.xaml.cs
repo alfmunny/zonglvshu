@@ -25,6 +25,7 @@ namespace Norne_Beta.UIElements
     public partial class BaseLogo : ElementControl 
     {
         public bool AllowBlank { get; set; }
+        private List<string> customProperties;
 
         public BaseLogo(MainWindow win, TemplateControl parentTemplate, string label)
             :base(win, parentTemplate)
@@ -44,9 +45,18 @@ namespace Norne_Beta.UIElements
 
         private void comboBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string[] properties = {"AllowBlank", "ControlObject" };
-            SetTargetProperties(properties);
+            customProperties = new List<string> { "AllowBlank" };
+            customProperties.AddRange(BasciProperty);
+            SetTargetProperties(customProperties.ToArray());
             mw._propertyGrid.SelectedObject = this;
+        }
+
+        public override ElementControl GetCopy()
+        {
+            BaseLogo copy = new BaseLogo(mw, ParentTemplate, "lineCopy");
+            copy.AllowBlank = this.AllowBlank;
+            copy.ControlObject = this.ControlObject;
+            return copy;
         }
 
         public override string GetUIParameters()

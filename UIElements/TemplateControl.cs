@@ -70,6 +70,7 @@ namespace Norne_Beta.UIElements
 
         // Must intialize the ui element of the main panel
         public DockPanel _dockPanel;
+        public DockPanel _controlPanel;
 
         public ElementControl ElementToInsert;
         public ElementControl ElementToCopy;
@@ -161,9 +162,7 @@ namespace Norne_Beta.UIElements
             ElementControl ele  = (ElementControl)Activator.CreateInstance(x, new object[] { win, this, label});
             if(x != null)
             {
-                this.Elements.Add(ele);
-                _dockPanel.Children.Add(ele);
-                DockPanel.SetDock(ele, Dock.Top);
+                AddElement(ele);
                 return ele;
             }
 
@@ -173,6 +172,25 @@ namespace Norne_Beta.UIElements
                 return null;
             }
             
+        }
+
+        public void AddElement(ElementControl ele)
+        {
+            this.Elements.Add(ele);
+            _dockPanel.Children.Add(ele);
+            DockPanel.SetDock(ele, Dock.Top);
+            UpdateStateMachine(ele);
+        }
+
+        public void UpdateStateMachine(ElementControl ele)
+        {
+            foreach (BaseControl sm in StateMachines)
+            {
+                foreach (JObject item in ele.GetGfxContent())
+                {
+                    sm.GfxContent.Add(item);
+                }
+            }
         }
 
         public string GetMethodName(Enum action, string label, Enum taget)
@@ -198,30 +216,19 @@ namespace Norne_Beta.UIElements
             this.Elements.Clear();
         }
 
-        public virtual ElementControl AddElement(string elementType)
+        public virtual void LoadStateMachine()
         {
-            Console.WriteLine("Please implement the method of AddElement");
-            return null;
-        }
-
-        public virtual void LoadStateMachine(JArray content)
-        {
-
-            foreach (var item in content)
+            foreach (ElementControl item in Elements)
             {
-                
+                item.LoadControlObject(ControlEditing.GfxContent, item.LabelID);
             }
         }
 
         public virtual void LoadContent(JObject parameters)
         {
             this.UIClassName = (string)parameters["ui_class_name"];
-            this.GfxClassName = (string)parameters["gfx_class_name"];
             this.ParentClass = (string)parameters["parent_class"];
-            this.ParentControl = (CtrlType)Enum.Parse(typeof(CtrlType), (string)parameters["parent_control"]);
             this.TemplateName = (string)parameters["template_name"];
-            this.TemplateLabel = (string)parameters["template_label"];
-            this.SceneName = (string)parameters["scene_name"];
         }
 
         public Dictionary<ElementType, Type> TemplateMap = new Dictionary<ElementType, Type>()
