@@ -140,10 +140,6 @@ namespace Norne_Beta.UIElements
             }
         }
 
-        public void RemoveElement(ElementControl ele)
-        {
-            this.Elements.Remove(ele);
-        }
 
         public ElementControl AddElementToDockPanel(MainWindow win, string elementType)
         {
@@ -182,15 +178,9 @@ namespace Norne_Beta.UIElements
             UpdateStateMachine(ele);
         }
 
-        public void UpdateStateMachine(ElementControl ele)
+        public void RemoveElement(ElementControl ele)
         {
-            foreach (BaseControl sm in StateMachines)
-            {
-                foreach (JObject item in ele.GetGfxContent())
-                {
-                    sm.GfxContent.Add(item);
-                }
-            }
+            this.Elements.Remove(ele);
         }
 
         public string GetMethodName(Enum action, string label, Enum taget)
@@ -224,6 +214,16 @@ namespace Norne_Beta.UIElements
             }
         }
 
+        public void UpdateStateMachine(ElementControl ele)
+        {
+            foreach (BaseControl sm in StateMachines)
+            {
+                foreach (JObject item in ele.GetGfxContent())
+                {
+                    sm.GfxContent.Add(item);
+                }
+            }
+        }
         public virtual void LoadContent(JObject parameters)
         {
             this.UIClassName = (string)parameters["ui_class_name"];

@@ -188,21 +188,23 @@ class TemplateParser(ast.NodeVisitor):
         self.content_dict[label_id] = content_arg
 
     def set_table_col_parser(self, x, content_arg):
-        if isinstance(x, ast.Expr) and x.value.func.attr == "set_table_col" :
+        if isinstance(x, ast.Expr) and x.value.func.attr == "set_table_col":
             args = x.value.args
             element = args[0].slice.value.s
             lst = args[1].elts
-            row = args[2].n
+            must_filled = args[2].elts
+            if len(args) > 3:
+                content_arg['pages'] = args[3].n
 
             element_name = element.split('_')[0]
             label_id = '_'.join(element.split('_')[1:])
             content_arg['element'] = element_name
             content_arg['label_id'] = label_id
-            content_arg['row'] = row
+            content_arg['row'] = 10
             content_arg['col_fields'] = [x.n for x in lst]
             content_arg['start_select'] = 1
             content_arg['end_select'] = 10
-            content_arg['must_filled'] = []
+            content_arg['must_filled'] = [x.n for x in must_filled]
             content_arg['line_select'] = ""
             content_arg['has_highlights'] = False
             content_arg['caption_index'] = 0

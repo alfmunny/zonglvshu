@@ -171,26 +171,9 @@ namespace PythonLib
         {
             f.WriteLine("\tdef setup_highlights(self):");
 
-            if (bc.ParentGfx == GfxType.SimpleBaseGfx)
-            {
-                TablePanel x = bc.Highlights[0];
-                f.WriteLine("\t\tlin_cnt = {0}", x.PyCodeTableCount.ToString());
-                f.WriteLine("\t\tself.set_onair_highlights(self.content[\"tbl_{0}\"], {1}, {2}, lin_cnt,  \"{3}\", \"onair\")", 
-                    x.LabelID, x.HighlightLabelIndex, x.HighlightCheckBoxIndex, x.HighlightPrefix);
-
-            }
-            else
-            {
-                int i = 1;
-                foreach (TablePanel item in bc.Highlights)
-                {
-                    f.WriteLine("\t\tlin_cnt = {0}", item.PyCodeTableCount.ToString());
-                    f.WriteLine("\t\tself.set_onair_highlights(self.content[\"tbl_{0}\"], {1}, {2}, lin_cnt, \"{3}\", \"page{4}\")", 
-                        item.LabelID, item.HighlightLabelIndex, item.HighlightCheckBoxIndex, item.HighlightPrefix, i);
-                    i += 1;
-                }
-
-            }
+            TablePanel x = bc.Highlights[0];
+            f.WriteLine("\t\tself.set_onair_highlights(self.content[\"tbl_{0}\"], {1}, {2}, {3}, \"{4}\", {5})", 
+                x.LabelID, x.HighlightLabelIndex, x.HighlightCheckBoxIndex, x.MustFilledPyTuple, x.HighlightPrefix, bc.ContinuesLeft + 1);
         }
 
         public void WriteSetContent()

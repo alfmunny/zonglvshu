@@ -73,5 +73,19 @@ namespace PythonLib
 
             return ret;
         }
+
+        static public string ListStringToPyList(List<string> listString)
+        {
+            string pyString = "[";
+
+            foreach (string item in listString)
+            {
+                pyString += "\"" + item + "\"" + ",";
+            }
+            pyString += "]";
+
+            return pyString;
+        }
+
     }
 }

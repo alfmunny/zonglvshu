@@ -44,6 +44,7 @@ namespace Norne_Beta.UIElements
             { ColumnType.MultiText, new List<string> { "MultiTextPanel", "None"} },
             { ColumnType.StringChoice, new List<string> { "wx.Choice", "[]"} },
             { ColumnType.SelectionChoice, new List<string> { "SelectionChoice", "[]"} },
+            { ColumnType.ThreeStateCheckBox, new List<string> {"wx.CheckBox", "BaseTable.TENDENCE"} },
         };
 
         public int RowCount {
@@ -80,6 +81,9 @@ namespace Norne_Beta.UIElements
         public int StartSelect{ get; set; }
         [Category(VizCategory)]
         public int EndSelect{ get; set; }
+        public bool HasResultDB { get; set; }
+        public bool HasRankingDB { get; set; }
+        public int  MaxLength { get; set; }
 
         [Category("Highlights")]
         public bool HasHighlights
@@ -104,6 +108,8 @@ namespace Norne_Beta.UIElements
 
         public JArray MustFilled { get; set; }
         public JArray ColFields { get; set; }
+        public string MustFilledPyTuple { get; set; }
+        public string ColFieldsPyTuple{ get; set; }
 
         [Category(VizCategory)]
         public int RowID { get; set; }
@@ -144,6 +150,9 @@ namespace Norne_Beta.UIElements
             HighlightCheckBoxIndex = 0;
             MustFilled = new JArray();
             ColFields = new JArray();
+            HasResultDB = false;
+            HasRankingDB = false;
+            MaxLength = RowCount;
         }
 
         private void SetColumns(int number)
@@ -297,6 +306,8 @@ namespace Norne_Beta.UIElements
                 nameof(HasHighlights),
                 nameof(HighlightCheckBoxIndex),
                 nameof(HighlightPrefix),
+                nameof(HasResultDB),
+                nameof(HasRankingDB),
             };
             SetTargetProperties(properties);
             mw._propertyGrid.SelectedObject = this;
@@ -336,6 +347,25 @@ namespace Norne_Beta.UIElements
 
             RowCount = (int)parameters[3];
             ColumnCount = headers.Count();
+
+            if (parameters.Count > 5)
+            {
+                List<JToken> dbList = ((JArray)parameters[5]).ToList();
+                List<string> dbListString = new List<string>();
+                foreach (var item in dbList)
+                {
+                    dbListString.Add((string)item);
+                }
+                if (dbListString.Contains(TableDB.db_result.ToString()))
+                {
+                    HasResultDB = true;
+                }
+
+                if (dbListString.Contains(TableDB.db_ranking.ToString()))
+                {
+                    HasRankingDB = true;
+                }
+            }
 
             LoadDataTable(headers, columnType);
 
@@ -389,10 +419,32 @@ namespace Norne_Beta.UIElements
             }
             string labelString = string.Format("[{0}]", String.Join(", ", labelStringList.ToArray()));
 
-            String code = String.Format(
-                "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}]", 
-                LabelID, ElementType.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
+            List<string> dbList = GetTableDB();
+            String code;
+
+            if (dbList.Count > 0)
+            {
+                code = String.Format(
+                    "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}, {5}\t\t\t{6}, {7}]", 
+                    LabelID, ElementType.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine,
+                    "[]", StringUtils.ListStringToPyList(GetTableDB()));
+            }
+            else
+            {
+                code = String.Format(
+                    "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}]", 
+                    LabelID, ElementType.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
+            }
+
             return code;
+        }
+
+        private List<string> GetTableDB()
+        {
+            List<string> ret = new List<string>();
+            if (HasResultDB) ret.Add("db_result");
+            if (HasRankingDB) ret.Add("db_ranking");
+            return ret;
         }
 
         public override List<string> GetContentCode()
@@ -435,10 +487,23 @@ namespace Norne_Beta.UIElements
             col_fields += "]";
             must_cols += ")";
 
-            PyCodeTableCount = String.Format("self.get_table_cnt(self.content[\"tbl_{0}\"], {1})", LabelID, must_cols);
-            PyCodeLineCount = String.Format("self.get_line_cnt(self.content[\"tbl_{0}\"], {1}, {2}, {3})", LabelID, must_cols, StartSelect, EndSelect);
+            ColFieldsPyTuple = col_fields;
+            MustFilledPyTuple = must_cols;
 
-            code.Add(String.Format("self.content[\"tbl_{0}\"], {1}, {2}", LabelID, col_fields, _dataTable.Rows.Count));
+            PyCodeTableCount = String.Format("self.get_table_cnt(self.content[\"tbl_{0}\"], {1})", LabelID, must_cols);
+            // TODO: Add MaxLine Control
+
+            if (ParentTemplate.ControlEditing.ContinuesLeft > 0)
+            {
+                PyCodeLineCount = String.Format("self.get_line_cnt(self.content[\"tbl_{0}\"], {1}, {2}, {3}, {4})", LabelID, must_cols, StartSelect, EndSelect, ParentTemplate.ControlEditing.ContinuesLeft + 1);
+                code.Add(String.Format("self.content[\"tbl_{0}\"], {1}, {2}, {3}", LabelID, col_fields, must_cols, ParentTemplate.ControlEditing.ContinuesLeft + 1));
+            }
+            else
+            {
+                PyCodeLineCount = String.Format("self.get_line_cnt(self.content[\"tbl_{0}\"], {1}, {2}, {3})", LabelID, must_cols, StartSelect, EndSelect);
+                code.Add(String.Format("self.content[\"tbl_{0}\"], {1}, {2}", LabelID, col_fields, must_cols));
+            }
+
 
             if (LineSelectControl != "")
             {
@@ -601,6 +666,13 @@ namespace Norne_Beta.UIElements
         StringChoice,
         SelectionChoice,
         PicReader,
+        ThreeStateCheckBox,
+    }
+
+    public enum TableDB 
+    {
+        db_result,
+        db_ranking,
     }
 
     public class TableColumn : ElementControl
