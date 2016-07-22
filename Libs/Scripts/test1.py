@@ -199,13 +199,14 @@ class IBWetterGfx(SimpleBaseGfx):
         self.set_value("0002", self.content["cmb_line57_4"])
         self.set_value("", self.content["has_highlights"])
         self.set_value("0500", self.content["txt_line58"])
-        self.set_table_col(self.content["tbl_line59"], [1101, 1102, 1103, -1, ], 3)
-        self.set_value("0004", self.get_line_cnt(self.content["tbl_line59"], (1,), 1, 3))
+        self.set_table_col(self.content["tbl_line33"], [1101, 1102, 1104, 1106, 1107, -1, ], (0, 1))
+        self.set_value("0004", self.get_line_cnt(self.content["tbl_line33"], (0, 1,), 2, 10))
+        self.set_value("9000", self.content["txt_line12_1"])
+        self.set_value("9010", self.content["chk_line12_2"])
         pass
 
     def setup_highlights(self):
-        lin_cnt = self.get_table_cnt(self.content["tbl_line59"], (1,))
-        self.set_onair_highlights(self.content["tbl_line59"], 1, 3, lin_cnt, "H", "onair")
+        self.set_onair_highlights(self.content["tbl_line33"], 1, 5, (0, 1), "H")
 
 
 class IBWetter2Gfx(SimpleBaseGfx):
@@ -224,9 +225,14 @@ class IBWetter2Gfx(SimpleBaseGfx):
         self.set_value("0002", self.content["cmb_line57_4"])
         self.set_value("", self.content["has_highlights"])
         self.set_value("0500", self.content["txt_line58"])
-        self.set_table_col(self.content["tbl_line59"], [1100, 1101, 1103, -1, ], 3)
-        self.set_value("0004", self.get_line_cnt(self.content["tbl_line59"], (1,), 1, 3))
+        self.set_table_col(self.content["tbl_line33"], [1101, 1102, 1104, 1106, 1107, -1, ], (0, 1))
+        self.set_value("0004", self.get_line_cnt(self.content["tbl_line33"], (0, 1,), 2, 10))
+        self.set_value("9000", self.content["txt_line12_1"])
+        self.set_value("9010", self.content["chk_line12_2"])
         pass
+
+    def setup_highlights(self):
+        self.set_onair_highlights(self.content["tbl_line33"], 1, 5, (0, 1), "H")
 
 
 class VBErg5Tab10Gfx(MultiBaseGfx):
