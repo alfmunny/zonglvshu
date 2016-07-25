@@ -41,6 +41,7 @@ namespace Norne_Beta.UIElements
         public JArray GfxContent{ get; set; }
         public bool IsAtCorner { get; set; }
         public bool IsCustomScene { get; set; }
+        public List<string> Directors { get; set; }
 
         private List<TablePanel> _highlights { get; set; }
         public List<TablePanel> Highlights {
@@ -131,6 +132,7 @@ namespace Norne_Beta.UIElements
                 nameof(Highlights),
                 nameof(IsAtCorner),
                 nameof(IsCustomScene),
+                nameof(Directors),
             };
 
             Create_ContextMenu();

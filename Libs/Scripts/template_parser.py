@@ -147,6 +147,22 @@ class TemplateParser(ast.NodeVisitor):
                             highlights_prefix = args[4].s
                         else:
                             highlights_prefix = "H"
+
+                        if len(args) > 5:
+                            pages = args[5].n
+                        else:
+                            pages = 1
+
+                        if len(args) > 6:
+                            start_page = args[6].n
+                        else:
+                            start_page = 0
+
+                        if len(args) > 7:
+                            available_lines = args[7].n
+                        else:
+                            available_lines = 0
+
                         name = subscript.slice.value.s
                         ele, label_id = name.split('_')[0:2]
                         for r in self.results["statemachines"][statemachine]["content"]:
@@ -155,6 +171,9 @@ class TemplateParser(ast.NodeVisitor):
                                 r["has_highlights"] = True
                                 r["caption_index"] = caption_index
                                 r["chk_index"] = chk_index
+                                r["pages"] = pages
+                                r["start_page"] = start_page
+                                r["available_lines"] = available_lines
 
     def set_value_parser(self, x, content_arg):
         if isinstance(x, ast.Expr) and x.value.func.attr == "set_value":
@@ -209,6 +228,8 @@ class TemplateParser(ast.NodeVisitor):
             content_arg['has_highlights'] = False
             content_arg['caption_index'] = 0
             content_arg['chk_index'] = 0
+            content_arg["start_page"] = 0
+            content_arg["available_lines"] = 0
 
             self.content_dict[label_id] = content_arg
 

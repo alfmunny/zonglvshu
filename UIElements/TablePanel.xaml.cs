@@ -55,7 +55,6 @@ namespace Norne_Beta.UIElements
             set
             {
                 this.rowCount = value;
-                EndSelect = value;
                 updateRows(value);
             }
 
@@ -83,7 +82,13 @@ namespace Norne_Beta.UIElements
         public int EndSelect{ get; set; }
         public bool HasResultDB { get; set; }
         public bool HasRankingDB { get; set; }
-        public int  MaxLength { get; set; }
+
+        [Category("Highlights")]
+        public int  StartPage { get; set; }
+        [Category("Highlights")]
+        public int  Pages { get; set; }
+        [Category("Highlights")]
+        public int  AvailabelLines { get; set; }
 
         [Category("Highlights")]
         public bool HasHighlights
@@ -152,7 +157,9 @@ namespace Norne_Beta.UIElements
             ColFields = new JArray();
             HasResultDB = false;
             HasRankingDB = false;
-            MaxLength = RowCount;
+            Pages = 1;
+            StartPage = 1;
+            AvailabelLines = RowCount;
         }
 
         private void SetColumns(int number)
@@ -557,6 +564,10 @@ namespace Norne_Beta.UIElements
             HasHighlights = (bool)j["has_highlights"];
             HighlightLabelIndex = (int)j["caption_index"];
             HighlightCheckBoxIndex = (int)j["chk_index"];
+
+            Pages = (int)j["pages"];
+            StartPage = (int)j["start_page"];
+            AvailabelLines = (int)j["available_lines"];
         }
 
         public override ElementControl GetCopy()
@@ -618,15 +629,20 @@ namespace Norne_Beta.UIElements
             JArray ret = new JArray();
             JObject x = new JObject();
             x["label_id"] = LabelID;
+            x["element"] = ShortLabel;
+
             x["col_fields"] = ColFields;
             x["must_filled"] = MustFilled;
             x["has_highlights"] = HasHighlights;
             x["caption_index"] = HighlightLabelIndex;
             x["chk_index"] = HighlightCheckBoxIndex;
-            x["element"] = ShortLabel;
             x["end_select"] = EndSelect;
             x["start_select"] = StartSelect;
             x["line_select"] = LineSelectControl;
+
+            x["pages"] = Pages;
+            x["start_page"] = StartPage;
+            x["available_lines"] = AvailabelLines;
 
             ret.Add(x);
             return ret;
@@ -648,6 +664,10 @@ namespace Norne_Beta.UIElements
                     item["end_select"] = ret["end_select"];
                     item["start_select"] = ret["start_select"];
                     item["line_select"] = ret["line_select"];
+
+                    item["pages"] = ret["pages"];
+                    item["start_page"] = ret["start_page"];
+                    item["available_lines"] = ret["available_lines"];
                 }
             }
         }

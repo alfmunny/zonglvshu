@@ -232,7 +232,8 @@ class IBWetter2Gfx(SimpleBaseGfx):
         pass
 
     def setup_highlights(self):
-        self.set_onair_highlights(self.content["tbl_line33"], 1, 5, (0, 1), "H")
+        self.set_onair_highlights(self.content["tbl_line33"], 1, 6, (), "E", 1, 1)
+        self.set_onair_highlights(self.content["tbl_line3"], 3, 6, (1, 3), "T", 2, 2, 18)
 
 
 class VBErg5Tab10Gfx(MultiBaseGfx):
