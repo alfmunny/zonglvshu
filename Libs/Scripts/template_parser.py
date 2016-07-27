@@ -96,11 +96,15 @@ class TemplateParser(ast.NodeVisitor):
             self.results["statemachines"][sm]["label"] = x.value.args[2].s
             self.results["statemachines"][sm]["btn_name"] = x.targets[0].attr
             self.results["statemachines"][sm]["has_highlights"] = False
-            self.results["statemachines"][sm]["highlight_prefix"] = "H"
+            self.results["statemachines"][sm]["always_has_highlights"] = False
+            self.results["statemachines"][sm]["has_highlights_checkbox"] = False
             self.results["statemachines"][sm]["continues_left"] = 0
             self.results["statemachines"][sm]["anim_default"] = "WECHSEL"
             self.results["statemachines"][sm]["is_at_corner"] = False
             self.results["statemachines"][sm]["custom_viz_dir"] = False
+
+            # can be deleted
+            self.results["statemachines"][sm]["highlight_prefix"] = "H"
 
         #self.results["parent_control"] = node.body[0].value.func.id
 
@@ -112,6 +116,10 @@ class TemplateParser(ast.NodeVisitor):
                 if isinstance(xx, ast.Assign) and xx.targets[0].attr == "continues_left":
                     self.results["statemachines"][statemachine]["continues_left"] = xx.value.n
                 if isinstance(xx, ast.Assign) and xx.targets[0].attr == "has_highlights":
+                    if xx.value.id == "True":
+                        self.results["statemachines"][statemachine]["always_has_highlights"] = True
+                    else:
+                        self.results["statemachines"][statemachine]["has_highlights_checkbox"] = True
                     self.results["statemachines"][statemachine]["has_highlights"] = True
                 if isinstance(xx, ast.Assign) and xx.targets[0].attr == "anim_cont":
                     self.results["statemachines"][statemachine]["anim_cont"] = xx.value.s

@@ -184,7 +184,7 @@ class IBWetterUI(SimpleBaseUI):
 class IBWetterGfx(SimpleBaseGfx):
     def evaluate_content(self):
         self.scene_name = "IB_Wetter"
-        self.has_highlights = self.content.get("has_highlights")
+        self.has_highlights = True
         self.set_layer()
 
     def define_ctrl_plugin(self):

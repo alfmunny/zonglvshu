@@ -1,80 +1,31 @@
 {
     "control": "",
-    "gfx_class_name": "IBFreetextGfx",
-    "template_name": "IBFreetext",
-    "scene_name": "IB_Freetext",
-    "ui_class_name": "IBFreetextUI",
-    "template_label": "IB Freetext",
-    "preframe_default": "",
-    "parent_gfx": "SimpleBaseGfx",
-    "parent_control": "SimpleBaseCtrl",
-    "content": [
-        {
-            "control_object": "0100",
-            "label_id": "line1_1",
-            "element": "txt"
-        },
-        {
-            "control_object": "0102",
-            "label_id": "line1_2",
-            "element": "txt"
-        },
-        {
-            "control_object": "0002",
-            "label_id": "line1_3",
-            "element": "cmb"
-        },
-        {
-            "control_object": "0500",
-            "label_id": "line3",
-            "element": "txt"
-        },
-        {
-            "col_fields": [
-                1111
-            ],
-            "label_id": "line2",
-            "row": 10,
-            "element": "tbl"
-        }
-    ],
     "parent_class": "SimpleBaseUI",
+    "template_label": "Label",
     "ui": [
         {
-            "label_id": "line1",
+            "label_id": "line4",
             "elements": [
-                "1|TextPanel",
-                "2|TextPanel",
-                "3|Choice"
+                "BaseTable"
             ],
             "parameters": [
                 [
-                    [
-                        "Titel",
-                        ""
-                    ],
-                    [
-                        "Zusatz",
-                        ""
-                    ],
+                    "self.project",
                     [
                         [
-                            "Links",
-                            "Rechts"
+                            "LogoAssetChoice",
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "BaseTable.TEAM"
                         ]
-                    ]
-                ]
-            ]
-        },
-        {
-            "label_id": "line3",
-            "elements": [
-                "TextPanel"
-            ],
-            "parameters": [
-                [
-                    "Untertitel",
-                    ""
+                    ],
+                    [
+                        "Logo",
+                        "Team"
+                    ],
+                    1
                 ]
             ]
         },
@@ -90,15 +41,243 @@
                         [
                             "wx.TextCtrl",
                             "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "BaseTable.PLAYER"
                         ]
                     ],
                     [
+                        "Nr",
                         "Name"
                     ],
-                    10
+                    2
+                ]
+            ]
+        },
+        {
+            "label_id": "line3",
+            "elements": [
+                "TextPanel"
+            ],
+            "parameters": [
+                [
+                    "Spieler 1 Optinal",
+                    "",
+                    "False"
+                ]
+            ]
+        },
+        {
+            "label_id": "line7",
+            "elements": [
+                "BaseTable"
+            ],
+            "parameters": [
+                [
+                    "self.project",
+                    [
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "BaseTable.PLAYER"
+                        ]
+                    ],
+                    [
+                        "Nr",
+                        "Name"
+                    ],
+                    2
+                ]
+            ]
+        },
+        {
+            "label_id": "line8",
+            "elements": [
+                "TextPanel"
+            ],
+            "parameters": [
+                [
+                    "Spieler 2 Optional",
+                    "",
+                    "False"
                 ]
             ]
         }
     ],
-    "continues_left": ""
+    "statemachines": {
+        "statemachine2": {
+            "anim_default": "WECHSEL",
+            "custom_viz_dir": true,
+            "gfx_class_name": "BBPlayerChange2Gfx",
+            "btn_name": "btn_show2",
+            "highlight_prefix": "H",
+            "parent_control": "MultiBaseCtrl",
+            "label": "BB 2 Spieler Wechsel",
+            "content": [
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        1103,
+                        1104
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 3,
+                    "label_id": "line7",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        90,
+                        100
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 3,
+                    "label_id": "line4",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "control_object": "1102",
+                    "label_id": "line3",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        1103,
+                        1104
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 3,
+                    "label_id": "line2",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "control_object": "1105",
+                    "label_id": "line8",
+                    "element": "txt"
+                }
+            ],
+            "scene_name": "BB_Wechsel_2_Player",
+            "has_highlights_checkbox": false,
+            "always_has_highlights": false,
+            "continues_left": 1,
+            "parent_gfx": "MultiBaseGfx",
+            "anim_cont": "WECHSEL",
+            "is_at_corner": false,
+            "has_highlights": false
+        },
+        "statemachine": {
+            "anim_default": "WECHSEL",
+            "custom_viz_dir": false,
+            "gfx_class_name": "BBPlayerChange1Gfx",
+            "btn_name": "btn_show",
+            "highlight_prefix": "H",
+            "parent_control": "MultiBaseCtrl",
+            "label": "BB 1 Spieler Wechsel",
+            "content": [
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 3,
+                    "label_id": "line7",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        90,
+                        100
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 3,
+                    "label_id": "line4",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "control_object": "1102",
+                    "label_id": "line3",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 3,
+                    "label_id": "line2",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "",
+                    "row": 10
+                }
+            ],
+            "scene_name": "BB_Wechsel_1_Player",
+            "has_highlights_checkbox": false,
+            "always_has_highlights": false,
+            "continues_left": 1,
+            "parent_gfx": "MultiBaseGfx",
+            "anim_cont": "CHANGE",
+            "is_at_corner": false,
+            "has_highlights": false
+        }
+    },
+    "template_name": "BBPlayerChange1",
+    "content": [],
+    "ui_class_name": "BBPlayerChange1UI"
 }

@@ -152,14 +152,19 @@ namespace PythonLib
             {
                 f.WriteLine("\t\tself.set_layer()");
             }
-            if (bc.HasHighlights)
+            if (bc.AlwaysHasHighlights)
+            {
+                f.WriteLine("\t\tself.has_highlights= True");
+            }
+            if (bc.HasHighlightsCheckBox)
             {
                 f.WriteLine("\t\tself.has_highlights= self.content.get(\"has_highlights\")");
             }
 
             WriteControlObject();
             WriteSetContent();
-            if (bc.HasHighlights)
+
+            if (bc.AlwaysHasHighlights || bc.HasHighlightsCheckBox)
             {
                 WriteSetHighlights(bc);
             }

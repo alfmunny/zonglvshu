@@ -45,6 +45,7 @@ namespace Norne_Beta.UIElements
             { ColumnType.StringChoice, new List<string> { "wx.Choice", "[]"} },
             { ColumnType.SelectionChoice, new List<string> { "SelectionChoice", "[]"} },
             { ColumnType.ThreeStateCheckBox, new List<string> {"wx.CheckBox", "BaseTable.TENDENCE"} },
+            { ColumnType.PicReader, new List<string> {"PicReaderPanel", "[]"} },
         };
 
         public int RowCount {
@@ -158,8 +159,8 @@ namespace Norne_Beta.UIElements
             HasResultDB = false;
             HasRankingDB = false;
             Pages = 1;
-            StartPage = 1;
-            AvailabelLines = RowCount;
+            StartPage = 0;
+            AvailabelLines = 0;
         }
 
         private void SetColumns(int number)
@@ -305,7 +306,8 @@ namespace Norne_Beta.UIElements
         private void label_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             string[] properties = {
-                "RowCount", "ColumnCount",
+                nameof(RowCount),
+                nameof(ColumnCount),
                 nameof(StartSelect),
                 nameof(EndSelect),
                 nameof(LineSelectControl),

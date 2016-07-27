@@ -29,7 +29,8 @@ namespace Norne_Beta.UIElements
             }
         }
         public bool HasHighlights { get; set; }
-        public string HighlightPrefix { get; set; }
+        public bool AlwaysHasHighlights { get; set; }
+        public bool HasHighlightsCheckBox { get; set; }
         public string AnimContinue { get; set; }
         public string SceneName { get; set; }
         public GfxType ParentGfx { get; set; }
@@ -94,7 +95,6 @@ namespace Norne_Beta.UIElements
             _label = "Label";
             _highlights = new List<TablePanel>();
             ParentTemplate = parentTemplate;
-            HighlightPrefix = "H";
             AnimContinue = "WECHSEL";
             IsAtCorner = false;
             IsCustomScene = false;
@@ -120,8 +120,8 @@ namespace Norne_Beta.UIElements
 
             BasicProperty = new List<string>
             {
-                nameof(HasHighlights),
-                nameof(HighlightPrefix),
+                nameof(AlwaysHasHighlights),
+                nameof(HasHighlightsCheckBox),
                 nameof(SceneName),
                 nameof(ParentGfx),
                 nameof(ParentControl),
@@ -190,7 +190,8 @@ namespace Norne_Beta.UIElements
             BtnName = (string)x["btn_name"];
             Label = (string)x["label"];
             HasHighlights = (bool)x["has_highlights"];
-            HighlightPrefix = (string)x["highlight_prefix"];
+            AlwaysHasHighlights = (bool)x["always_has_highlights"];
+            HasHighlightsCheckBox= (bool)x["has_highlights_checkbox"];
             ContinuesLeft = (int)x["continues_left"];
             AnimContinue = (string)x["anim_cont"];
             IsAtCorner = (bool)x["is_at_corner"];
