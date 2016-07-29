@@ -116,7 +116,7 @@ class TemplateParser(ast.NodeVisitor):
                 if isinstance(xx, ast.Assign) and xx.targets[0].attr == "continues_left":
                     self.results["statemachines"][statemachine]["continues_left"] = xx.value.n
                 if isinstance(xx, ast.Assign) and xx.targets[0].attr == "has_highlights":
-                    if xx.value.id == "True":
+                    if isinstance(xx.value, ast.Name) and xx.value.id == "True":
                         self.results["statemachines"][statemachine]["always_has_highlights"] = True
                     else:
                         self.results["statemachines"][statemachine]["has_highlights_checkbox"] = True
@@ -236,6 +236,7 @@ class TemplateParser(ast.NodeVisitor):
             content_arg['has_highlights'] = False
             content_arg['caption_index'] = 0
             content_arg['chk_index'] = 0
+            content_arg["pages"] = 1
             content_arg["start_page"] = 0
             content_arg["available_lines"] = 0
 

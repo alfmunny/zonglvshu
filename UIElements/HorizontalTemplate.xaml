@@ -13,7 +13,7 @@
             <MenuItem Header="Load" Click="MenuItemLoad_Click"/>
         </ContextMenu>
     </UserControl.ContextMenu>
-    <Grid>
+    <Grid x:Name="MainGrid">
         <DockPanel x:Name="MainPanel" Background="#FF313859" Drop="DockPanel_Drop" LastChildFill="False" Margin="0,21,90,0"/>
         <DockPanel x:Name="ControlPanel" Margin="0,21,0,0" Background="#FF0A7038" HorizontalAlignment="Right" Width="90" Drop="ControlPanel_Drop">
         </DockPanel>

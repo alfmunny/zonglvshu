@@ -208,6 +208,44 @@ class IBWetterGfx(SimpleBaseGfx):
     def setup_highlights(self):
         self.set_onair_highlights(self.content["tbl_line33"], 1, 5, (0, 1), "H")
 
+class IBPlayerUI(SimpleBaseUI):
+	name = "IBPlayer"
+	label = "IB Spieler"
+	def __init__(self, parent, wxid, project, *args, **kwargs):
+		self.globals_dct.update(globals())
+		SimpleBaseUI.__init__(self, parent, wxid, project, *args, **kwargs)
+	def setup_control(self):
+		self.btn_show = SimpleBaseCtrl(self, -1, "IB Spieler", self.project, get_content_callback=self.get_content, statemachine=self.statemachine)
+	def setup_statemachine(self):
+		self.statemachine = IBPlayerGfx(self.project)
+	def create_ui(self):
+		self.ctrl_obj.add_element("line10", "BaseTable", [self.project,
+			[[CustomToggleChoice, None], [wx.TextCtrl, None], [wx.TextCtrl, BaseTable.PLAYER], [wx.TextCtrl, BaseTable.PLAYER], [FotoCheckBox, None]],
+			["Logo" , "Nr" , "VORNAME" , "NACHNAME" , "Foto"],
+			1])
+		self.ctrl_obj.add_element("line13", "1|TextPanel,has_highlights!|CheckBox", [["Untertitel","", False],["HL"],])
+		self.ctrl_obj.add_element("line12", "BaseTable", [self.project,
+			[[wx.TextCtrl, None], [wx.CheckBox, None]],
+			["Info", "HL"],
+			7])
+
+class IBPlayerGfx(SimpleBaseGfx):
+	def evaluate_content(self):
+		self.scene_name = "IB_SpielerPortrait"
+		self.has_highlights= self.content.get("has_highlights")
+	def define_ctrl_plugin(self):
+		self.ctrl_plugin = viz.VizGroup("object", self.scene)
+	def set_content(self):
+		self.set_table_col(self.content["tbl_line10"], [90, -1, 100, 102, 600, ],(0,))
+		self.set_value("0085", self.content["tbl_line10"][0][0]["choice"])
+		self.set_value("0090", self.content["tbl_line10"][0][0]["logo"])
+		self.set_value("0095", self.content["tbl_line10"][0][0]["logo"])
+		self.set_value("0500", self.content["txt_line13_1"])
+		self.set_table_col(self.content["tbl_line12"], [1102, ], (0, ))
+		self.set_value("0004", self.get_line_cnt(self.content["tbl_line12"], (0,), 3, 7))
+		pass
+	def setup_highlights(self):
+		self.set_onair_highlights(self.content["tbl_line12"], 0, 1, (0, ), "H")
 
 class IBWetter2Gfx(SimpleBaseGfx):
     def evaluate_content(self):

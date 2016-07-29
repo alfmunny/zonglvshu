@@ -17,6 +17,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 using System.ComponentModel;
+using PythonLib;
+
 
 namespace Norne_Beta.UIElements
 {
@@ -71,6 +73,7 @@ namespace Norne_Beta.UIElements
         // Must intialize the ui element of the main panel
         public DockPanel _dockPanel;
         public DockPanel _controlPanel;
+        public MainWindow _mw;
 
         public ElementControl ElementToInsert;
         public ElementControl ElementToCopy;
@@ -196,6 +199,23 @@ namespace Norne_Beta.UIElements
             return btn;
         }
 
+        public List<ElementControl> GetNotebookElements()
+        {
+            List<ElementControl> lEle = new List<ElementControl>();
+
+            foreach (ElementControl item in _dockPanel.Children)
+            {
+                VirtualPanel panel = new VirtualPanel(_mw, this, "");
+                lEle.Add(panel);
+                if (item.NorneType != ElementType.DockPanel)
+                {
+                    lEle.Add(item);
+                }
+            }
+
+            return lEle;
+        }
+
         public virtual void LoadElements()
         {
             Console.WriteLine("Please implement the method of LoadTemplate");
@@ -242,6 +262,7 @@ namespace Norne_Beta.UIElements
             {ElementType.Button, typeof(BaseButton)},
             {ElementType.DockPanel, typeof(BaseDockPanel)},
             {ElementType.ToggleLogo, typeof(BaseToggleLogo)},
+            {ElementType.Notebook, typeof(BaseNotebook)},
         };
     }
 }

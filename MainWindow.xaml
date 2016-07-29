@@ -70,7 +70,10 @@
                     <TreeViewItem Header="BaseTable" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="Button" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                     <TreeViewItem Header="CheckBox" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                </TreeViewItem>
+                <TreeViewItem Header="Panels" IsExpanded="True">
                     <TreeViewItem Header="DockPanel" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
+                    <TreeViewItem Header="Notebook" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>
                 </TreeViewItem>
                 <TreeViewItem Header="Control Buttons" IsExpanded="True">
                     <TreeViewItem Header="BaseControl" HorizontalAlignment="Left" Width="92" AllowDrop="True" PreviewMouseLeftButtonDown="TreeViewItem_PreviewMouseLeftButtonDown"/>

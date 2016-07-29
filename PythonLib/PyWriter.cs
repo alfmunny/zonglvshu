@@ -176,12 +176,12 @@ namespace PythonLib
         {
             f.WriteLine("\tdef setup_highlights(self):");
 
-            TablePanel x = bc.Highlights[0];
             foreach (TablePanel item in bc.Highlights)
             {
                 f.WriteLine("\t\tself.set_onair_highlights(self.content[\"tbl_{0}\"], {1}, {2}, {3}, \"{4}\", {5}, {6}, {7})", 
-                    x.LabelID, x.HighlightLabelIndex, x.HighlightCheckBoxIndex, x.MustFilledPyTuple, x.HighlightPrefix, x.Pages, x.StartPage, x.AvailabelLines);
+                    item.LabelID, item.HighlightLabelIndex, item.HighlightCheckBoxIndex, item.MustFilledPyTuple, item.HighlightPrefix, item.Pages, item.StartPage, item.AvailabelLines);
             }
+            f.WriteLine("\t\tpass");
         }
 
         public void WriteSetContent()

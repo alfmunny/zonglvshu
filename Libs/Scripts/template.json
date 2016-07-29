@@ -4,7 +4,81 @@
     "template_label": "Label",
     "ui": [
         {
-            "label_id": "line4",
+            "label_id": "line11",
+            "elements": [
+                "4|ToggleLogo",
+                "2|TextPanel",
+                "3|TextPanel",
+                "has_highlights!|CheckBox",
+                "5|CheckBox",
+                "6|CheckBox",
+                "7|Choice"
+            ],
+            "parameters": [
+                [
+                    [
+                        "True",
+                        [
+                            "logo_asset_manager",
+                            "diverse_asset_manager"
+                        ]
+                    ],
+                    [
+                        "Titel",
+                        "",
+                        "True"
+                    ],
+                    [
+                        "Zusatz",
+                        "",
+                        "True"
+                    ],
+                    [
+                        "HL"
+                    ],
+                    [
+                        "BG"
+                    ],
+                    [
+                        "Tab Logo"
+                    ],
+                    [
+                        [
+                            "Links",
+                            "Rechts"
+                        ]
+                    ]
+                ]
+            ]
+        },
+        {
+            "label_id": "line31",
+            "elements": [
+                "TextPanel"
+            ],
+            "parameters": [
+                [
+                    "Untertitel",
+                    "",
+                    "False"
+                ]
+            ]
+        },
+        {
+            "label_id": "line32",
+            "elements": [
+                "TextPanel"
+            ],
+            "parameters": [
+                [
+                    "Header",
+                    "",
+                    "False"
+                ]
+            ]
+        },
+        {
+            "label_id": "line33",
             "elements": [
                 "BaseTable"
             ],
@@ -19,58 +93,48 @@
                         [
                             "wx.TextCtrl",
                             "BaseTable.TEAM"
-                        ]
-                    ],
-                    [
-                        "Logo",
-                        "Team"
-                    ],
-                    1
-                ]
-            ]
-        },
-        {
-            "label_id": "line2",
-            "elements": [
-                "BaseTable"
-            ],
-            "parameters": [
-                [
-                    "self.project",
-                    [
+                        ],
                         [
                             "wx.TextCtrl",
                             "None"
                         ],
                         [
                             "wx.TextCtrl",
-                            "BaseTable.PLAYER"
+                            "BaseTable.TEAM"
+                        ],
+                        [
+                            "LogoAssetChoice",
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ],
+                        [
+                            "wx.CheckBox",
+                            "None"
                         ]
                     ],
                     [
-                        "Nr",
-                        "Name"
+                        "Logo Heim",
+                        "Team Heim",
+                        "Erg",
+                        "Team Gast",
+                        "Logo Gast",
+                        "Datum",
+                        "HL"
                     ],
-                    2
+                    10,
+                    [],
+                    [
+                        "db_result"
+                    ]
                 ]
             ]
         },
         {
             "label_id": "line3",
             "elements": [
-                "TextPanel"
-            ],
-            "parameters": [
-                [
-                    "Spieler 1 Optinal",
-                    "",
-                    "False"
-                ]
-            ]
-        },
-        {
-            "label_id": "line7",
-            "elements": [
                 "BaseTable"
             ],
             "parameters": [
@@ -78,173 +142,319 @@
                     "self.project",
                     [
                         [
+                            "SelectionChoice",
+                            [
+                                "Kein",
+                                "Rote 1",
+                                "Rote 2",
+                                "Rote 3",
+                                "Grau 1",
+                                "Grau 2",
+                                "Grau 3"
+                            ]
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ],
+                        [
+                            "LogoAssetChoice",
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "BaseTable.TEAM"
+                        ],
+                        [
                             "wx.TextCtrl",
                             "None"
                         ],
                         [
                             "wx.TextCtrl",
-                            "BaseTable.PLAYER"
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ],
+                        [
+                            "wx.TextCtrl",
+                            "None"
+                        ],
+                        [
+                            "wx.CheckBox",
+                            "BaseTable.TENDENCE"
+                        ],
+                        [
+                            "wx.CheckBox",
+                            "None"
                         ]
                     ],
                     [
-                        "Nr",
-                        "Name"
+                        "Quali",
+                        "Rang",
+                        "Logo",
+                        "Team",
+                        "Spiele",
+                        "+Tor",
+                        "-Tor",
+                        "Diff",
+                        "Pkt",
+                        "Tdz",
+                        "HL"
                     ],
-                    2
+                    20,
+                    [],
+                    [
+                        "db_ranking"
+                    ]
                 ]
             ]
         },
         {
-            "label_id": "line8",
+            "label_id": "line12",
             "elements": [
-                "TextPanel"
+                "1|TextPanel",
+                "2|CheckBox"
             ],
             "parameters": [
                 [
-                    "Spieler 2 Optional",
-                    "",
-                    "False"
+                    [
+                        "Fussnote",
+                        "",
+                        "False"
+                    ],
+                    [
+                        "Sky HD Logo"
+                    ]
                 ]
             ]
         }
     ],
     "statemachines": {
-        "statemachine2": {
+        "statemachine3": {
             "anim_default": "WECHSEL",
-            "custom_viz_dir": true,
-            "gfx_class_name": "BBPlayerChange2Gfx",
-            "btn_name": "btn_show2",
+            "custom_viz_dir": false,
+            "gfx_class_name": "VBTabGfx",
+            "btn_name": "btn_show3",
             "highlight_prefix": "H",
             "parent_control": "MultiBaseCtrl",
-            "label": "BB 2 Spieler Wechsel",
+            "label": "VB Tab",
             "content": [
                 {
+                    "control_object": "0095",
+                    "label_id": "",
+                    "element": "logo"
+                },
+                {
+                    "control_object": "9010",
+                    "label_id": "line12_2",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "highlights",
+                    "element": "has"
+                },
+                {
+                    "control_object": "9000",
+                    "label_id": "line12_1",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0200",
+                    "label_id": "line31",
+                    "element": "txt"
+                },
+                {
                     "chk_index": 0,
                     "start_page": 0,
                     "col_fields": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line33",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 1,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "control_object": "0500",
+                    "label_id": "line32",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "line11_5",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0002",
+                    "label_id": "line11_7",
+                    "element": "cmb"
+                },
+                {
+                    "control_object": "0008",
+                    "label_id": "line11_6",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0102",
+                    "label_id": "line11_3",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0100",
+                    "label_id": "line11_2",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
+                    "start_page": 1,
+                    "col_fields": [
+                        1108,
+                        1100,
+                        1101,
+                        1102,
                         1103,
-                        1104
+                        1104,
+                        -1,
+                        1105,
+                        1106,
+                        1109,
+                        -1
                     ],
-                    "must_filled": [],
-                    "has_highlights": false,
-                    "caption_index": 0,
-                    "element": "tbl",
-                    "end_select": 3,
-                    "label_id": "line7",
-                    "start_select": 1,
-                    "available_lines": 0,
-                    "pages": 2,
-                    "line_select": "",
-                    "row": 10
-                },
-                {
-                    "chk_index": 0,
-                    "start_page": 0,
-                    "col_fields": [
-                        90,
-                        100
+                    "must_filled": [
+                        3
                     ],
-                    "must_filled": [],
-                    "has_highlights": false,
-                    "caption_index": 0,
+                    "has_highlights": true,
+                    "highlight_prefix": "H",
+                    "caption_index": 3,
                     "element": "tbl",
-                    "end_select": 3,
-                    "label_id": "line4",
-                    "start_select": 1,
-                    "available_lines": 0,
-                    "pages": 2,
-                    "line_select": "",
-                    "row": 10
-                },
-                {
-                    "control_object": "1102",
+                    "end_select": 10,
                     "label_id": "line3",
-                    "element": "txt"
-                },
-                {
-                    "chk_index": 0,
-                    "start_page": 0,
-                    "col_fields": [
-                        1103,
-                        1104
-                    ],
-                    "must_filled": [],
-                    "has_highlights": false,
-                    "caption_index": 0,
-                    "element": "tbl",
-                    "end_select": 3,
-                    "label_id": "line2",
-                    "start_select": 1,
+                    "start_select": 2,
                     "available_lines": 0,
                     "pages": 2,
-                    "line_select": "",
+                    "line_select": "0004",
                     "row": 10
-                },
-                {
-                    "control_object": "1105",
-                    "label_id": "line8",
-                    "element": "txt"
                 }
             ],
-            "scene_name": "BB_Wechsel_2_Player",
-            "has_highlights_checkbox": false,
+            "scene_name": "VB_Tab",
+            "has_highlights_checkbox": true,
             "always_has_highlights": false,
             "continues_left": 1,
             "parent_gfx": "MultiBaseGfx",
             "anim_cont": "WECHSEL",
             "is_at_corner": false,
-            "has_highlights": false
+            "has_highlights": true
         },
-        "statemachine": {
+        "statemachine2": {
             "anim_default": "WECHSEL",
             "custom_viz_dir": false,
-            "gfx_class_name": "BBPlayerChange1Gfx",
-            "btn_name": "btn_show",
+            "gfx_class_name": "IBBlitzResultsGfx",
+            "btn_name": "btn_show2",
             "highlight_prefix": "H",
-            "parent_control": "MultiBaseCtrl",
-            "label": "BB 1 Spieler Wechsel",
+            "parent_control": "SimpleBaseCtrl",
+            "label": "IB Blitzergebnisse",
             "content": [
                 {
-                    "chk_index": 0,
+                    "control_object": "0095",
+                    "label_id": "",
+                    "element": "logo"
+                },
+                {
+                    "control_object": "9010",
+                    "label_id": "line12_2",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "highlights",
+                    "element": "has"
+                },
+                {
+                    "control_object": "9000",
+                    "label_id": "line12_1",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0200",
+                    "label_id": "line31",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
                     "start_page": 0,
                     "col_fields": [
+                        1101,
+                        1102,
+                        1104,
+                        1106,
+                        1107,
                         -1,
                         -1
                     ],
-                    "must_filled": [],
-                    "has_highlights": false,
-                    "caption_index": 0,
-                    "element": "tbl",
-                    "end_select": 3,
-                    "label_id": "line7",
-                    "start_select": 1,
-                    "available_lines": 0,
-                    "pages": 2,
-                    "line_select": "",
-                    "row": 10
-                },
-                {
-                    "chk_index": 0,
-                    "start_page": 0,
-                    "col_fields": [
-                        90,
-                        100
+                    "must_filled": [
+                        0,
+                        1
                     ],
-                    "must_filled": [],
-                    "has_highlights": false,
-                    "caption_index": 0,
+                    "has_highlights": true,
+                    "highlight_prefix": "E",
+                    "caption_index": 1,
                     "element": "tbl",
-                    "end_select": 3,
-                    "label_id": "line4",
-                    "start_select": 1,
+                    "end_select": 10,
+                    "label_id": "line33",
+                    "start_select": 2,
                     "available_lines": 0,
-                    "pages": 2,
-                    "line_select": "",
+                    "pages": 1,
+                    "line_select": "0004",
                     "row": 10
                 },
                 {
-                    "control_object": "1102",
-                    "label_id": "line3",
+                    "control_object": "0500",
+                    "label_id": "line32",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "line11_5",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0002",
+                    "label_id": "line11_7",
+                    "element": "cmb"
+                },
+                {
+                    "control_object": "0008",
+                    "label_id": "line11_6",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0102",
+                    "label_id": "line11_3",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0100",
+                    "label_id": "line11_2",
                     "element": "txt"
                 },
                 {
@@ -252,32 +462,547 @@
                     "start_page": 0,
                     "col_fields": [
                         -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
                         -1
                     ],
                     "must_filled": [],
                     "has_highlights": false,
                     "caption_index": 0,
                     "element": "tbl",
-                    "end_select": 3,
-                    "label_id": "line2",
+                    "end_select": 10,
+                    "label_id": "line3",
                     "start_select": 1,
                     "available_lines": 0,
-                    "pages": 2,
+                    "pages": 1,
                     "line_select": "",
                     "row": 10
                 }
             ],
-            "scene_name": "BB_Wechsel_1_Player",
-            "has_highlights_checkbox": false,
+            "scene_name": "IB_Blitzergebnisse",
+            "has_highlights_checkbox": true,
+            "always_has_highlights": false,
+            "continues_left": 0,
+            "parent_gfx": "SimpleBaseGfx",
+            "anim_cont": "WECHSEL",
+            "is_at_corner": false,
+            "has_highlights": true
+        },
+        "statemachine6": {
+            "anim_default": "WECHSEL",
+            "custom_viz_dir": false,
+            "gfx_class_name": "VBErgTabGfx",
+            "btn_name": "btn_show6",
+            "highlight_prefix": "H",
+            "parent_control": "MultiBaseCtrl",
+            "label": "VB Erg Tab",
+            "content": [
+                {
+                    "control_object": "0095",
+                    "label_id": "",
+                    "element": "logo"
+                },
+                {
+                    "control_object": "9010",
+                    "label_id": "line12_2",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "highlights",
+                    "element": "has"
+                },
+                {
+                    "control_object": "9000",
+                    "label_id": "line12_1",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0200",
+                    "label_id": "line31",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
+                    "start_page": 1,
+                    "col_fields": [
+                        1101,
+                        1102,
+                        1104,
+                        1106,
+                        1107,
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [
+                        1,
+                        3
+                    ],
+                    "has_highlights": true,
+                    "highlight_prefix": "E",
+                    "caption_index": 1,
+                    "element": "tbl",
+                    "end_select": 9,
+                    "label_id": "line33",
+                    "start_select": 2,
+                    "available_lines": 0,
+                    "pages": 1,
+                    "line_select": "0004",
+                    "row": 10
+                },
+                {
+                    "control_object": "0500",
+                    "label_id": "line32",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0002",
+                    "label_id": "line11_7",
+                    "element": "cmb"
+                },
+                {
+                    "control_object": "0008",
+                    "label_id": "line11_6",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0102",
+                    "label_id": "line11_3",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0100",
+                    "label_id": "line11_2",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
+                    "start_page": 2,
+                    "col_fields": [
+                        2108,
+                        2100,
+                        2101,
+                        2102,
+                        2103,
+                        2104,
+                        -1,
+                        2105,
+                        2106,
+                        2109,
+                        -1
+                    ],
+                    "must_filled": [
+                        3
+                    ],
+                    "has_highlights": true,
+                    "highlight_prefix": "T",
+                    "caption_index": 3,
+                    "element": "tbl",
+                    "end_select": 9,
+                    "label_id": "line3",
+                    "start_select": 2,
+                    "available_lines": 18,
+                    "pages": 2,
+                    "line_select": "0024",
+                    "row": 10
+                }
+            ],
+            "scene_name": "VB_Erg_Tab",
+            "has_highlights_checkbox": true,
+            "always_has_highlights": false,
+            "continues_left": 2,
+            "parent_gfx": "MultiBaseGfx",
+            "anim_cont": "WECHSEL",
+            "is_at_corner": false,
+            "has_highlights": true
+        },
+        "statemachine5": {
+            "anim_default": "WECHSEL",
+            "custom_viz_dir": false,
+            "gfx_class_name": "IBBlitzTabGfx",
+            "btn_name": "btn_show5",
+            "highlight_prefix": "H",
+            "parent_control": "MultiBaseCtrl",
+            "label": "IB Blitz Tab",
+            "content": [
+                {
+                    "control_object": "0095",
+                    "label_id": "",
+                    "element": "logo"
+                },
+                {
+                    "control_object": "9010",
+                    "label_id": "line12_2",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "highlights",
+                    "element": "has"
+                },
+                {
+                    "control_object": "9000",
+                    "label_id": "line12_1",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0200",
+                    "label_id": "line31",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line33",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 1,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "control_object": "0500",
+                    "label_id": "line32",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "line11_5",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0002",
+                    "label_id": "line11_7",
+                    "element": "cmb"
+                },
+                {
+                    "control_object": "0008",
+                    "label_id": "line11_6",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0102",
+                    "label_id": "line11_3",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0100",
+                    "label_id": "line11_2",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
+                    "start_page": 1,
+                    "col_fields": [
+                        1108,
+                        1100,
+                        1101,
+                        1102,
+                        1103,
+                        1104,
+                        -1,
+                        1105,
+                        1106,
+                        1109,
+                        -1
+                    ],
+                    "must_filled": [
+                        3
+                    ],
+                    "has_highlights": true,
+                    "highlight_prefix": "H",
+                    "caption_index": 3,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line3",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "0004",
+                    "row": 10
+                }
+            ],
+            "scene_name": "IB_Blitztabelle",
+            "has_highlights_checkbox": true,
             "always_has_highlights": false,
             "continues_left": 1,
             "parent_gfx": "MultiBaseGfx",
-            "anim_cont": "CHANGE",
+            "anim_cont": "WECHSEL",
             "is_at_corner": false,
-            "has_highlights": false
+            "has_highlights": true
+        },
+        "statemachine4": {
+            "anim_default": "WECHSEL",
+            "custom_viz_dir": false,
+            "gfx_class_name": "IBBlitzSTPGfx",
+            "btn_name": "btn_show4",
+            "highlight_prefix": "H",
+            "parent_control": "MultiBaseCtrl",
+            "label": "IB Blitz STP",
+            "content": [
+                {
+                    "control_object": "0095",
+                    "label_id": "",
+                    "element": "logo"
+                },
+                {
+                    "control_object": "9010",
+                    "label_id": "line12_2",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "highlights",
+                    "element": "has"
+                },
+                {
+                    "control_object": "9000",
+                    "label_id": "line12_1",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0200",
+                    "label_id": "line31",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line33",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 1,
+                    "line_select": "",
+                    "row": 10
+                },
+                {
+                    "control_object": "0500",
+                    "label_id": "line32",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0002",
+                    "label_id": "line11_7",
+                    "element": "cmb"
+                },
+                {
+                    "control_object": "0008",
+                    "label_id": "line11_6",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0102",
+                    "label_id": "line11_3",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0100",
+                    "label_id": "line11_2",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
+                    "start_page": 1,
+                    "col_fields": [
+                        1108,
+                        1100,
+                        1101,
+                        1102,
+                        1103,
+                        1104,
+                        -1,
+                        1105,
+                        1106,
+                        1109,
+                        -1
+                    ],
+                    "must_filled": [
+                        3
+                    ],
+                    "has_highlights": true,
+                    "highlight_prefix": "H",
+                    "caption_index": 3,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line3",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 2,
+                    "line_select": "0004",
+                    "row": 10
+                }
+            ],
+            "scene_name": "IB_Blitztabelle_STP",
+            "has_highlights_checkbox": true,
+            "always_has_highlights": false,
+            "continues_left": 1,
+            "parent_gfx": "MultiBaseGfx",
+            "anim_cont": "WECHSEL",
+            "is_at_corner": false,
+            "has_highlights": true
+        },
+        "statemachine": {
+            "anim_default": "WECHSEL",
+            "custom_viz_dir": false,
+            "gfx_class_name": "VBResultsGfx",
+            "btn_name": "btn_show",
+            "highlight_prefix": "H",
+            "parent_control": "SimpleBaseCtrl",
+            "label": "VB Erg",
+            "content": [
+                {
+                    "control_object": "0095",
+                    "label_id": "",
+                    "element": "logo"
+                },
+                {
+                    "control_object": "9010",
+                    "label_id": "line12_2",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "",
+                    "label_id": "highlights",
+                    "element": "has"
+                },
+                {
+                    "control_object": "9000",
+                    "label_id": "line12_1",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0200",
+                    "label_id": "line31",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 6,
+                    "start_page": 0,
+                    "col_fields": [
+                        1101,
+                        1102,
+                        1104,
+                        1106,
+                        1107,
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [
+                        0,
+                        1
+                    ],
+                    "has_highlights": true,
+                    "highlight_prefix": "E",
+                    "caption_index": 1,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line33",
+                    "start_select": 2,
+                    "available_lines": 0,
+                    "pages": 1,
+                    "line_select": "0004",
+                    "row": 10
+                },
+                {
+                    "control_object": "0500",
+                    "label_id": "line32",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0002",
+                    "label_id": "line11_5",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0008",
+                    "label_id": "line11_6",
+                    "element": "chk"
+                },
+                {
+                    "control_object": "0102",
+                    "label_id": "line11_3",
+                    "element": "txt"
+                },
+                {
+                    "control_object": "0100",
+                    "label_id": "line11_2",
+                    "element": "txt"
+                },
+                {
+                    "chk_index": 0,
+                    "start_page": 0,
+                    "col_fields": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "must_filled": [],
+                    "has_highlights": false,
+                    "caption_index": 0,
+                    "element": "tbl",
+                    "end_select": 10,
+                    "label_id": "line3",
+                    "start_select": 1,
+                    "available_lines": 0,
+                    "pages": 1,
+                    "line_select": "",
+                    "row": 10
+                }
+            ],
+            "scene_name": "VB_Erg",
+            "has_highlights_checkbox": true,
+            "always_has_highlights": false,
+            "continues_left": 0,
+            "parent_gfx": "SimpleBaseGfx",
+            "anim_cont": "",
+            "is_at_corner": false,
+            "has_highlights": true
         }
     },
-    "template_name": "BBPlayerChange1",
+    "template_name": "VBResults",
     "content": [],
-    "ui_class_name": "BBPlayerChange1UI"
+    "ui_class_name": "VBResultsUI"
 }

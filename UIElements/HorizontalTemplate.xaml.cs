@@ -29,6 +29,7 @@ namespace Norne_Beta.UIElements
         {
             InitializeComponent();
             mw = win;
+            _mw = win;
             _dockPanel = this.MainPanel;
             _controlPanel = this.ControlPanel;
             ControlEditing = new BaseControlButton(mw, this);
@@ -42,6 +43,7 @@ namespace Norne_Beta.UIElements
             DockPanel dp = sender as DockPanel;
             string elementName = (string)e.Data.GetData(DataFormats.StringFormat);
             AddElementToDockPanel(mw, elementName);
+            e.Handled = true;
         }
 
         private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
@@ -107,6 +109,12 @@ namespace Norne_Beta.UIElements
             ControlPanel.Children.Add(bcb);
             DockPanel.SetDock(bcb, Dock.Top);
             StateMachines.Add(bcb);
+        }
+
+        public void DisableControlPanel()
+        {
+            MainGrid.Children.Remove(ControlPanel);
+            MainPanel.Margin = new Thickness(0, 21, 0, 0);
         }
     }
 }

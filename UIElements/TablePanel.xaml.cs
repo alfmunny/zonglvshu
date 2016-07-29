@@ -398,6 +398,15 @@ namespace Norne_Beta.UIElements
 
         public override string GetUICode()
         {
+            String code = String.Format(
+                    "\"{0}\", \"{1}\", {2}", 
+                    LabelID, ElementType.BaseTable, GetUIParameters());
+            return code;
+        }
+
+        public override string GetUIParameters()
+        {
+            String code;
             List<Tuple<string, string>> labelList = new List<Tuple<string, string>>();
             List<string> labelStringList = new List<string>();
             List<string> rowList = new List<string>();
@@ -429,21 +438,17 @@ namespace Norne_Beta.UIElements
             string labelString = string.Format("[{0}]", String.Join(", ", labelStringList.ToArray()));
 
             List<string> dbList = GetTableDB();
-            String code;
-
             if (dbList.Count > 0)
             {
-                code = String.Format(
-                    "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}, {5}\t\t\t{6}, {7}]", 
-                    LabelID, ElementType.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine,
-                    "[]", StringUtils.ListStringToPyList(GetTableDB()));
+                code = String.Format("[self.project, {5}\t\t\t{0}, {5}\t\t\t{1}, {5}\t\t\t{2}, {5}\t\t\t{3}, {4}]", 
+                    labelString, rowString, _dataTable.Rows.Count.ToString(), "[]", StringUtils.ListStringToPyList(GetTableDB()), Environment.NewLine);
             }
             else
             {
-                code = String.Format(
-                    "\"{0}\", \"{1}\", [self.project, {5}\t\t\t{2}, {5}\t\t\t{3}, {5}\t\t\t{4}]", 
-                    LabelID, ElementType.BaseTable, labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
+                code = String.Format("[self.project, {3}\t\t\t{0}, {3}\t\t\t{1}, {3}\t\t\t{2}]", 
+                    labelString, rowString, _dataTable.Rows.Count.ToString(), Environment.NewLine);
             }
+
 
             return code;
         }

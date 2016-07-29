@@ -8,6 +8,7 @@ namespace Norne_Beta.UIElements
 {
     public enum ElementType 
     {
+        Notebook,
         TextPanel,
         MultiTextPanel,
         Label,
@@ -19,5 +20,6 @@ namespace Norne_Beta.UIElements
         CheckBox,
         Choice,
         DockPanel,
+        Panel,
     }
 }

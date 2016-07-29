@@ -5,8 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Norne_Beta.UIElements"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" MinHeight="200" PreviewMouseLeftButtonDown="ElementControl_PreviewMouseLeftButtonDown">
     <Grid>
-            
+        <TabControl x:Name="tabControl" Margin="0,14,0,0">
+            <TabItem Header="Seite1">
+                <Grid x:Name="page1" Background="#FFE5E5E5">
+                </Grid>
+            </TabItem>
+            <TabItem Header="Seite2">
+                <Grid x:Name="page2" Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="label" Content="Notebook" Margin="0" Background="#FF656E6D" Padding="1,0,0,0" HorizontalContentAlignment="Stretch" VerticalAlignment="Top"/>
+
     </Grid>
 </local:ElementControl>
